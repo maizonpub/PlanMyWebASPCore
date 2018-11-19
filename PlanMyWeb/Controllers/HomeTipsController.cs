@@ -6,13 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http.Internal;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PlanMyWeb.Controllers
 {
     public class HomeTipsController : Controller
     {
         private readonly DbWebContext _context;
-
+        private IHostingEnvironment _hostingEnvironment;
         public HomeTipsController(DbWebContext context)
         {
             _context = context;
@@ -53,17 +57,35 @@ namespace PlanMyWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Image,Title,Description")] HomeTips homeTips)
+        public async Task<IActionResult> Create([Bind("Id,Image,Title,Description")] HomeTipsViewModel homeTips)
         {
             if (ModelState.IsValid)
             {
+                FormFile file = homeTips.Image as FormFile;
+                string filepath = await Upload(file);
+                HomeTips tip = new HomeTips { Description = homeTips.Description, Image = filepath, Title = homeTips.Title};
                 _context.Add(homeTips);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(homeTips);
         }
-
+        public async Task<string> Upload(FormFile file)
+        {
+            var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "Media");
+            
+                if (file.Length > 0)
+                {
+                string filename = Guid.NewGuid().ToString().Substring(0,5) + file.FileName;
+                    var filePath = Path.Combine(uploads, file.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                }
+            
+            return file.FileName;
+        }
         // GET: HomeTips/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

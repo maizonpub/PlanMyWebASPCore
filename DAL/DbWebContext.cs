@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using DAL;
+using System.Text;
 
 namespace DAL
 {
-    public class DbWebContext : DbContext
+    public class DbWebContext: DbContext
     {
-        public DbWebContext (DbContextOptions<DbWebContext> options)
+        public DbWebContext(DbContextOptions<DbWebContext> options)
             : base(options)
         {
         }

@@ -39,9 +39,6 @@ namespace PlanMyWeb
 
             services.AddDbContext<DbWebContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DbWebContext")));
-
-            services.AddDbContext<PlanMyWebContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("PlanMyWebContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
