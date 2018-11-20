@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class WebContent
+    public class WebContent
     {
         public int Id { get; set; }
         public string TipsTitle { get; set; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class SocialMedia
+    public class SocialMedia
     {
         public int Id { get; set; }
         public string Title { get; set; }

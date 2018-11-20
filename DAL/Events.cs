@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class Events
+    public class Events
     {
         public int Id { get; set; }
         public string Title { get; set; }

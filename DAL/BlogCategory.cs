@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class BlogCategory
+     public class BlogCategory
     {
         public int Id { get; set; }
         public byte[] Image { get; set; }

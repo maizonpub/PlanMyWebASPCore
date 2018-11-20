@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class OffersGallery
+    public class OffersGallery
     {
         public int Id { get; set; }
         public Offers Offers { get; set; }

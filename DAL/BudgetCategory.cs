@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class BudgetCategory
+    public class BudgetCategory
     {
         public int Id { get; set; }
         public string Title { get; set; }

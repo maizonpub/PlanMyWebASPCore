@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class CheckList
+    public class CheckList
     {
         public int Id { get; set; }
         public string Title { get; set; }

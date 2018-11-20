@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class GuestListTables
+    public class GuestListTables
     {
         public int Id { get; set; }
         public string Title { get; set; }

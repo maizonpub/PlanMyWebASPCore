@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class Pages
+    public class Pages
     {
         public int Id { get; set; }
         public string title { get; set; }

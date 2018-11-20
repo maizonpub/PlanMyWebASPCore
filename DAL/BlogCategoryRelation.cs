@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class BlogCategoryRelation
+    public class BlogCategoryRelation
     {
         public int Id { get; set; }
         public Blog Blog { get; set; }

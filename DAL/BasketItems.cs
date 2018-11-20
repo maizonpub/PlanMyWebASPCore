@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class BasketItems
+    public class BasketItems
     {
         public int Id { get; set; }
         public Offers Offers { get; set; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class VendorCategory
+    public class VendorCategory
     {
         public int Id { get; set; }
         public byte[] Image { get; set; }

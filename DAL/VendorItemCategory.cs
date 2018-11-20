@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class VendorItemCategory
+    public class VendorItemCategory
     {
         public int Id { get; set; }
         public VendorCategory VendorCategory { get; set; }

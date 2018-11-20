@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL
 {
-    class Users
+    public class Users
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -25,7 +25,8 @@ namespace DAL
     public enum UserType
     {
         Vendor,
-        Planner
+        Planner,
+        Admin
     }
 
 }
