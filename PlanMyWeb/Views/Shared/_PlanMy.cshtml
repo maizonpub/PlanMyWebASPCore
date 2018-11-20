@@ -1,7 +1,355 @@
-﻿
-@{
-    ViewData["Title"] = "_PlanMy";
-}
+﻿@using Microsoft.AspNetCore.Identity
 
-<h2>_PlanMy</h2>
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <title>Plan My &#8211; Start planing my&#8230;</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <link rel='stylesheet' id='weddingvendor-style-css' href='~/css/style.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='bootstrap-css' href='~/css/bootstrap.min.css?ver=3.3.5' type='text/css' media='all' />
+    <link rel='stylesheet' id='weddingvendor-custom-style-css' href='~/css/custom-style.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='weddingvendor-menumaker-css' href='~/css/menumaker.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='weddingvendor-animate-css' href='~/css/animate.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='flaticon-css' href='~/css/flaticon.css?ver=1.0.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='fontello-css' href='~/css/fontello.css?ver=1.0.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='weddingvendor-owl-carousel-css' href='~/css/owl.carousel.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='font-awesome-min-css' href='~/css/font-awesome.min.css?ver=4.5.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='google-ui-jquery-css' href='~/framework/css/jquery-ui-1.8.16.custom.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='jquery-style-css' href='//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css?ver=5.1.7' type='text/css' media='all' />
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var ajax_auth_object = { "ajaxurl": "https:\/\/planmy.me\/wp-admin\/admin-ajax.php", "redirecturl": "https:\/\/planmy.me\/dashboard\/", "loadingmessage": "Sending user info, please wait." };
+        var ajax_couple_auth_object = { "ajaxurl": "https:\/\/planmy.me\/wp-admin\/admin-ajax.php", "redirecturl": "https:\/\/planmy.me\/couple-dashboard\/", "loadingmessage": "Sending user info, please wait." };
+            /* ]]> */
+    </script>
+    <script type='text/javascript' src='~/js/ajax-auth-script.js?ver=4.8.7'></script>
+    <script type='text/javascript' src='~/js/jquery.validate.js?ver=4.8.7'></script>
+    <script type='text/javascript' src='~/js/menumaker.js?ver=4.8.7'></script>
+    <link rel="canonical" href="https://planmy.me/" />
+    <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,400italic,700,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        html body {
+            background-color: #faf9f5;
+            font-family: Istok Web !important;
+            font-weight: 400,400italic,700,700italic;
+        }
 
+        h1, h2, h3, h4, h5, h6 {
+            font-family: Montserrat;
+        }
+
+        h1 {
+            font-size: 30px;
+            font-weight: 400;
+            color: #3c3634;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 400;
+            color: #323634;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 400;
+            color: #323634;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 400;
+            color: #323634;
+        }
+
+        p {
+            font-size: 16px;
+            font-family: Istok Web;
+            font-weight: 400;
+            color: #706a68;
+        }
+
+        a {
+            color: #565656;
+            text-decoration: none;
+        }
+
+            a:hover {
+                color: #f9a630;
+                text-decoration: none;
+            }
+
+        .top-bar {
+            background-color: #dddddd;
+        }
+
+        .tp-nav, .tp-nav .navbar-default {
+            background-color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .top-message p {
+            color: #000000;
+        }
+
+        .top-links li a {
+            color: #000000;
+        }
+
+            .top-links li a:hover {
+                color: #ffffff;
+            }
+
+        .tp-nav .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover, #cssmenu > ul > li > a {
+            background-color: transparent;
+            color: #000000;
+        }
+
+        #cssmenu ul ul li a {
+            background: #faf9f5;
+            color: #3c3634;
+        }
+
+            .tp-nav .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover, #cssmenu ul ul li:hover > a, #cssmenu ul ul li a:hover {
+                color: #00aeaf !important;
+                background-color: #ffffff;
+            }
+
+        .tp-nav .navbar-default .navbar-nav > li > a {
+            color: #000000;
+        }
+
+        .tp-nav .navbar-right .dropdown-menu {
+            background-color: #faf9f5;
+        }
+
+        .tp-nav .dropdown-menu > .active > a, .tp-navigation .dropdown-menu > .active > a:focus, .tp-navigation .dropdown-menu > .active > a:hover {
+            background-color: #faf9f5;
+        }
+
+        #cssmenu ul ul li.has-sub > a:before, #cssmenu ul ul li.has-sub > a:after {
+            background: #3c3634;
+        }
+
+        .top-nav-collapse {
+            background: #ffffff;
+        }
+
+        .tp-btn-default {
+            color: #ffffff;
+            background-color: #04d7d8;
+        }
+
+            .tp-btn-default:hover {
+                color: #ffffff;
+                background-color: #04cccd;
+            }
+
+        .tp-btn-primary {
+            color: #ffffff;
+            background-color: #f9a630;
+        }
+
+            .tp-btn-primary:hover {
+                color: #ffffff;
+                background-color: #ffb751;
+            }
+
+        .footer {
+            background-color: #322e2c;
+        }
+
+            .footer h2 {
+                color: #fff;
+            }
+
+            .footer p {
+                color: #706a68;
+            }
+
+            .footer .ft-link ul li a, .social-icon ul li a {
+                color: #706a68;
+            }
+
+                .footer .ft-link ul li a:hover, .social-icon ul li a:hover {
+                    color: #f9a630;
+                }
+
+
+        .tiny-footer {
+            background-color: #292624;
+            color: #403d3b;
+        }
+
+            .tiny-footer p {
+                color: #403d3b;
+            }
+
+        .caption h1 {
+            color: #ffffff;
+        }
+
+        .caption p {
+            color: #ffffff;
+        }
+
+        .owl-theme .owl-controls .owl-page span {
+            background: #f9a630;
+        }
+
+        .owl-theme .owl-controls .owl-page.active span, .owl-theme .owl-controls.clickable .owl-page:hover span {
+            background-color: #00aeaf;
+        }
+
+        .tp-footer .ft-links ul li a:hover, .tp-tiny-footer .tp-social-icon ul li a:hover, .tp-tiny-footer .tp-social-icon ul li a:active {
+            color: #f9a630;
+        }
+    </style>
+
+    <style type="text/css" media="screen">
+        html {
+            margin-top: 32px !important;
+        }
+
+        * html body {
+            margin-top: 32px !important;
+        }
+
+        @@media screen and ( max-width: 782px ) {
+            html {
+                margin-top: 46px !important;
+            }
+
+            * html body {
+                margin-top: 46px !important;
+            }
+        }
+    </style>
+
+    <!-- Jetpack Open Graph Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Plan My" />
+    <meta property="og:description" content="Start planing my..." />
+    <meta property="og:url" content="https://planmy.me/" />
+    <meta property="og:site_name" content="Plan My" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:text:title" content="Home" />
+    <meta name="twitter:card" content="summary" />
+
+
+
+
+
+
+</head>
+<body class="home page-template page-template-page-templates page-template-page-slider page-template-page-templatespage-slider-php page page-id-862 logged-in admin-bar no-customize-support">
+    <div class="collapse" id="searcharea">
+        <form method="get" class="" action="#">
+            <div class="input-group">
+                <input type="text" name="s" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn tp-btn-primary" type="submit"><?php esc_html_e( 'Search', 'weddingvendor' ); ?></button>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="top-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 top-message">
+                </div>
+                <div class="col-md-6 top-links">
+                    <div class="menu-topbar-container">
+                        <ul id="menu-topbar" class="listnone">
+                            <li id="menu-item-1518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1518"><a href="#">Contact Us</a></li>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+
+                                <li id="menu-item-5576" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5576"><a href="#">Cart</a></li>
+                                <li><form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right"><button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button></form></li>
+                            }
+                            else
+                            {
+                                <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                                <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                            }
+                            <li><a role="button" data-toggle="collapse" href="#searcharea" aria-expanded="false" aria-controls="searcharea"> <i class="fa fa-search"></i> </a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="tp-nav" id="headersticky">
+        <!-- navigation start -->
+        <div class="container">
+            <nav class="navbar navbar-default navbar-static-top">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    
+
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home", new { area = "" })" rel="home">
+                        <img src="~/images/logo.png" alt="Plan My" class="img-responsive">
+
+                    </a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="navigation">
+                    <div class="" id="cssmenu">
+                        <ul id="menu-primary_menu" class="nav navbar-nav navbar-right">
+                            <li id="menu-item-1220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1220"><a href="#">Venues</a></li>
+                            <li id="menu-item-960" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-960"><a href="#">Vendors</a></li>
+                            <li id="menu-item-4802" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4802"><a href="#">Inspirations</a></li>
+                            <li id="menu-item-4671" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4671"><a href="#">Offers</a></li>
+                        </ul>
+
+                    </div>      <!-- /.navbar-collapse -->
+                </div>
+            </nav>
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+
+    @RenderBody()
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>
