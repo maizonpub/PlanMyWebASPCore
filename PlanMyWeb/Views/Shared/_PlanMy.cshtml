@@ -1,8 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -30,12 +26,7 @@
     <link rel='stylesheet' id='font-awesome-min-css' href='~/css/font-awesome.min.css?ver=4.5.0' type='text/css' media='all' />
     <link rel='stylesheet' id='google-ui-jquery-css' href='~/framework/css/jquery-ui-1.8.16.custom.css?ver=4.8.7' type='text/css' media='all' />
     <link rel='stylesheet' id='jquery-style-css' href='//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css?ver=5.1.7' type='text/css' media='all' />
-    <script type='text/javascript'>
-        /* <![CDATA[ */
-        var ajax_auth_object = { "ajaxurl": "https:\/\/planmy.me\/wp-admin\/admin-ajax.php", "redirecturl": "https:\/\/planmy.me\/dashboard\/", "loadingmessage": "Sending user info, please wait." };
-        var ajax_couple_auth_object = { "ajaxurl": "https:\/\/planmy.me\/wp-admin\/admin-ajax.php", "redirecturl": "https:\/\/planmy.me\/couple-dashboard\/", "loadingmessage": "Sending user info, please wait." };
-            /* ]]> */
-    </script>
+    
     <script type='text/javascript' src='~/js/ajax-auth-script.js?ver=4.8.7'></script>
     <script type='text/javascript' src='~/js/jquery.validate.js?ver=4.8.7'></script>
     <script type='text/javascript' src='~/js/menumaker.js?ver=4.8.7'></script>
@@ -277,17 +268,8 @@
                     <div class="menu-topbar-container">
                         <ul id="menu-topbar" class="listnone">
                             <li id="menu-item-1518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1518"><a href="#">Contact Us</a></li>
-                            @if (SignInManager.IsSignedIn(User))
-                            {
-
-                                <li id="menu-item-5576" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5576"><a href="#">Cart</a></li>
-                                <li><form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right"><button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button></form></li>
-                            }
-                            else
-                            {
-                                <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
-                                <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
-                            }
+                            <partial name="_LoginPartial" />
+                            
                             <li><a role="button" data-toggle="collapse" href="#searcharea" aria-expanded="false" aria-controls="searcharea"> <i class="fa fa-search"></i> </a></li>
                         </ul>
                     </div>
