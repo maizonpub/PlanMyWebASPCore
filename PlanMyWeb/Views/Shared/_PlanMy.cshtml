@@ -212,25 +212,7 @@
         }
     </style>
 
-    <style type="text/css" media="screen">
-        html {
-            margin-top: 32px !important;
-        }
-
-        * html body {
-            margin-top: 32px !important;
-        }
-
-        @@media screen and ( max-width: 782px ) {
-            html {
-                margin-top: 46px !important;
-            }
-
-            * html body {
-                margin-top: 46px !important;
-            }
-        }
-    </style>
+    
 
     <!-- Jetpack Open Graph Tags -->
     <meta property="og:type" content="website" />
@@ -269,7 +251,7 @@
                         <ul id="menu-topbar" class="listnone">
                             <li id="menu-item-1518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1518"><a href="#">Contact Us</a></li>
                             <partial name="_LoginPartial" />
-                            
+
                             <li><a role="button" data-toggle="collapse" href="#searcharea" aria-expanded="false" aria-controls="searcharea"> <i class="fa fa-search"></i> </a></li>
                         </ul>
                     </div>
@@ -284,7 +266,7 @@
             <nav class="navbar navbar-default navbar-static-top">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    
+
 
                     <a class="navbar-brand" href="@Url.Action("Index", "Home", new { area = "" })" rel="home">
                         <img src="~/images/logo.png" alt="Plan My" class="img-responsive">
@@ -332,6 +314,204 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+    <div class="footer">
+        <!-- Footer -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 ft-aboutus">
+                    <div id="text-6" class="widget widget_text">
+                        <h2>Plan my</h2>			<div class="textwidget">
+                            <p style="font-size:16px;">
+                                From the smallest last minute forgotten detail, to creating your whole event, Plan my is your go to App
+                            </p>
+                            <p><a class="btn tp-btn-default tp-btn-lg" href="#">Start browsing!</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 ft-link">
+                    <div id="text-7" class="widget widget_text">
+                        <h2>Useful links</h2>			<div class="textwidget">
+                            <ul class="listnone">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Inspirations</a></li>
+                                <li><a href="#">Career</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Use</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 newsletter">
+                    <div id="text-8" class="widget widget_text">
+                        <h2>Be Social &#038; Stay Connected</h2>			<div class="textwidget">
+                            <div class="social-icon">
+                                <ul class="listnone">
+                                    <li><a href="https://www.facebook.com/planmy.me/" target="_blank"><i class="fa fa-facebook-square"></i></a></li>
+                                    <li><a href="https://www.instagram.com/planmy.me/" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.Footer -->
+    <div class="tiny-footer">
+        <!-- Tiny footer -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    Copyright &copy; @DateTime.Now.Year . All Rights Reserved
+                </div>
+            </div>
+        </div>
+    </div><!-- /. Tiny Footer -->
+   
+    <script type='text/javascript' src='https://planmy.me/wp-includes/js/imagesloaded.min.js?ver=3.2.0'></script>
+    <script type='text/javascript' src='https://planmy.me/wp-includes/js/masonry.min.js?ver=3.3.2'></script>
+    
+    
+    <script type='text/javascript' src='~/js/owl.carousel.min.js'></script>
+    <script type='text/javascript' src='~/js/jquery.sticky.js'></script>
+    <script type='text/javascript' src='~/js/owl-script.js'></script>
+    <script type='text/javascript' src='~/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='~/js/skip-link-focus-fix.js?ver=20151215'></script>
+    <script type='text/javascript' src='https://planmy.me/wp-includes/js/jquery/ui/core.min.js?ver=1.11.4'></script>
+    <script type='text/javascript' src='https://planmy.me/wp-includes/js/jquery/ui/widget.min.js?ver=1.11.4'></script>
+    <script type='text/javascript' src='https://planmy.me/wp-includes/js/jquery/ui/mouse.min.js?ver=1.11.4'></script>
+    <script type='text/javascript' src='https://planmy.me/wp-includes/js/jquery/ui/slider.min.js?ver=1.11.4'></script>
+    <script type='text/javascript' src='https://planmy.me/wp-includes/js/jquery/ui/datepicker.min.js?ver=1.11.4'></script>
+    <script type='text/javascript'>
+        jQuery(document).ready(function (jQuery) { jQuery.datepicker.setDefaults({ "closeText": "Close", "currentText": "Today", "monthNames": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "monthNamesShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], "nextText": "Next", "prevText": "Previous", "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "dayNamesShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], "dayNamesMin": ["S", "M", "T", "W", "T", "F", "S"], "dateFormat": "MM d, yy", "firstDay": 1, "isRTL": false }); });
+    </script>
+    <script type='text/javascript' src='~/js/custom-script.js'></script>
+    <script type='text/javascript' src='https://planmy.me/wp-content/plugins/comments-ratings/js/jquery.raty.js?ver=1.1.5'></script>
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var pixreviews = { "hints": ["Terrible", "Poor", "Average", "Very Good", "Exceptional"] };
+        /* ]]> */
+    </script>
+    <script type='text/javascript' src='https://planmy.me/wp-content/plugins/comments-ratings/js/reviews.js?ver=1.1.5'></script>
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var wcfm_enquiry_manage_messages = { "no_name": "Name is required.", "no_email": "Email is required.", "no_enquiry": "Please insert your Inquiry before submit.", "no_reply": "Please insert your reply before submit.", "enquiry_saved": "Your inquiry successfully sent.", "enquiry_published": "Inquiry reply successfully published.", "enquiry_reply_saved": "Your reply successfully sent." };
+        /* ]]> */
+    </script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        if ($('.owl-theme').hasClass('main-slider')) {
+            $(document).ready(function () {
+                $('.main-slider').owlCarousel({
+                    rtl: false,
+                    loop: true,
+                    dots: true,
+                    autoplayTimeout: '7000',
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 1
+                        },
+                        1000: {
+                            items: 1
+                        }
+                    },
+                    addClassActive: true,
+                    autoplay: true,
+                    animateIn: 'fadeIn', animateOut: 'fadeOut',
+                });
+            });
+        }
+    </script>
+    <!--[if lte IE 8]>
+        <script type="text/javascript">
+            document.body.className = document.body.className.replace( /(^|\s)(no-)?customize-support(?=\s|$)/, '' ) + ' no-customize-support';
+        </script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script type="text/javascript">
+        (function () {
+            var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?' + cs + '(\\s+|$)');
+
+            request = true;
+
+            b[c] = b[c].replace(rcs, ' ');
+            // The customizer requires postMessage and CORS (if the site is cross domain)
+            b[c] += (window.postMessage && request ? ' ' : ' no-') + cs;
+        }());
+    </script>
+    <!--<![endif]-->
+    
+
+    @*<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCC3X5E4_vmPKudvIbhaW__GFxVgJ18aw0",
+            authDomain: "weddexapp-f3dc0.firebaseapp.com",
+            databaseURL: "https://weddexapp-f3dc0.firebaseio.com",
+            projectId: "weddexapp-f3dc0",
+            storageBucket: "weddexapp-f3dc0.appspot.com",
+            messagingSenderId: "789765617026"
+        };
+        firebase.initializeApp(config);
+        const messaging = firebase.messaging();
+        messaging.requestPermission()
+            .then(function () {
+                console.log('Notification permission granted.');
+                if (isTokenSentToServer()) {
+                    console.log('Token already saved.');
+                }
+                else {
+                    getRegToken();
+                }
+            })
+            .catch(function (err) {
+                console.log('Unable to get permission to notify.', err);
+            });
+        function getRegToken(argument) {
+            messaging.getToken().then(function (currentToken) {
+                if (currentToken) {
+                    saveToken(currentToken);
+                    console.log(currentToken);
+                    setTokenSentToServer(true);
+                }
+                else {
+                    console.log('No Instance ID token available. Request permission to generate one.');
+                    setTokenSentToServer(false);
+                }
+            })
+                .catch(function (err) {
+                    console.log('An error occured while retrieving token. ', err);
+                    setTokenSentToServer(false);
+                });
+        }
+        function setTokenSentToServer(sent) {
+            window.localStorage.setItem('sentToServer', (sent ? 1 : 0));
+        }
+        function isTokenSentToServer() {
+            return window.localStorage.getItem('sentToServer') == 1;
+        }
+        function saveToken(currentToken) {
+            window.localStorage.setItem("Token", currentToken);
+            $.post("/maizonpub-api/add_device.php", { token: currentToken, device: 'Web', action: 'insertdevice' }, function (result) { });
+        }
+        messaging.onMessage(function (payload) {
+            console.log('Message received:' + payload.notification);
+            notificationTitle = payload.notification.title;
+            notificationOptions = {
+                body: payload.notification.body,
+                icon: "https://weddexonline.com/wp-content/uploads/2017/10/logo_header6.png"
+            };
+            var notification = new Notification(notificationTitle, notificationOptions);
+            notification.onclick = function () {
+                var myWindow = window.open("https://weddexonline.com/dashboard", "_blank");
+                myWindow.focus();
+            };
+        });
+    </script>*@
 
 </body>
 </html>
