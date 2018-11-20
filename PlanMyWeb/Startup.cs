@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using PlanMyWeb.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace PlanMyWeb
 {
@@ -39,6 +40,11 @@ namespace PlanMyWeb
 
             services.AddDbContext<DbWebContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DbWebContext")));
+            services.AddIdentity<Users, IdentityRole>()
+        .AddEntityFrameworkStores<DbWebContext>()
+        .AddDefaultTokenProviders();
+
+            services.AddScoped<Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<Users>, AppClaimsPrincipalFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +63,7 @@ namespace PlanMyWeb
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

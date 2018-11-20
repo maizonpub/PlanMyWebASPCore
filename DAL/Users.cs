@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DAL
 {
-    public class Users
+    public class Users: IdentityUser
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
