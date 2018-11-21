@@ -35,7 +35,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <style type="text/css">
         html body {
-            background-color: #faf9f5;
+            background-color: #292624;
             font-family: Istok Web !important;
             font-weight: 400,400italic,700,700italic;
         }
@@ -47,13 +47,13 @@
         h1 {
             font-size: 30px;
             font-weight: 400;
-            color: #3c3634;
+            color: #fff;
         }
 
         h2 {
             font-size: 22px;
             font-weight: 400;
-            color: #323634;
+            color: #fff;
         }
 
         h3 {
@@ -81,7 +81,7 @@
         }
 
             a:hover {
-                color: #f9a630;
+                color: #00aeaf;
                 text-decoration: none;
             }
 
@@ -178,7 +178,7 @@
             }
 
                 .footer .ft-link ul li a:hover, .social-icon ul li a:hover {
-                    color: #f9a630;
+                    color: #00aeaf;
                 }
 
 
@@ -269,7 +269,7 @@
 
 
                     <a class="navbar-brand" href="@Url.Action("Index", "Home", new { area = "" })" rel="home">
-                        <img src="~/images/logo.png" alt="Plan My" class="img-responsive">
+                        <img src="~/images/Plan-My-1.png" alt="Plan My" class="img-responsive">
 
                     </a>
                 </div>
@@ -277,8 +277,8 @@
                 <div class="navigation">
                     <div class="" id="cssmenu">
                         <ul id="menu-primary_menu" class="nav navbar-nav navbar-right">
-                            <li id="menu-item-1220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1220"><a href="#">Venues</a></li>
-                            <li id="menu-item-960" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-960"><a href="#">Vendors</a></li>
+                            <li id="menu-item-1220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1220"><a href="@Url.Action("Index","Venues",new { area = "" })">Venues</a></li>
+                            <li id="menu-item-960" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-960"><a href="@Url.Action("Index","Vendors",new { area = "" })" >Vendors</a></li>
                             <li id="menu-item-4802" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4802"><a href="#">Inspirations</a></li>
                             <li id="menu-item-4671" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4671"><a href="#">Offers</a></li>
                         </ul>
@@ -289,6 +289,8 @@
         </div>
         <!-- /.container-fluid -->
     </div>
+
+
 
     @RenderBody()
 
@@ -348,7 +350,7 @@
                                 <ul class="listnone">
                                     <li><a href="https://www.facebook.com/planmy.me/" target="_blank"><i class="fa fa-facebook-square"></i></a></li>
                                     <li><a href="https://www.instagram.com/planmy.me/" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -367,11 +369,11 @@
             </div>
         </div>
     </div><!-- /. Tiny Footer -->
-   
+
     <script type='text/javascript' src='https://planmy.me/wp-includes/js/imagesloaded.min.js?ver=3.2.0'></script>
     <script type='text/javascript' src='https://planmy.me/wp-includes/js/masonry.min.js?ver=3.3.2'></script>
-    
-    
+
+
     <script type='text/javascript' src='~/js/owl.carousel.min.js'></script>
     <script type='text/javascript' src='~/js/jquery.sticky.js'></script>
     <script type='text/javascript' src='~/js/owl-script.js'></script>
@@ -403,26 +405,26 @@
         if ($('.owl-theme').hasClass('main-slider')) {
             $(document).ready(function () {
                 $('.main-slider').owlCarousel({
-                    rtl: false,
+                                rtl: false,
                     loop: true,
                     dots: true,
                     autoplayTimeout: '7000',
                     responsive: {
-                        0: {
-                            items: 1
-                        },
+                                        0: {
+                                        items: 1
+                                        },
                         600: {
-                            items: 1
+                                        items: 1
                         },
                         1000: {
-                            items: 1
+                                        items: 1
                         }
-                    },
+                                    },
                     addClassActive: true,
                     autoplay: true,
                     animateIn: 'fadeIn', animateOut: 'fadeOut',
                 });
-            });
+                            });
         }
     </script>
     <!--[if lte IE 8]>
@@ -435,83 +437,81 @@
         (function () {
             var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?' + cs + '(\\s+|$)');
 
-            request = true;
+                            request = true;
 
             b[c] = b[c].replace(rcs, ' ');
-            // The customizer requires postMessage and CORS (if the site is cross domain)
-            b[c] += (window.postMessage && request ? ' ' : ' no-') + cs;
+                            // The customizer requires postMessage and CORS (if the site is cross domain)
+                            b[c] += (window.postMessage && request ? ' ' : ' no-') + cs;
         }());
     </script>
     <!--<![endif]-->
-    
-
     @*<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyCC3X5E4_vmPKudvIbhaW__GFxVgJ18aw0",
-            authDomain: "weddexapp-f3dc0.firebaseapp.com",
-            databaseURL: "https://weddexapp-f3dc0.firebaseio.com",
-            projectId: "weddexapp-f3dc0",
-            storageBucket: "weddexapp-f3dc0.appspot.com",
-            messagingSenderId: "789765617026"
-        };
-        firebase.initializeApp(config);
-        const messaging = firebase.messaging();
-        messaging.requestPermission()
-            .then(function () {
-                console.log('Notification permission granted.');
-                if (isTokenSentToServer()) {
-                    console.log('Token already saved.');
-                }
-                else {
-                    getRegToken();
-                }
-            })
-            .catch(function (err) {
-                console.log('Unable to get permission to notify.', err);
-            });
-        function getRegToken(argument) {
-            messaging.getToken().then(function (currentToken) {
-                if (currentToken) {
-                    saveToken(currentToken);
-                    console.log(currentToken);
-                    setTokenSentToServer(true);
-                }
-                else {
-                    console.log('No Instance ID token available. Request permission to generate one.');
-                    setTokenSentToServer(false);
-                }
-            })
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCC3X5E4_vmPKudvIbhaW__GFxVgJ18aw0",
+                authDomain: "weddexapp-f3dc0.firebaseapp.com",
+                databaseURL: "https://weddexapp-f3dc0.firebaseio.com",
+                projectId: "weddexapp-f3dc0",
+                storageBucket: "weddexapp-f3dc0.appspot.com",
+                messagingSenderId: "789765617026"
+            };
+            firebase.initializeApp(config);
+            const messaging = firebase.messaging();
+            messaging.requestPermission()
+                .then(function () {
+                    console.log('Notification permission granted.');
+                    if (isTokenSentToServer()) {
+                        console.log('Token already saved.');
+                    }
+                    else {
+                        getRegToken();
+                    }
+                })
                 .catch(function (err) {
-                    console.log('An error occured while retrieving token. ', err);
-                    setTokenSentToServer(false);
+                    console.log('Unable to get permission to notify.', err);
                 });
-        }
-        function setTokenSentToServer(sent) {
-            window.localStorage.setItem('sentToServer', (sent ? 1 : 0));
-        }
-        function isTokenSentToServer() {
-            return window.localStorage.getItem('sentToServer') == 1;
-        }
-        function saveToken(currentToken) {
-            window.localStorage.setItem("Token", currentToken);
-            $.post("/maizonpub-api/add_device.php", { token: currentToken, device: 'Web', action: 'insertdevice' }, function (result) { });
-        }
-        messaging.onMessage(function (payload) {
-            console.log('Message received:' + payload.notification);
-            notificationTitle = payload.notification.title;
-            notificationOptions = {
-                body: payload.notification.body,
-                icon: "https://weddexonline.com/wp-content/uploads/2017/10/logo_header6.png"
-            };
-            var notification = new Notification(notificationTitle, notificationOptions);
-            notification.onclick = function () {
-                var myWindow = window.open("https://weddexonline.com/dashboard", "_blank");
-                myWindow.focus();
-            };
-        });
-    </script>*@
+            function getRegToken(argument) {
+                messaging.getToken().then(function (currentToken) {
+                    if (currentToken) {
+                        saveToken(currentToken);
+                        console.log(currentToken);
+                        setTokenSentToServer(true);
+                    }
+                    else {
+                        console.log('No Instance ID token available. Request permission to generate one.');
+                        setTokenSentToServer(false);
+                    }
+                })
+                    .catch(function (err) {
+                        console.log('An error occured while retrieving token. ', err);
+                        setTokenSentToServer(false);
+                    });
+            }
+            function setTokenSentToServer(sent) {
+                window.localStorage.setItem('sentToServer', (sent ? 1 : 0));
+            }
+            function isTokenSentToServer() {
+                return window.localStorage.getItem('sentToServer') == 1;
+            }
+            function saveToken(currentToken) {
+                window.localStorage.setItem("Token", currentToken);
+                $.post("/maizonpub-api/add_device.php", { token: currentToken, device: 'Web', action: 'insertdevice' }, function (result) { });
+            }
+            messaging.onMessage(function (payload) {
+                console.log('Message received:' + payload.notification);
+                notificationTitle = payload.notification.title;
+                notificationOptions = {
+                    body: payload.notification.body,
+                    icon: "https://weddexonline.com/wp-content/uploads/2017/10/logo_header6.png"
+                };
+                var notification = new Notification(notificationTitle, notificationOptions);
+                notification.onclick = function () {
+                    var myWindow = window.open("https://weddexonline.com/dashboard", "_blank");
+                    myWindow.focus();
+                };
+            });
+        </script>*@
 
 </body>
 </html>

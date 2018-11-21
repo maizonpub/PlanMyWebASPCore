@@ -1,0 +1,369 @@
+﻿@{
+    ViewData["Title"] = "Venues";
+}
+<style>
+html body {
+    background-color: #faf9f5;
+    font-family: Istok Web !important;
+    font-weight: 400,400italic,700,700italic;
+}
+</style>
+
+
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="https://planmy.me" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Listing</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--main-container-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="left-sidebar">
+                <div class="filter-box collapse in" id="searchform">
+                    <div class="row filter-form">
+                        <div class="col-md-12">
+                            <h2>Refine Your Search</h2>
+                        </div>
+                        <form method="get">
+                            <!--<div class="col-md-12">
+                                <div class="amount_box">$<span id="amount"></span></div>
+                                <div id="price-range" class="pricing_range"></div>
+                                <input type="hidden" id="min_price" />
+                                <input type="hidden" id="max_price" />
+                                <input type="hidden" id="list_style" value="oscar"  />
+                            </div>-->
+                            <input type="hidden" id="list_style" value="oscar" />
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label" for="category_type">Category</label>
+                                    <select name="category_type" id="category_type" class="form-control input-md" onchange="window.location.href='/vendors?category_type='+this.value"><option value="">Select Category</option><option value="245">3D Mapping</option><option value="238">Banks</option><option value="247">Beauty Centers</option><option value="248">Cars &amp; Transportation</option><option value="44">Catering &amp; Bars</option><option value="46">Clothing &amp; Accessories</option><option value="59">Entertainment</option><option value="9">Florists</option><option value="60">Furniture</option><option value="43">Hair &amp; Beauty</option><option value="54">Honeymoon Experience</option><option value="156">Hostessing</option><option value="49">Invitations</option><option value="246">Jewelry</option><option value="51">Lighting &amp; Sound</option><option value="241">Miscellaneous</option><option value="4">Photography &amp; Videography</option><option value="52">Planners &amp; coordinators</option><option value="3" selected>Venues</option></select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="control-label" for="type_type">Type of Venue</label>
+                                <div class="form-group"><br /><h4>Type of Venue</h4><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="105" />Ballroom</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="111" />Castle/ Mansion</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="188" />Country Clubs</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="106" />Farm/ Ranch</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="242" />Forest</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="104" />Garden</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="191" />Guest Houses</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="107" />Historic</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="110" />Hotel</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="244" />Nightclubs</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="112" />Religious</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="187" />Resort</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="189" />Restaurant</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="108" />Waterfront / Beach</label><label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="109" />Winery</label></div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="control-label" for="price">City</label>
+                                <div class="form-group"><br /><h4>Choose City</h4><label class="aminities_box"><input type="checkbox" class="aminities" name="city" id="city" value="185" />Lebanon</label></div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="control-label" for="price">Setting</label>
+                                <div class="form-group"><br /><h4>Choose Settings</h4><label class="aminities_box"><input type="checkbox" class="aminities" name="setting" id="setting" value="96" />All</label><label class="aminities_box"><input type="checkbox" class="aminities" name="setting" id="setting" value="102" />Indoor</label><label class="aminities_box"><input type="checkbox" class="aminities" name="setting" id="setting" value="103" />Outdoor</label></div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="control-label" for="specialtransportation">Location</label>
+                                <div class="form-group"><br /><h4>Location</h4><label class="aminities_box"><input type="checkbox" class="aminities" name="itemlocation" id="itemlocation" value="219" />Beirut &amp; Mount Lebanon</label><label class="aminities_box"><input type="checkbox" class="aminities" name="itemlocation" id="itemlocation" value="217" />Bekaa</label><label class="aminities_box"><input type="checkbox" class="aminities" name="itemlocation" id="itemlocation" value="220" />North Lebanon &amp; Akkar</label><label class="aminities_box"><input type="checkbox" class="aminities" name="itemlocation" id="itemlocation" value="221" />South Lebanon &amp; Nabatiye</label></div>
+                            </div>
+                            <!--<div class="col-md-12">
+                                        <div class="form-group">
+                                          <label class="control-label" for="capacity">Capacity</label>
+                                          <select class="form-control" name="capacity" id="capacity">
+                                                <option  value="0">0</option>
+                                                <option  value="1 - 50">1 - 50</option>
+                                                <option  value="50 - 200">50 - 200</option>
+                                                <option  value="200 - 500">200 - 500</option>
+                                                <option  value="500 - 1000">500 - 1000</option>
+                                                <option  value="1000 - more">1000 - more</option>
+                                              </select>
+                            </div>
+                                        </div>-->
+                            <div class="col-md-12">
+                                <button type="button" id="leftsidebar-search" class="btn tp-btn-default tp-btn-lg btn-block">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-8 content-left">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="item_results">
+                        <div class="row">
+                            <div class="col-md-12 vendor-listing">
+                                <h2 style="color:#000000;">Total 175 items in your search</h2>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/amathus-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/amathus-beach-hotel/">Amathus Beach Hotel</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/amathus-beach-hotel/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/woodland-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/woodland-venue/">Woodland Venue</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/woodland-venue/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/villageresort-1-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/villagio-resort/">Villagio Resort</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/villagio-resort/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/the-history-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/the-history-event-venue/">The History Event Venue</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/the-history-event-venue/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/stone-resto-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/stone/">Stone</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/stone/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/plage-des-rois/">Plage des Rois</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/plage-des-rois/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/phare-du-nord-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/phare-du-nord-2/">Phare du Nord</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/phare-du-nord-2/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/12244725_1011754752218465_4941445353306871516_o-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/luxury-yachts-and-cruises/">Luxury Yachts and Cruises</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/luxury-yachts-and-cruises/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/lancaster-tamar-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/lancaster-tamar/">Lancaster Tamar</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/lancaster-tamar/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div><div class="row">
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/lancasteredenbay-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/lancaster-eden-bay/">Lancaster Eden Bay</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/lancaster-eden-bay/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/citadelle-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/la-citadelle-de-beit-chabeb/">La Citadelle de Beit Chabeb</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/la-citadelle-de-beit-chabeb/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/imara-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/imara-ballroom/">Imara Ballroom</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/imara-ballroom/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div><div class="row">
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/hilton-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/hilton-beirut-metropolitan-palace/">Hilton Beirut Metropolitan Palace</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/hilton-beirut-metropolitan-palace/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/four-points-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/four-points/">Four Points</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/four-points/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/coral-beirut-al-hamra-hotel/">Coral Beirut Al Hamra Hotel</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/coral-beirut-al-hamra-hotel/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div><div class="row">
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/burjonbay-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/burj-on-bay-hotel/">Burj On Bay Hotel</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/burj-on-bay-hotel/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/blanco-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/blanco-wedding-venue/">Blanco Wedding Venue</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/blanco-wedding-venue/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-4 vendor-box">
+                                <div class="grid">
+
+                                    <figure class="effect-oscar">
+                                        <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/amara-440x290.jpg" class="img-responsive wp-post-image" alt="" />
+
+                                        <figcaption>
+                                            <h2><a href="https://planmy.me/item/amara-venue/">Amara Venue</a></h2>
+                                            <p></p>
+                                            <a href="https://planmy.me/item/amara-venue/">View more</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="col-md-12 tp-pagination"><ul class="pagination"><li class="active" title=1 id="paging_1"><a href="javascript:void(0)">1</a></li><li class="" title=2 id="paging_2"><a href="javascript:void(0)" onclick="simple_paging_item(2)">2</a></li><li class="" title=3 id="paging_3"><a href="javascript:void(0)" onclick="simple_paging_item(3)">3</a></li><li class="" title=4 id="paging_4"><a href="javascript:void(0)" onclick="simple_paging_item(4)">4</a></li><li class="" title=5 id="paging_5"><a href="javascript:void(0)" onclick="simple_paging_item(5)">5</a></li><li class="" title=6 id="paging_6"><a href="javascript:void(0)" onclick="simple_paging_item(6)">6</a></li><li class="" title=7 id="paging_7"><a href="javascript:void(0)" onclick="simple_paging_item(7)">7</a></li><li class="" title=8 id="paging_8"><a href="javascript:void(0)" onclick="simple_paging_item(8)">8</a></li><li class="" title=9 id="paging_9"><a href="javascript:void(0)" onclick="simple_paging_item(9)">9</a></li><li class="" title=10 id="paging_10"><a href="javascript:void(0)" onclick="simple_paging_item(10)">10</a></li></ul></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
