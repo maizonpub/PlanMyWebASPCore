@@ -1,26 +1,37 @@
-﻿@{
+﻿@model HomeViewModel;
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
+        @for (int i = 0; i < Model.HomeSliders.Count(); i++)
+        {
+            string isactive = i == 0 ? "active":"";
+
+            <li data-target="#myCarousel" data-slide-to="@i" class="@isactive"></li>
+        
+        }
     </ol>
     <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/friends.jpg" alt="ASP.NET" class="img-responsive" />
-
+        @for (int i = 0; i < Model.HomeSliders.Count(); i++)
+                {
+                    string isactive = i == 0 ? "active" : "";
+                    string filepath = Model.HomeSliders.ToList()[i].Media;
+        <div class="item @isactive">
+            @if (Model.HomeSliders.ToList()[i].MediaType == DAL.MediaType.Image)
+            {
+            <img src="~/Media/@filepath" class="img-responsive" />
+            }
+            else
+            {
+                <video src="~/Media/@filepath" class="img-responsive" />
+            }
         </div>
-        <div class="item">
-            <img src="~/images/baby.jpg" alt="Visual Studio" class="img-responsive" />
 
-        </div>
-        <div class="item">
-            <img src="~/images/wedd.jpg" alt="Microsoft Azure" class="img-responsive" />
-
-        </div>
+        }
+        
+        
     </div>
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
