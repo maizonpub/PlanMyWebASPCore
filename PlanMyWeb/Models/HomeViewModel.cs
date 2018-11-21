@@ -10,5 +10,7 @@ namespace PlanMyWeb.Models
     {
         public IEnumerable<HomeSlider> HomeSliders { get; set; }
         public IEnumerable<HomeTips> HomeTips { get; set; }
+        public IEnumerable<VendorItem> FeaturedItems { get; set; }
+        public WebContent Webcontent { get; set; }
     }
 }

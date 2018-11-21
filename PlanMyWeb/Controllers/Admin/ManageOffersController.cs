@@ -9,11 +9,11 @@ using DAL;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-    public class OffersController : Controller
+    public class ManageOffersController : Controller
     {
         private readonly DbWebContext _context;
 
-        public OffersController(DbWebContext context)
+        public ManageOffersController(DbWebContext context)
         {
             _context = context;
         }
