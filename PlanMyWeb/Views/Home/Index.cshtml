@@ -71,15 +71,12 @@
 <div class="spacer feature-section">
     <div class="container">
         <div class="row"><div class="col-md-12 tp-title-center"><h1>Take the Stress Out of Planning</h1></div></div> <div class="row">
+        @foreach (var tip in Model.HomeTips)
+        {
             <div class="col-md-4">
-                <div class="feature-block feature-center mb30"><div class="feature-icon"><i class="icon icon-size-60 icon-store icon-default"></i></div><h2>Find local vendors</h2><p>Plan My offers the largest directory of local wedding vendors in Lebanon.</p></div>
+                <div class="feature-block feature-center mb30"><div class="feature-icon"><i class="icon icon-size-60 @tip.Image icon-default"></i></div><h2>@tip.Title</h2><p>@tip.Description</p></div>
             </div>
-            <div class="col-md-4">
-                <div class="feature-block feature-center mb30"><div class="feature-icon"><i class="icon icon-size-60  icon-group icon-default"></i></div><h2>Organize Your Guest List</h2><p>Easily track invitations, RSVP’s and liste de marriage for all your guests.</p></div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-block feature-center mb30"><div class="feature-icon"><i class="icon icon-size-60 icon-money icon-default"></i></div><h2>Stay on Budget</h2><p>Track your spendings, savings and splurging with our Budget Tool.</p></div>
-            </div>
+        }
         </div>
     </div>
 </div>

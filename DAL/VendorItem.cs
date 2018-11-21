@@ -15,6 +15,7 @@ namespace DAL
         public string HtmlDescription { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
+        public bool IsFeatured { get; set; }
         List<VendorItemGallery> Gallery { get; set; }
     }
 }
