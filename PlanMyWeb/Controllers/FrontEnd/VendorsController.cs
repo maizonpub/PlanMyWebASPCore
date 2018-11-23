@@ -16,18 +16,18 @@ namespace PlanMyWeb.Controllers.FrontEnd
         {
             _context = context;
         }
-        public IActionResult Index()
+            public IActionResult Index()
             {
                 VendorsViewModel vendormodel = new VendorsViewModel();
                 vendormodel.VendorItems = GetVendorItems();
                 vendormodel.VendorCategories = GetVendorCategories();
                 return View(vendormodel);
             }
-            public IEnumerable<VendorItems> GetVendorItems()
+            public IEnumerable<VendorItem> GetVendorItems()
             {
                 return _context.VendorItems;
             }
-            public IEnumerable<VendorCategories> GetVendorCategories()
+            public IEnumerable<VendorCategory> GetVendorCategories()
             {
                 return _context.VendorCategories;
             }
