@@ -12,5 +12,6 @@ namespace PlanMyWeb.Models
         public IEnumerable<HomeTips> HomeTips { get; set; }
         public IEnumerable<VendorItem> FeaturedItems { get; set; }
         public WebContent Webcontent { get; set; }
+        public IEnumerable<Blog> LatestInspirations { get; set; } 
     }
 }

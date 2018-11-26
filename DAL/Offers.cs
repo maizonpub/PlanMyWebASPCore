@@ -16,6 +16,9 @@ namespace DAL
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal Price { get; set; }
+        public decimal SalePrice { get; set; }
+        public DateTime SaleFromDate { get; set; }
+        public DateTime SaleToDate { get; set; }
     }
     public enum OffersType
     {

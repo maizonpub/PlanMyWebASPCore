@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DbWebContext))]
-    partial class DbWebContextModelSnapshot : ModelSnapshot
+    [Migration("20181126105010_additemimage")]
+    partial class additemimage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -401,7 +403,11 @@ namespace DAL.Migrations
 
                     b.Property<string>("NormalizedUserName");
 
+                    b.Property<string>("Password");
+
                     b.Property<string>("PasswordHash");
+
+                    b.Property<string>("Phone");
 
                     b.Property<string>("PhoneNumber");
 
@@ -512,7 +518,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("AdminEmailPassword");
 
-                    b.Property<string>("BlogTitle");
+                    b.Property<int>("BlogId");
 
                     b.Property<string>("ContactAddress");
 

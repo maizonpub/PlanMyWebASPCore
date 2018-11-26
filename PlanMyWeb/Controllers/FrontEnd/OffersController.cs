@@ -10,6 +10,9 @@ namespace PlanMyWeb.Controllers.FrontEnd
 {
     public class OffersController : Controller
     {
-        
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }

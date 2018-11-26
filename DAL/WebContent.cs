@@ -9,7 +9,7 @@ namespace DAL
         public int Id { get; set; }
         public string TipsTitle { get; set; }
         public string FeaturedVendorsTitle { get; set; }
-        public int BlogId { get; set; }
+        public string BlogTitle { get; set; }
         public string ContactAddress { get; set; }
         public string ContactEmail { get; set; }
         public string ContactPhone { get; set; }

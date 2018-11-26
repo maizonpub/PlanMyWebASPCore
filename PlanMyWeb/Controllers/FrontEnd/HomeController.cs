@@ -21,8 +21,12 @@ namespace PlanMyWeb.Controllers
             HomeViewModel homemodel = new HomeViewModel();
             homemodel.HomeSliders = GetHomeSlider();
             homemodel.HomeTips = GetHomeTips();
+            homemodel.FeaturedItems = GetFeaturedItems();
+            homemodel.Webcontent = GetWebContent();
+            homemodel.LatestInspirations = GetLatestInspirations();
             return View(homemodel);
         }
+        
         public IEnumerable<HomeSlider> GetHomeSlider()
         {
             return _context.HomeSlider;
@@ -30,6 +34,18 @@ namespace PlanMyWeb.Controllers
         public IEnumerable<HomeTips> GetHomeTips()
         {
             return _context.HomeTips;
+        }
+        public IEnumerable<VendorItem> GetFeaturedItems()
+        {
+            return _context.VendorItems.Where(x=>x.IsFeatured == true);
+        }
+        public IEnumerable<Blog> GetLatestInspirations()
+        {
+            return _context.Blogs.OrderByDescending(x=>x.PostDate);
+        }
+        public WebContent GetWebContent()
+        {
+            return _context.WebContents.FirstOrDefault();
         }
         public IActionResult About()
         {

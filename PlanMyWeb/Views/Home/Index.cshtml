@@ -74,7 +74,7 @@
         @foreach (var tip in Model.HomeTips)
         {
             <div class="col-md-4">
-                <div class="feature-block feature-center mb30"><div class="feature-icon"><i class="icon icon-size-60 @tip.Image icon-default"></i></div><h2>@tip.Title</h2><p>@tip.Description</p></div>
+                <div class="feature-block feature-center mb30"><div class="feature-icon"><img src="~/Media/@tip.Image" style="height:70px"/></div><h2>@tip.Title</h2><p>@tip.Description</p></div>
             </div>
         }
         </div>
@@ -83,104 +83,42 @@
 
 <div class="spacer tp-section">
     <div class="container">
-        <div class="row"><div class="col-md-12 tp-title-center"><h1 style="color:#000000;">Featured Wedding Vendor</h1></div></div><div class="row">
-            <div class="col-md-4 vendor-box">
-                <div class="vendor-image">
-                    <a href="https://planmy.me/item/griffegraf/"><img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/04/griffegraf-440x290.jpg" class="img-responsive wp-post-image" alt="" /></a>
-                    @*<div class="feature-label"></div>*@
-                </div>
-                <div class="vendor-detail">
-                    <div class="caption">
-                        <h2><a class="title" href="https://planmy.me/item/griffegraf/">GriffeGraf</a></h2>
-                        <p class="location"><i class="fa fa-map-marker"></i> Beirut, Lebanon</p>
-                    </div>
+        <div class="row"><div class="col-md-12 tp-title-center"><h1 style="color:#000000;">@Model.Webcontent.FeaturedVendorsTitle</h1></div></div><div class="row">
+    @foreach (var row in Model.FeaturedItems)
+    {
+        <div class="col-md-4 vendor-box">
+            <div class="vendor-image">
+                <a href="#"><img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" /></a>
+                @*<div class="feature-label"></div>*@
+            </div>
 
+            <div class="vendor-detail">
+                <div class="caption">
+                    <h2><a class="title" href="#">@row.Title</a></h2>
+                    <p class="location"><i class="fa fa-map-marker"></i> @row.Address</p>
                 </div>
-            </div><div class="col-md-4 vendor-box">
-                <div class="vendor-image">
-                    <a href="https://planmy.me/item/skamlati-by-mt/"><img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/09/Skamlati-low-440x290.jpg" class="img-responsive wp-post-image" alt="" /></a>
-                    @*<div class="feature-label"></div>*@
-                </div>
-                <div class="vendor-detail">
-                    <div class="caption">
-                        <h2><a class="title" href="https://planmy.me/item/skamlati-by-mt/">Skămlati by MT</a></h2>
-                        <p class="location"><i class="fa fa-map-marker"></i> Beirut, Lebanon</p>
-                    </div>
 
-                </div>
-            </div><div class="col-md-4 vendor-box">
-                <div class="vendor-image">
-                    <a href="https://planmy.me/item/360-degrees-ltd/"><img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/10/360-degrees-low-440x290.jpg" class="img-responsive wp-post-image" alt="" /></a>
-                    @*<div class="feature-label"></div>*@
-                </div>
-                <div class="vendor-detail">
-                    <div class="caption">
-                        <h2><a class="title" href="https://planmy.me/item/360-degrees-ltd/">360 DEGREES LTD</a></h2>
-                        <p class="location"><i class="fa fa-map-marker"></i> Sfeir building, Ground Floor, Sharbinee Street, Ajaltoun, Lebanon</p>
-                    </div>
-
-                </div>
-            </div><div class="col-md-4 vendor-box">
-                <div class="vendor-image">
-                    <a href="https://planmy.me/item/peppinieres/"><img width="440" height="290" src="https://planmy.me/wp-content/uploads/2018/11/pepiniere-440x290.jpg" class="img-responsive wp-post-image" alt="" /></a>
-                    @*<div class="feature-label"></div>*@
-                </div>
-                <div class="vendor-detail">
-                    <div class="caption">
-                        <h2><a class="title" href="https://planmy.me/item/peppinieres/">Peppinières</a></h2>
-                        <p class="location"><i class="fa fa-map-marker"></i> Jdeideh</p>
-                    </div>
-
-                </div>
-            </div><div class="col-md-4 vendor-box">
-                <div class="vendor-image">
-                    <a href="https://planmy.me/item/le-blanc-catering-2/"><img width="440" height="290" src="https://planmy.me/wp-content/uploads/2017/11/leblanc_1-440x290.jpg" class="img-responsive wp-post-image" alt="" /></a>
-                    @*<div class="feature-label"></div>*@
-                </div>
-                <div class="vendor-detail">
-                    <div class="caption">
-                        <h2><a class="title" href="https://planmy.me/item/le-blanc-catering-2/">Le Blanc Catering</a></h2>
-                        <p class="location"><i class="fa fa-map-marker"></i> Zalka, Lebanon</p>
-                    </div>
-
-                </div>
-            </div><div class="col-md-4 vendor-box">
-                <div class="vendor-image">
-                    <a href="https://planmy.me/item/the-tipplers/"><img width="440" height="290" src="https://planmy.me/wp-content/uploads/2017/12/Tipplers-01-440x290.jpg" class="img-responsive wp-post-image" alt="" /></a>
-                    @*<div class="feature-label"></div>*@
-                </div>
-                <div class="vendor-detail">
-                    <div class="caption">
-                        <h2><a class="title" href="https://planmy.me/item/the-tipplers/">The Tipplers</a></h2>
-                        <p class="location"><i class="fa fa-map-marker"></i> The tipplers, Jdeideh</p>
-                    </div>
-
-                </div>
             </div>
         </div>
+    }
+
+</div>
     </div>
 </div>
 
 <div class="spacer feature-section">
     <div class="container">
-        <div class="row"><div class="col-md-12 tp-title-center"><h1>THE LATEST INSPIRATIONS</h1></div></div> <div class="row">
-            <div class="col-md-4">
-                <div class="mb30"><div class="vendor-image"><a href="https://planmy.me/category/wedding-trends/"><img class="img-responsive" alt="" src="https://planmy.me/wp-content/uploads/2017/10/flora_1.png"></a> <a class="venue-lable" href="https://planmy.me/category/wedding-trends/"><span class="label label-default">Pink loft</span></a></div></div>
-            </div>
-            <div class="col-md-4">
-                <div class="mb30"><div class="vendor-image"><a href="https://planmy.me/category/wedding-trends/"><img class="img-responsive" alt="" src="https://planmy.me/wp-content/uploads/2017/10/flora_2.png"></a> <a class="venue-lable" href="https://planmy.me/category/wedding-trends/"><span class="label label-default">Greek Maryland</span></a></div></div>
-            </div>
-            <div class="col-md-4">
-                <div class="mb30"><div class="vendor-image"><a href="https://planmy.me/category/wedding-trends/"><img class="img-responsive" alt="" src="https://planmy.me/wp-content/uploads/2017/10/flora_3.png"></a> <a class="venue-lable" href="https://planmy.me/category/wedding-trends/"><span class="label label-default">Terra</span></a></div></div>
-            </div>
-        </div> <div class="row">
-            <div class="col-md-8">
-                <div class="mb30"><div class="vendor-image"><a href="https://planmy.me/category/wedding-trends/"><img class="img-responsive" alt="" src="https://planmy.me/wp-content/uploads/2017/10/flora_4.png"></a> <a class="venue-lable" href="https://planmy.me/category/wedding-trends/"><span class="label label-default">Flora</span></a></div></div>
-            </div>
-            <div class="col-md-4">
-                <div class="mb30"><div class="vendor-image"><a href="https://planmy.me/category/wedding-trends/"><img class="img-responsive" alt="" src="https://planmy.me/wp-content/uploads/2017/10/flora_5.png"></a> <a class="venue-lable" href="https://planmy.me/category/wedding-trends/"><span class="label label-default">Garden</span></a></div></div>
-            </div>
+        <div class="row"><div class="col-md-12 tp-title-center"><h1>@Model.Webcontent.BlogTitle</h1></div></div> <div class="row">
+            @foreach (var row in Model.LatestInspirations)
+            {
+                <div class="col-md-4">
+                    <div class="mb30"><div class="vendor-image"><a href="#"><img class="img-responsive" alt="" src="~/Media/@row.Image"></a> <a class="venue-lable" href="#"><span class="label label-default">@row.Title</span></a></div></div>
+                </div>
+            }
+            
         </div>
+        
+            
     </div>
 </div>
 
