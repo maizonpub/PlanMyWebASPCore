@@ -70,7 +70,7 @@
 
 <div class="spacer feature-section">
     <div class="container">
-        <div class="row"><div class="col-md-12 tp-title-center"><h1>Take the Stress Out of Planning</h1></div></div> <div class="row">
+        <div class="row"><div class="col-md-12 tp-title-center"><h1>@Model.Webcontent.TipsTitle</h1></div></div> <div class="row">
         @foreach (var tip in Model.HomeTips)
         {
             <div class="col-md-4">
@@ -83,7 +83,8 @@
 
 <div class="spacer tp-section">
     <div class="container">
-        <div class="row"><div class="col-md-12 tp-title-center"><h1 style="color:#000000;">@Model.Webcontent.FeaturedVendorsTitle</h1></div></div><div class="row">
+        <div class="row"><div class="col-md-12 tp-title-center"><h1 style="color:#000000;">@Model.Webcontent.FeaturedVendorsTitle</h1></div></div>
+        <div class="row">
     @foreach (var row in Model.FeaturedItems)
     {
         <div class="col-md-4 vendor-box">
