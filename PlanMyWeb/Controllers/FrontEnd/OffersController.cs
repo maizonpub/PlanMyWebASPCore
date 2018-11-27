@@ -17,7 +17,8 @@ namespace PlanMyWeb.Controllers.FrontEnd
         }
         public IActionResult Index()
         {
-            return View();
+            return View(_context.Offers.OrderByDescending (x=>x.OffersType));
+        }
+     
         }
     }
-}

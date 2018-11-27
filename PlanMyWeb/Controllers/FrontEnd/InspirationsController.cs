@@ -20,22 +20,22 @@ namespace PlanMyWeb.Controllers.FrontEnd
         {
             return View(_context.Blogs.OrderByDescending(x=>x.PostDate));
         }
-        public async Task<IActionResult> Details(int? id)
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            InspirationsViewModel model = new InspirationsViewModel();
-            var blog = await _context.Blogs.FirstOrDefaultAsync(m => m.Id == id);
-            if (blog == null)
-            {
-                return NotFound();
-            }
-            model.Blog = blog;
-            model.PreviousPage = _context.Blogs.Where(x => x.Id < id).OrderByDescending(x => x.Id).FirstOrDefault();
-            model.NextPage = _context.Blogs.Where(x => x.Id > id).OrderBy(x => x.Id).FirstOrDefault();
-            return View(model);
+            return NotFound();
         }
+        InspirationsViewModel model = new InspirationsViewModel();
+        var blog = await _context.Blogs.FirstOrDefaultAsync(m => m.Id == id);
+        if (blog == null)
+        {
+            return NotFound();
+        }
+        model.Blog = blog;
+        model.PreviousPage = _context.Blogs.Where(x => x.Id < id).OrderByDescending(x => x.Id).FirstOrDefault();
+        model.NextPage = _context.Blogs.Where(x => x.Id > id).OrderBy(x => x.Id).FirstOrDefault();
+        return View(model);
+    }
     }
 }
