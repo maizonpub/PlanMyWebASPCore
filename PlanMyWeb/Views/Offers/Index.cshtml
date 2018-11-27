@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<DAL.Offers>
+
+@{
     ViewData["Title"] = "Offers";
 }
 
@@ -93,20 +95,23 @@
                                 <div class="col-md-12 vendor-listing">
                                     <h2 style="color:#000000;">Total 1151 items in your search</h2>
                                 </div>
+                                @foreach (var row in Model)
+                                {
                                 <div class="col-md-4 vendor-box">
                                     <div class="grid">
 
                                         <figure class="effect-oscar">
-                                            <img width="440" height="290" src="https://planmy.me/wp-content/uploads/2016/05/triangle_1-440x290.png" class="img-responsive wp-post-image" alt="" />
+                                            <img width="440" height="290" src="~/Media/@row.Image" class="img-responsive wp-post-image" alt="" />
 
                                             <figcaption>
-                                                <h2><a href="https://planmy.me/item/happy-modeling-studio/">Triangle Professional Photography</a></h2>
+                                                <h2><a href="@row.Title">@row.Title</a></h2>
                                                 <p></p>
-                                                <a href="https://planmy.me/item/happy-modeling-studio/">View more</a>
+                                                <a href="#">Buy Now</a>
                                             </figcaption>
                                         </figure>
                                     </div>
                                 </div>
+                                }
                                 <div class="col-md-4 vendor-box">
                                     <div class="grid">
 

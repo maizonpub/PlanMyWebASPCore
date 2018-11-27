@@ -10,9 +10,15 @@ namespace PlanMyWeb.Controllers.FrontEnd
 {
     public class OffersController : Controller
     {
+        private readonly DbWebContext _context;
+        public OffersController(DbWebContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
-            return View();
+            return View(_context.Offers.OrderByDescending (x=>x.OffersType));
+        }
+     
         }
     }
-}

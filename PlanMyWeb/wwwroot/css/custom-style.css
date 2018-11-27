@@ -235,7 +235,7 @@ label .required {
 .finder-caption{ margin-bottom: 20px;display: inline-block;}
 .finder-caption h1 { font-size: 42px; letter-spacing: -1px; font-weight: 700;}
 .finder-caption h1, .finder-caption p { margin-bottom: 20px; color: #fff;}
-.finderform .form-group { margin-bottom:0px;}
+.finderform .form-group { margin-bottom:20px;}
 .finderform .col-md-5 { padding-right: 15px;}
 .finderform .tp-btn-lg { padding: 14px 14px; margin-left: -18px;}
 
