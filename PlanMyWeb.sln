@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanMyWeb", "PlanMyWeb\PlanMyWeb.csproj", "{9FC2F7F8-CAED-4AC4-BEAB-16C05377AB25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlanMyWeb", "PlanMyWeb\PlanMyWeb.csproj", "{9FC2F7F8-CAED-4AC4-BEAB-16C05377AB25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{A41CEAE4-4704-4A42-9C21-F2058C56AD4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{A41CEAE4-4704-4A42-9C21-F2058C56AD4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportFromWordPress", "ImportFromWordPress\ImportFromWordPress.csproj", "{7838376B-BE07-4FC0-A147-0BD284708EC4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordPressPCL", "WordPressPCL\WordPressPCL.csproj", "{97B69EBA-03E6-4C0E-9D55-37CC3AF476D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{A41CEAE4-4704-4A42-9C21-F2058C56AD4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A41CEAE4-4704-4A42-9C21-F2058C56AD4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A41CEAE4-4704-4A42-9C21-F2058C56AD4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7838376B-BE07-4FC0-A147-0BD284708EC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7838376B-BE07-4FC0-A147-0BD284708EC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7838376B-BE07-4FC0-A147-0BD284708EC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7838376B-BE07-4FC0-A147-0BD284708EC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97B69EBA-03E6-4C0E-9D55-37CC3AF476D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97B69EBA-03E6-4C0E-9D55-37CC3AF476D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97B69EBA-03E6-4C0E-9D55-37CC3AF476D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97B69EBA-03E6-4C0E-9D55-37CC3AF476D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

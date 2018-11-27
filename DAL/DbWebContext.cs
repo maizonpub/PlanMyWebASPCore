@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DAL
 {
-    public class DbWebContext: DbContext
+    public class DbWebContext : DbContext
     {
         public DbWebContext(DbContextOptions<DbWebContext> options)
             : base(options)
@@ -18,7 +18,7 @@ namespace DAL
 
         public DbSet<DAL.WebContent> WebContents { get; set; }
 
-        public DbSet<DAL.Pages> Pages{ get; set; }
+        public DbSet<DAL.Pages> Pages { get; set; }
 
         public DbSet<DAL.SocialMedia> SocialMedias { get; set; }
 
@@ -61,5 +61,8 @@ namespace DAL
         public DbSet<DAL.BasketItems> BasketItems { get; set; }
 
         public DbSet<DAL.Order> Orders { get; set; }
+        public DbSet<DAL.VendorType> VendorTypes { get; set; }
+        public DbSet<DAL.VendorTypeValue> VendorTypeValues { get; set; }
+        public DbSet<DAL.VendorItemTypeValue> VendorItemTypeValues { get; set; }
     }
 }

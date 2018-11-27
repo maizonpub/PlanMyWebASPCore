@@ -4,12 +4,11 @@ using System.Text;
 
 namespace DAL
 {
-     public class VendorItemTypeValues
+     public class VendorItemTypeValue
     {
         public int Id { get; set; }
-        public VendorType VendorType { get; set; }
-        public int ItemId { get; set; }
-        public List<VendorTypeValues> Values { get; set; }
-
+        public VendorTypeValue VendorTypeValue { get; set; }
+        public VendorItem VendorItem { get; set; }
+        public int VendorItemId { get; set; }
     }
 }

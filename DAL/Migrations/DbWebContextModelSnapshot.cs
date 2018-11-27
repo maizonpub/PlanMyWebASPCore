@@ -502,6 +502,63 @@ namespace DAL.Migrations
                     b.ToTable("VendorItemGalleries");
                 });
 
+            modelBuilder.Entity("DAL.VendorItemTypeValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("VendorItemId");
+
+                    b.Property<int?>("VendorTypeId");
+
+                    b.Property<int?>("VendorTypeValueId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendorItemId");
+
+                    b.HasIndex("VendorTypeId");
+
+                    b.HasIndex("VendorTypeValueId");
+
+                    b.ToTable("VendorItemTypeValues");
+                });
+
+            modelBuilder.Entity("DAL.VendorType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<string>("Title");
+
+                    b.Property<string>("VendorCategory");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VendorTypes");
+                });
+
+            modelBuilder.Entity("DAL.VendorTypeValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title");
+
+                    b.Property<int?>("VendorTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendorTypeId");
+
+                    b.ToTable("VendorTypeValues");
+                });
+
             modelBuilder.Entity("DAL.WebContent", b =>
                 {
                     b.Property<int>("Id")
@@ -624,6 +681,29 @@ namespace DAL.Migrations
                     b.HasOne("DAL.VendorItem", "Item")
                         .WithMany("Gallery")
                         .HasForeignKey("ItemId");
+                });
+
+            modelBuilder.Entity("DAL.VendorItemTypeValue", b =>
+                {
+                    b.HasOne("DAL.VendorItem", "VendorItem")
+                        .WithMany()
+                        .HasForeignKey("VendorItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DAL.VendorType")
+                        .WithMany("VendorItemTypeValues")
+                        .HasForeignKey("VendorTypeId");
+
+                    b.HasOne("DAL.VendorTypeValue", "VendorTypeValue")
+                        .WithMany("VendorItemTypeValues")
+                        .HasForeignKey("VendorTypeValueId");
+                });
+
+            modelBuilder.Entity("DAL.VendorTypeValue", b =>
+                {
+                    b.HasOne("DAL.VendorType", "VendorType")
+                        .WithMany()
+                        .HasForeignKey("VendorTypeId");
                 });
 
             modelBuilder.Entity("DAL.WishList", b =>
