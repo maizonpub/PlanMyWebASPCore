@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DAL
@@ -12,6 +13,7 @@ namespace DAL
         public double Longitude { get; set; }
         public string PhoneNumber { get; set; }
         public int UserId { get; set; }
+        public Users User { get; set; }
         public string HtmlDescription { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }

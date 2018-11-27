@@ -1,0 +1,117 @@
+﻿@model DAL.Contactus
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="https://planmy.me" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Contact Us</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div id="post-34" class="post-34 page type-page status-publish hentry">
+                    <p>
+                        @Model.Description<br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div role="form" class="wpcf7" id="wpcf7-f149-p34-o1" lang="en-US" dir="ltr">
+                                    <div class="screen-reader-response"></div>
+                                    <form action="/contact-us/#wpcf7-f149-p34-o1" method="post" class="wpcf7-form" novalidate="novalidate">
+                                        <div style="display: none;">
+                                            <input type="hidden" name="_wpcf7" value="149" />
+                                            <input type="hidden" name="_wpcf7_version" value="5.0.5" />
+                                            <input type="hidden" name="_wpcf7_locale" value="en_US" />
+                                            <input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f149-p34-o1" />
+                                            <input type="hidden" name="_wpcf7_container_post" value="34" />
+                                        </div>
+                                        <div class="well-box">
+                                            <div class="form-group">
+                                                <label for="first" class="control-label">First Name <span class="required">*</span></label><br />
+                                                <span class="wpcf7-form-control-wrap firstname"><input type="text" name="firstname" value="" size="40" class="wpcf7-form-control wpcf7-text form-control input-md" id="firstname" aria-invalid="false" placeholder="First Name" /></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="lastname" class=" control-label">Last Name <span class="required">*</span></label><br />
+                                                <span class="wpcf7-form-control-wrap lastname"><input type="text" name="lastname" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control input-md" id="lastname" aria-required="true" aria-invalid="false" placeholder="Last Name" /></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email" class="control-label">E-Mail <span class="required">*</span></label><br />
+                                                <span class="wpcf7-form-control-wrap email-128"><input type="email" name="email-128" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email form-control input-md" id="email" aria-required="true" aria-invalid="false" placeholder="Email" /></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="phone" class="control-label">Phone <span class="required">*</span></label><br />
+                                                <span class="wpcf7-form-control-wrap tel-244"><input type="tel" name="tel-244" value="" size="40" class="wpcf7-form-control wpcf7-text wpcf7-tel wpcf7-validates-as-required wpcf7-validates-as-tel form-control input-md" aria-required="true" aria-invalid="false" placeholder="Phone" /></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="category" class="control-label">Role <span class="required">*</span></label><br />
+                                                <span class="wpcf7-form-control-wrap menu-859"><select name="menu-859" class="wpcf7-form-control wpcf7-select form-control" id="category" aria-invalid="false"><option value="Couple">Couple</option><option value="Vendor">Vendor</option><option value="Other">Other</option></select></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message" class=" control-label">Message</label><br />
+                                                <span class="wpcf7-form-control-wrap message"><textarea name="message" cols="40" rows="5" class="wpcf7-form-control wpcf7-textarea form-control" id="message" aria-invalid="false"></textarea></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="submit" value="Submit" class="wpcf7-form-control wpcf7-submit btn tp-btn-default tp-btn-lg" id="submit" />
+                                            </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        
+                    </p>
+                </div>
+                <div class="wpcf7-response-output wpcf7-display-none"></div>
+            </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="well-box contact-info">
+                <ul class="listnone">
+                    <li class="address">
+                        <h2><i class="fa fa-map-marker"></i>Location</h2>
+                        <p>
+                            Hazmieh Lebanon
+                            SH street, FM bldg, 3rd floor
+                        </p>
+                    </li>
+                    <li class="email">
+                        <h2><i class="fa fa-envelope"></i>E-Mail</h2>
+                        <p>info@weddexonline.com</p>
+                    </li>
+                    <li class="call">
+                        <h2><i class="fa fa-phone"></i>Contact</h2>
+                        <p>+961-1-480 397</p>
+                        <p>+961-71-501 601</p>
+                        <p>+961-76-616 145</p>
+                    </li>
+                </ul>
+            </div><div class="well-box">
+                <h2>Need Help ?</h2>
+                <p>Do not hesitate to contact us if you have any question.</p>
+            </div>
+        </div>
+    </div>
+
+   </div>
+

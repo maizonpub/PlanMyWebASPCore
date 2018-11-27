@@ -8,15 +8,16 @@ namespace DAL
     {
         public int Id { get; set; }
         public OffersType OffersType { get;set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
         public string Title { get; set; }
         public int UserId { get; set; }
+        public Users User { get; set; }
         public string Description { get; set; }
         public Validity Validity { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal Price { get; set; }
-        public decimal SalePrice { get; set; }
+        public decimal? SalePrice { get; set; }
         public DateTime SaleFromDate { get; set; }
         public DateTime SaleToDate { get; set; }
     }

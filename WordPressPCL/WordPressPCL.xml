@@ -506,14 +506,7 @@
             <param name="HttpHelper">reference to HttpHelper class for interaction with HTTP</param>
             <param name="defaultPath">path to site, EX. http://demo.com/wp-json/ </param>
         </member>
-        <member name="M:WordPressPCL.Client.Pages.GetPagesByAuthor(System.Int32,System.Boolean,System.Boolean)">
-            <summary>
-            Get pages by its author
-            </summary>
-            <param name="authorId">Author id</param>
-            <param name="embed">includ embed info</param>
-            <param name="useAuth">Send request with authenication header</param>
-            <returns>List of pages</returns>
+        <returns>List of pages</returns>
         </member>
         <member name="M:WordPressPCL.Client.Pages.GetPagesBySearch(System.String,System.Boolean,System.Boolean)">
             <summary>
@@ -589,7 +582,15 @@
             <param name="HttpHelper">reference to HttpHelper class for interaction with HTTP</param>
             <param name="defaultPath">path to site, EX. http://demo.com/wp-json/ </param>
         </member>
-        <member name="M:WordPressPCL.Client.Posts.GetStickyPosts(System.Boolean,System.Boolean)">">
+        <member name="M:WordPressPCL.Client.Posts.GetStickyPosts(System.Boolean,System.Boolean)">
+            <summary>
+            Get sticky posts
+            </summary>
+            <param name="embed">includ embed info</param>
+            <param name="useAuth">Send request with authenication header</param>
+            <returns>List of posts</returns>
+        </member>
+        <member name="M:WordPressPCL.Client.Posts.GetPostsByCategory(System.Int32,System.Boolean,System.Boolean)">
             <summary>
             Get posts by category
             </summary>
@@ -667,14 +668,6 @@
             <param name="embed">Include embed info</param>
             <param name="useAuth">Send request with authenication header</param>
             <returns>List of all result</returns>
-        </member>
-        <member name="M:WordPressPCL.Client.PostStatuses.GetByID(System.Object,System.Boolean,System.Boolean)">
-            <summary>
-            Get Entity by Id
-            </summary>
-            <param name="ID">ID</param>
-            <param name="embed">include embed info</param>
-            <param name="useAuth">Send requ     <returns>List of all result</returns>
         </member>
         <member name="M:WordPressPCL.Client.PostStatuses.GetByID(System.Object,System.Boolean,System.Boolean)">
             <summary>
@@ -760,6 +753,14 @@
             </summary>
             <param name="embed">Include embed info</param>
             <param name="useAuth">Send request with authenication header</param>
+            <returns>List of all result</returns>
+        </member>
+        <member name="M:WordPressPCL.Client.Taxonomies.GetByID(System.Object,System.Boolean,System.Boolean)">
+            <summary>
+            Get Entity by Id
+            </summary>
+            <param name="ID">ID</param>
+            <param name="embed">include="useAuth">Send request with authenication header</param>
             <returns>List of all result</returns>
         </member>
         <member name="M:WordPressPCL.Client.Taxonomies.GetByID(System.Object,System.Boolean,System.Boolean)">
@@ -3122,7 +3123,14 @@
             <summary>
             Constructor with same fields for Raw end Rendered
             </summary>
-            <param name="Cont text</param>
+            <param name="Content">Text for Raw and rendered Content</param>
+        </member>
+        <member name="M:WordPressPCL.Models.Content.#ctor(System.String,System.String)">
+            <summary>
+            Constructor with Raw and Rendered content text fields
+            </summary>
+            <param name="ContentRaw">Raw HTML content text</param>
+            <param name="ContentRendered">Rendered content text</param>
         </member>
         <member name="T:WordPressPCL.Models.Description">
             <summary>
@@ -3214,20 +3222,7 @@
             <param name="ExcerptRaw">Raw HTML text for Excerpt</param>
             <param name="ExcerptRendered">Rendered text for Excerpt</param>
         </member>
-        <member name="T:WordPressPCL.Models.VersionHistory">
-            <summary>
-            URL to revisions
-            </summary>
-        </member>
-        <member name="T:WordPressPCL.Models.Caption">
-            <summary>
-            Caption
-            </summary>
-        </member>
-        <member name="M:WordPressPCL.Models.Caption.#ctor">
-            <summary>
-            Constructor
-            </summary>
+        <member         </summary>
         </member>
         <member name="M:WordPressPCL.Models.Caption.#ctor(System.String)">
             <summary>

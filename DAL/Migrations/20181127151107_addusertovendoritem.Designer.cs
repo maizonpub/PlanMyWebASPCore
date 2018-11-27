@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DbWebContext))]
-    partial class DbWebContextModelSnapshot : ModelSnapshot
+    [Migration("20181127151107_addusertovendoritem")]
+    partial class addusertovendoritem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,7 +253,7 @@ namespace DAL.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<string>("Image");
+                    b.Property<byte[]>("Image");
 
                     b.Property<int>("OffersType");
 
@@ -259,7 +261,7 @@ namespace DAL.Migrations
 
                     b.Property<DateTime>("SaleFromDate");
 
-                    b.Property<decimal?>("SalePrice");
+                    b.Property<decimal>("SalePrice");
 
                     b.Property<DateTime>("SaleToDate");
 
@@ -272,8 +274,6 @@ namespace DAL.Migrations
                     b.Property<int>("Validity");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Offers");
                 });
@@ -428,7 +428,7 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Image");
+                    b.Property<byte[]>("Image");
 
                     b.Property<string>("Title");
 
@@ -644,14 +644,6 @@ namespace DAL.Migrations
                         .HasForeignKey("GuestListTablesId");
                 });
 
-            modelBuilder.Entity("DAL.Offers", b =>
-                {
-                    b.HasOne("DAL.Users", "User")
-                        .WithMany("Offers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("DAL.OffersCategory", b =>
                 {
                     b.HasOne("DAL.Offers", "Offers")
@@ -680,7 +672,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.VendorItem", b =>
                 {
                     b.HasOne("DAL.Users", "User")
-                        .WithMany("VendorItems")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -688,7 +680,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.VendorItemCategory", b =>
                 {
                     b.HasOne("DAL.VendorCategory", "VendorCategory")
-                        .WithMany("Categories")
+                        .WithMany()
                         .HasForeignKey("VendorCategoryId");
 
                     b.HasOne("DAL.VendorItem", "VendorItem")
