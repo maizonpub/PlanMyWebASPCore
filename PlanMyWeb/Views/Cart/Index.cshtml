@@ -1,0 +1,166 @@
+﻿@model IEnumerable<DAL.Cart>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="~/" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Cart</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div id="post-1322" class="post-1322 page type-page status-publish hentry">
+                    <div class="woocommerce">
+                        <div class="woocommerce-notices-wrapper"></div>
+                        <form class="woocommerce-cart-form" action="#" method="post">
+
+                            <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th class="product-remove">&nbsp;</th>
+                                        <th class="product-thumbnail">&nbsp;</th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-subtotal">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var row in Model)
+                                    {
+
+                                    <tr class="woocommerce-cart-form__cart-item cart_item">
+
+                                        <td class="product-remove">
+                                            <a href="#" class="remove" aria-label="Remove this item" data-product_id="4695" data-product_sku="">&times;</a>
+                                        </td>
+
+                                        <td class="product-thumbnail">
+                                            <a href="#"><img width="320" height="260" src="~/Media/@row.Image" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" srcset="@row.Image 320w, @row.Image 300w" sizes="(max-width: 320px) 100vw, 320px" /></a>
+                                        </td>
+
+                                        <td class="product-name" data-title="Product">
+                                            <a href="#">@row.Description</a><dl class="variation">
+                                                <dt class="variation-SoldBy">Sold By:</dt>
+                                                <dd class="variation-SoldBy">
+                                                    <p>Plan My</p>
+                                                </dd>
+                                            </dl>
+                                        </td>
+
+                                        <td class="product-price" data-title="Price">
+                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.Price</span>
+                                        </td>
+
+                                        <td class="product-quantity" data-title="Quantity">
+                                            <div class="quantity">
+                                                <label class="screen-reader-text" for="quantity_5bfe64c79fb10">@row.Quantity</label>
+                                                <input type="number"
+                                                       id="quantity_5bfe64c79fb10"
+                                                       class="input-text qty text"
+                                                       step="1"
+                                                       min="0"
+                                                       max=""
+                                                       name="cart[5034a5d62f91942d2a7aeaf527dfe111][qty]"
+                                                       value="1"
+                                                       title="Qty"
+                                                       size="4"
+                                                       pattern="[0-9]*"
+                                                       inputmode="numeric"
+                                                       aria-labelledby="Your Dream Car for Less from Elma Wedding Cars quantity" />
+                                            </div>
+                                        </td>
+
+                                        <td class="product-subtotal" data-title="Total">
+                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.Total</span>
+                                        </td>
+                                    </tr>
+                                    }
+                                    
+                                    
+
+
+                                    <tr>
+                                        <td colspan="6" class="actions">
+
+                                            <div class="coupon">
+                                                <label for="coupon_code">Coupon:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="Coupon code" /> <button type="submit" class="button" name="apply_coupon" value="Apply coupon">Apply coupon</button>
+                                            </div>
+
+                                            <button type="submit" class="button" name="update_cart" value="Update cart">Update cart</button>
+
+
+                                            <input type="hidden" id="woocommerce-cart-nonce" name="woocommerce-cart-nonce" value="2e3d91e101" /><input type="hidden" name="_wp_http_referer" value="/cart/" />
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <div class="cart-collaterals">
+                            <div class="cart_totals ">
+
+
+                                <h2></h2>
+
+                                <table cellspacing="0" class="shop_table shop_table_responsive">
+
+                                    <tr class="cart-subtotal">
+                                        <th>Subtotal</th>
+                                        <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@Model.Count()</span></td>
+                                    </tr>
+
+
+
+
+
+
+                                    <tr class="order-total">
+                                        <th>Total</th>
+                                        <td data-title="Total"><strong><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@Model.Count()</span></strong> </td>
+                                    </tr>
+
+
+                                </table>
+
+                                <div class="wc-proceed-to-checkout">
+
+                                    <a href="#" class="checkout-button button alt wc-forward">
+                                        Proceed to checkout
+                                    </a>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

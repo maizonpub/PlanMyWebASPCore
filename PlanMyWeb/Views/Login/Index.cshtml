@@ -1,0 +1,89 @@
+﻿@model DAL.Login
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="https://planmy.me" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Login</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div id="post-864" class="post-864 page type-page status-publish hentry">
+                    <input type="hidden" id="security" name="security" value="3e0e126294" /><input type="hidden" name="_wp_http_referer" value="/login/" /><input type="hidden" id="security-forgot" name="security-forgot" value="71e2f661e5" /><input type="hidden" name="_wp_http_referer" value="/login/" /><h1 style="text-align: center;">@Model.Title</h1>
+                    <p style="text-align: center;">
+                        @Model.Description
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <div class="login-boxes">
+                                    <div class="well-box">
+                                        <div class="vendor-login" id="home">
+                                            <h2>Weddex</h2>
+                                            <form id="login" class="ajax-auth" action="login" method="post">
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <p class="status"></p>
+                </div>
+                
+                    
+                    <input type="hidden" id="security" name="security" value="3e0e126294" /><input type="hidden" name="_wp_http_referer" value="/login/" />
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="control-label" for="email">Username<span class="required">*</span></label>
+                        <input id="username" name="username" type="text" placeholder="Username" class="form-control input-md" required>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="control-label" for="password">Password<span class="required">*</span></label>
+                        <input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" required>
+                    </div>
+
+                    <!-- Button -->
+                    <div class="form-group">
+                        <button id="submit" name="submit" type="submit" class="btn tp-btn-primary tp-btn-lg">Login</button>
+                        <a href="javascript:void(0);" id="select_forgot_pass" class="pull-right"> <small>Forgot Password</small></a>
+                    </div>
+                                             </form>
+                    
+                </div>
+                <div class="forgotpass_box">
+                    <div class="form-group">
+                        <div class="loginalert" id="forgot_pass_area"></div>
+                        <label class="control-label" for="password">Email<span class="required">*</span></label>
+                        <input type="text" id="forgot_email" name="forgot_email" class="form-control input-md" required />
+                        <input type="hidden" id="postid" name="postid" value="864" />
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="security-forgot" name="security-forgot" value="71e2f661e5" /><input type="hidden" name="_wp_http_referer" value="/login/" />
+                        <button id="wp_forgot" name="wp_forgot" type="button" class="btn tp-btn-primary tp-btn-lg">Reset Password</button>
+                        <a href="javascript:void(0);" id="return_login" class="pull-right"> <small>Return to Login</small></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

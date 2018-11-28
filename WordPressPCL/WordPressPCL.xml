@@ -760,14 +760,6 @@
             Get Entity by Id
             </summary>
             <param name="ID">ID</param>
-            <param name="embed">include="useAuth">Send request with authenication header</param>
-            <returns>List of all result</returns>
-        </member>
-        <member name="M:WordPressPCL.Client.Taxonomies.GetByID(System.Object,System.Boolean,System.Boolean)">
-            <summary>
-            Get Entity by Id
-            </summary>
-            <param name="ID">ID</param>
             <param name="embed">include embed info</param>
             <param name="useAuth">Send request with authenication header</param>
             <returns>Entity by Id</returns>
@@ -1048,7 +1040,19 @@
             </summary>
             <remarks>Context: view, edit</remarks>
         </member>
-        <member name="P:Wo    <member name="M:WordPressPCL.Models.Category.#ctor">
+        <member name="P:WordPressPCL.Models.Category.Parent">
+            <summary>
+            The parent term ID.
+            </summary>
+            <remarks>Context: view, edit</remarks>
+        </member>
+        <member name="P:WordPressPCL.Models.Category.Meta">
+            <summary>
+            Meta fields.
+            </summary>
+            <remarks>Context: view, edit</remarks>
+        </member>
+        <member name="M:WordPressPCL.Models.Category.#ctor">
             <summary>
             Parameterless constructor
             </summary>
@@ -2336,6 +2340,14 @@
         <member name="P:WordPressPCL.Models.MediaItem.Post">
             <summary>
             The id for the associated post of the resource.
+            </summary          Details about the resource file, specific to its type.
+            <see cref="T:WordPressPCL.Models.MediaDetails"/>
+            </summary>
+            <remarks>Context: view, edit, embed</remarks>
+        </member>
+        <member name="P:WordPressPCL.Models.MediaItem.Post">
+            <summary>
+            The id for the associated post of the resource.
             </summary>
             <remarks>Context: view, edit</remarks>
         </member>
@@ -2674,16 +2686,6 @@
             The ID of the featured media for the object.
             </summary>
             <remarks>Context: view, edit</remarks>
-        </member>
-        <member name="P:WordPressPCL.Models.Post.featured_img">
-            <summary>
-            The link of the featured media for the object.
-            </summary>
-            <remarks>Context: view</remarks>
-        </member>
-        <member name="P:WordPressPCL.Models.Post.CommentStatus">
-            <summary>
-            Whemarks>Context: view, edit</remarks>
         </member>
         <member name="P:WordPressPCL.Models.Post.featured_img">
             <summary>
@@ -3222,7 +3224,20 @@
             <param name="ExcerptRaw">Raw HTML text for Excerpt</param>
             <param name="ExcerptRendered">Rendered text for Excerpt</param>
         </member>
-        <member         </summary>
+        <member name="T:WordPressPCL.Models.VersionHistory">
+            <summary>
+            URL to revisions
+            </summary>
+        </member>
+        <member name="T:WordPressPCL.Models.Caption">
+            <summary>
+            Caption
+            </summary>
+        </member>
+        <member name="M:WordPressPCL.Models.Caption.#ctor">
+            <summary>
+            Constructor
+            </summary>
         </member>
         <member name="M:WordPressPCL.Models.Caption.#ctor(System.String)">
             <summary>
@@ -4539,20 +4554,6 @@
             <returns>Result of checking</returns>
         </member>
         <member name="M:WordPressPCL.WordPressClient.SetJWToken(System.String)">
-            <summary>
-            Sets an exisitng JWToken
-            </summary>
-            <param name="token"></param>
-        </member>
-        <member name="M:WordPressPCL.WordPressClient.GetToken">
-            <summary>
-            Gets the JWToken from the client
-            </summary>
-            <returns></returns>
-        </member>
-    </members>
-</doc>
-ystem.String)">
             <summary>
             Sets an exisitng JWToken
             </summary>
