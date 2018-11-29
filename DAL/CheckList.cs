@@ -11,6 +11,7 @@ namespace DAL
         public DateTime Timing { get; set; }
         public VendorCategory VendorCategory { get; set; }
         public string Description { get; set; }
+        public Users User { get; set; }
 
     }
 }

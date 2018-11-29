@@ -8,7 +8,7 @@ namespace DAL
     {
         public int Id { get; set; }
         public Offers Offers { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
 
 
     }

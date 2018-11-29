@@ -14,7 +14,7 @@ namespace DAL
         public string Phone { get; set; }
         public string Address { get; set; }
         public GuestListTables GuestListTables { get; set; }
-
+        public Users User { get; set; }
 
     }
     public enum  GuestStatus

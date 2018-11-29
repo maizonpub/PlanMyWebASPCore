@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DAL
 {
-    public class DbWebContext : DbContext
+    public class DbWebContext : IdentityDbContext
     {
         public DbWebContext(DbContextOptions<DbWebContext> options)
             : base(options)
