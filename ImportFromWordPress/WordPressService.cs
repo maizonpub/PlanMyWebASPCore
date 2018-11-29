@@ -178,7 +178,7 @@ namespace ImportFromWordPress
                 PerPage = perPage,
                 Embed = true,
             });
-            return posts.Where(x=>x.Name.Contains(title)).FirstOrDefault();
+            return posts.Where(x=>WebUtility.HtmlDecode(x.Name).Contains(title)).FirstOrDefault();
         }
         public async Task<IEnumerable<ItemCategory>> GetItemTypesAsync(int page = 0, int perPage = 50)
         {

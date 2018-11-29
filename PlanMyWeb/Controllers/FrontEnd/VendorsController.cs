@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DAL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PlanMyWeb.Models;
 
 namespace PlanMyWeb.Controllers.FrontEnd
@@ -27,7 +28,21 @@ namespace PlanMyWeb.Controllers.FrontEnd
                 model.VendorTypes = new List<VendorType>();
             return View(model);
         }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var vendorItem = await _context.VendorItems.Include(x=>x.Gallery).FirstOrDefaultAsync(m => m.Id == id);
+            if (vendorItem == null)
+            {
+                return NotFound();
+            }
+
+            return View(vendorItem);
+        }
         private IEnumerable<VendorType> GetTypes(int categoryId)
         {
             return _context.VendorTypes.Where(x => x.CategoryId == categoryId);
