@@ -1,0 +1,183 @@
+﻿@model DAL.Users
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/PlannerDashboard.cshtml";
+}
+
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 dashboard-form">
+                <form id="couple-profile" class="ajax-auth form-horizontal" method="post">
+                    <div class="status"></div>
+                    <input type="hidden" id="security" name="security" value="5b9f32b758" /><input type="hidden" name="_wp_http_referer" value="/couple-profile/" />              <!-- Form Name -->
+                    <h2>Upload Profile Photo</h2>
+
+                    <!-- File Button -->
+                    <div class="form-group">
+                        <div class="profile_div" id="profile-div">
+                            <div class="col-md-4">
+                                <img id="profile-image" src="http://weddexonline.com/wp-content/uploads/2018/02/7a8df-11-2-290x290.png" alt="user image" data-profileurl="#" data-smallprofileurl="4603" class="img-circle">
+                            </div>
+                            <div class="col-md-8">
+                                <div id="upload-container">
+                                    <div id="aaiu-upload-container">
+                                        <button id="aaiu-uploader" class="btn tp-btn-primary">Upload Profile Image</button>
+                                        <div id="aaiu-upload-imagelist">
+                                            <ul id="aaiu-ul-list" class="aaiu-upload-list"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="upload_explain">*minimum 400px x 400px</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <h2>Couple Profile</h2>
+                    <div class="form-group">
+                        <label for="firstname" class="col-md-4 control-label">First Name<span class="required">*</span></label>
+                        <div class="col-md-8">
+                            <input id="firstname" name="firstname" type="text" value="aanthony" class="form-control input-md required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname" class="col-md-4 control-label">Last Name<span class="required">*</span></label>
+                        <div class="col-md-8">
+                            <input id="lastname" name="lastname" type="text" value="assaad" class="form-control input-md required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-md-4 control-label">Email<span class="required">*</span></label>
+                        <div class="col-md-8">
+                            <input id="email" name="email" type="text" value="anthony@aa-architects.co" disabled="disabled" class="form-control input-md required">
+                        </div>
+                    </div>
+                    <!-- Textarea -->
+                    <div class="form-group mb30">
+                        <label for="description" class="col-md-4 control-label">Description</label>
+                        <div class="col-md-8">
+                            <textarea id="about" name="about" class="form-control" rows="6"></textarea>
+                        </div>
+                    </div>
+                    <h2>Wedding Details</h2>
+                    <div class="form-group">
+                        <label for="weddingdate" class="col-md-4 control-label">Wedding Date<span class="required">*</span></label>
+                        <div class="col-md-8">
+                            <input id="wedding_date" name="wedding_date" type="text" class="form-control input-md book_date check_book_date" value="2018-07-08" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wedding_city" class="col-md-4 control-label">Wedding City</label>
+                        <div class="col-md-8">
+                            <input id="wedding_city" name="wedding_city" type="text" class="form-control input-md" value="beirut">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb30">
+                        <label for="wedding_state" class="col-md-4 control-label">Wedding State</label>
+                        <div class="col-md-8">
+                            <input id="wedding_state" name="wedding_state" type="text" class="form-control input-md" value="">
+                        </div>
+                    </div>
+
+                    <h2>Social Media Profile</h2>
+                    <div class="form-group">
+                        <label for="facebook" class="col-md-4 control-label">Facebook URL</label>
+                        <div class="col-md-8">
+                            <input id="facebook" name="facebook" type="url" class="form-control input-md" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="twitter" class="col-md-4 control-label">Twitter URL</label>
+                        <div class="col-md-8">
+                            <input id="twitter" name="twitter" type="url" class="form-control input-md" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="googleplus" class="col-md-4 control-label">Google Plus URL</label>
+                        <div class="col-md-8">
+                            <input id="googleplus" name="googleplus" type="url" class="form-control input-md" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="youtube" class="col-md-4 control-label">Youtube URL</label>
+                        <div class="col-md-8">
+                            <input id="youtube" name="youtube" type="url" class="form-control input-md" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="linkedin" class="col-md-4 control-label">Linkedin URL</label>
+                        <div class="col-md-8">
+                            <input id="linkedin" name="linkedin" type="url" class="form-control input-md" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pinterest" class="col-md-4 control-label">Pintrest URL</label>
+                        <div class="col-md-8">
+                            <input id="pinterest" name="pinterest" type="url" class="form-control input-md" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="instagram" class="col-md-4 control-label">Instagram URL</label>
+                        <div class="col-md-8">
+                            <input id="instagram" name="instagram" type="url" class="form-control input-md" value="">
+                        </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label for="submit" class="col-md-4 control-label"></label>
+                        <div class="col-md-4">
+                            <button id="couple-profile-on" class="btn tp-btn-primary btn-lg" name="button">Update Profile</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-5 dashboard-form">
+                <form id="change-password" class="ajax-auth form-horizontal" method="post">
+                    <div class="status"></div>
+                    <input type="hidden" id="security" name="security" value="f5b49f868a" /><input type="hidden" name="_wp_http_referer" value="/couple-profile/" />              <!-- Form Name -->
+                    <h2>Change Password</h2>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label for="old_pwd" class="col-md-4 control-label">Old Password</label>
+                        <div class="col-md-8">
+                            <input type="password" required="" class="form-control input-md" name="old_pwd" id="old_pwd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_pwd" class="col-md-4 control-label">New Password</label>
+                        <div class="col-md-8">
+                            <input type="password" required="" class="form-control input-md" name="new_pwd" id="new_pwd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_pwd" class="col-md-4 control-label">Confirm Password</label>
+                        <div class="col-md-8">
+                            <input type="password" required="" class="form-control input-md" name="confirm_pwd" id="confirm_pwd">
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label for="submit" class="col-md-4 control-label"></label>
+                        <div class="col-md-4">
+                            <button id="change-password-on" type="button" class="btn tp-btn-primary tp-btn-lg">Change Password</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

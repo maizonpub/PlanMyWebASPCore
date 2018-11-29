@@ -1,0 +1,184 @@
+﻿@model DAL.Users
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/PlannerDashboard.cshtml";
+}
+
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="dashboard-page-head page-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="page-title">
+                                <h1>My Budget&nbsp;&nbsp;&nbsp;<small>Create your wedding to do and start planning.</small></h1>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="action-block">
+                                <a href="#" class="btn tp-btn-default" id="show">Add Category</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="couple-board">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="bg-white pinside40 todo-form mb30">
+                                <h2 class="form-title">Create New Category</h2>
+                                <form id="form-budget" method="post">
+                                    <div class="status"></div>
+                                    <input type="hidden" id="security" name="security" value="3c2382f97d" /><input type="hidden" name="_wp_http_referer" value="/my-budget/" />                 <div class="close-sign"><a href="javascript:void(0);" id="hide"><i class="fa fa-close"></i></a></div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!-- Text input-->
+                                            <div class="form-group">
+                                                <label class="control-label" for="budget_category">Category Name</label>
+                                                <div class="">
+                                                    <input id="budget_category" name="budget_category" type="text" placeholder="Category Name" class="form-control input-md" required="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="text-right">
+                                                    <button id="btn-budget-list" name="btn-budget-list" class="btn tp-btn-primary"> Add Category </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="budget-board">
+                    <div class="list-group">
+                        <div href="#" class="list-group-item active">
+                            <div class="row">
+                                <div class="col-md-4">Budget Category</div>
+                                <div class="col-md-2">Estimated Cost</div>
+                                <div class="col-md-2">Actual Cost</div>
+                                <div class="col-md-1">Paid</div>
+                                <div class="col-md-1">Due</div>
+                                <div class="col-md-2">Edit / Delete</div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><a data-toggle="collapse" href="#" aria-expanded="false" aria-controls="40_collaspan">category</a> </div>
+                                <div class="col-md-2">$11000</div>
+                                <div class="col-md-2">$21500</div>
+                                <div class="col-md-1">$10501</div>
+                                <div class="col-md-1">$10999</div>
+                                <div class="col-md-2"><a href="#" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget(40)"><i class="fa fa-trash"></i></a></div>
+                                <div class="collapse col-md-12 item-title" id="40_collaspan">
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table class="table 40_collaspan">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-md-4">Ceremony Item</th>
+                                                        <th class="col-md-2">Estimated</th>
+                                                        <th class="col-md-2">Actual</th>
+                                                        <th class="col-md-1">Paid</th>
+                                                        <th class="col-md-1">Due</th>
+                                                        <th class="col-md-2">Edit / Delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="40_add_row">
+                                                    <tr id="53_sub_add_row">
+                                                        <th scope="row" class="budget_name">haha</th>
+                                                        <td class="budget_estimate">1000</td>
+                                                        <td class="budget_cost">1500</td>
+                                                        <td class="budget_paid">500</td>
+                                                        <td>1000</td>
+                                                        <td class="action_perform"><a href="#" onclick="sub_budget_edit(53)" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget_list(53)"><i class="fa fa-trash"></i></a></td>
+                                                    </tr>
+                                                    <tr id="52_sub_add_row">
+                                                        <th scope="row" class="budget_name">venueee</th>
+                                                        <td class="budget_estimate">10000</td>
+                                                        <td class="budget_cost">20000</td>
+                                                        <td class="budget_paid">10001</td>
+                                                        <td>9999</td>
+                                                        <td class="action_perform"><a href="#" onclick="sub_budget_edit(52)" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget_list(52)"><i class="fa fa-trash"></i></a></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                            <a href="#" title="Add New" class="btn tp-btn-primary add-item" onclick="add_budget_list_row(40)">+ Add New</a>
+                                            <input type="hidden" id="security" name="security" value="cbebc8856f" /><input type="hidden" name="_wp_http_referer" value="/my-budget/" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-4"><a data-toggle="collapse" href="#" aria-expanded="false" aria-controls="41_collaspan">new cat</a> </div>
+                                <div class="col-md-2">$120</div>
+                                <div class="col-md-2">$110</div>
+                                <div class="col-md-1">$140</div>
+                                <div class="col-md-1">$-30</div>
+                                <div class="col-md-2"><a href="?edit=NDE=" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget(41)"><i class="fa fa-trash"></i></a></div>
+                                <div class="collapse col-md-12 item-title" id="41_collaspan">
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table class="table 41_collaspan">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-md-4">Ceremony Item</th>
+                                                        <th class="col-md-2">Estimated</th>
+                                                        <th class="col-md-2">Actual</th>
+                                                        <th class="col-md-1">Paid</th>
+                                                        <th class="col-md-1">Due</th>
+                                                        <th class="col-md-2">Edit / Delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="41_add_row">
+                                                    <tr id="57_sub_add_row">
+                                                        <th scope="row" class="budget_name">fggg</th>
+                                                        <td class="budget_estimate">100</td>
+                                                        <td class="budget_cost">100</td>
+                                                        <td class="budget_paid">50</td>
+                                                        <td>50</td>
+                                                        <td class="action_perform"><a href="#" onclick="sub_budget_edit(57)" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget_list(57)"><i class="fa fa-trash"></i></a></td>
+                                                    </tr>
+                                                    <tr id="56_sub_add_row">
+                                                        <th scope="row" class="budget_name">hhahaha</th>
+                                                        <td class="budget_estimate">20</td>
+                                                        <td class="budget_cost">10</td>
+                                                        <td class="budget_paid">90</td>
+                                                        <td>-80</td>
+                                                        <td class="action_perform"><a href="#" onclick="sub_budget_edit(56)" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget_list(56)"><i class="fa fa-trash"></i></a></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                            <a href="#" title="Add New" class="btn tp-btn-primary add-item" onclick="add_budget_list_row(41)">+ Add New</a>
+                                            <input type="hidden" id="security" name="security" value="cbebc8856f" /><input type="hidden" name="_wp_http_referer" value="/my-budget/" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

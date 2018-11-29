@@ -1,0 +1,223 @@
+﻿@model DAL.Users
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/PlannerDashboard.cshtml";
+}
+
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="dashboard-page-head page-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="page-title">
+                                <h1>Guest List&nbsp;&nbsp;&nbsp;<small>Create your wedding guest list.</small></h1>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="action-block">
+                                <a href="#" class="btn tp-btn-default" id="guestlist_show">Add Guest</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="couple-board">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="bg-white pinside40 guestlist-form mb30">
+                                <h2 class="form-title">Create New Guest</h2>
+                                <form id="form-guestlist" method="post">
+                                    <div class="status"></div>
+                                    <input type="hidden" id="security" name="security" value="4959823996" /><input type="hidden" name="_wp_http_referer" value="/guest-list-manager/" />                	<div class="close-sign"><a href="javascript:void(0);" id="guestlist_hide"><i class="fa fa-close"></i></a></div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!-- Text input-->
+                                            <div class="form-group">
+                                                <label class="control-label" for="guest_name">Guest name</label>
+                                                <div class="">
+                                                    <input id="guest_name" name="guest_name" type="text" placeholder="Guest name" class="form-control input-md" required="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="Address">Address</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="Address" name="Address" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="Countrh">Country</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="Country" name="Country" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="Country">Email</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="Email" name="Email" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Text input-->
+                                        <div class="col-md-6">
+                                            <!-- Textarea -->
+                                            <div class="form-group">
+                                                <label class="control-label" for="side">Side</label>
+                                                <div class="">
+                                                    <select id="side" name="side" class="form-control">
+                                                        <option>Bridesmaids</option>
+                                                        <option>Brides Family</option>
+                                                        <option>Brides Friends</option>
+                                                        <option>Brides Family Friends</option>
+                                                        <option>Brides Coworkers</option>
+                                                        <option>Groomsmen</option>
+                                                        <option>Grooms Family</option>
+                                                        <option>Grooms Friends</option>
+                                                        <option>Grooms Family Friends</option>
+                                                        <option>Grooms Coworkers</option>
+                                                        <option>Bride and Groom Friends</option>
+                                                        <option>Partner 1</option>
+                                                        <option>Partner 2</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="City">City</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="City" name="City" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="Phone">Phone</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="Phone" name="Phone" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="RSVP">RSVP</label>
+                                                <div class="">
+                                                    <select id="RSVP" name="RSVP" class="form-control">
+                                                        <option>Not Invited</option>
+                                                        <option>No Response</option>
+                                                        <option>Accepted</option>
+                                                        <option>Declined</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="text-right">
+                                                    <button id="btn-guestlist" name="btn-guestlist" class="btn tp-btn-primary">Save Guest</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end of it-->
+
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="st-accordion">
+                                <!-- shortcode -->
+                                <div class="panel-group" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div id="" class="panel-collapse " role="tabpanel" aria-labelledby="headingOne">
+                                            <div class="todo-list-group">
+                                                <!-- List group -->
+                                                <ul class="listnone">
+                                                    <li class="todo-list-item">
+                                                        <div class="todo-list">
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <div class="todo-task">
+                                                                        <h3 class="todo-title"><a class="title" data-toggle="collapse" href="#mansour-dalla" aria-expanded="false" aria-controls="collapseExample">mansour dalla </a> </h3>
+                                                                        <span class="todo-date"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="todo-action">
+                                                                        <span id="guestlist_35">
+                                                                        </span>
+                                                                        <a href="?edit=MzU=" class="btn-circle" title="Edit"><i class="fa fa-edit"></i></a>
+                                                                        <a href="#" class="btn-circle" title="Delete" onclick="delete_guestlist(35)"><i class="fa fa-trash-o"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="collapse" id="mansour-dalla">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="todo-list-item">
+                                                        <div class="todo-list">
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <div class="todo-task">
+                                                                        <h3 class="todo-title"><a class="title" data-toggle="collapse" href="#sarah-fouad" aria-expanded="false" aria-controls="collapseExample">Sarah fouad </a> </h3>
+                                                                        <span class="todo-date"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="todo-action">
+                                                                        <span id="guestlist_39">
+                                                                        </span>
+                                                                        <a href="?edit=Mzk=" class="btn-circle" title="Edit"><i class="fa fa-edit"></i></a>
+                                                                        <a href="#" class="btn-circle" title="Delete" onclick="delete_guestlist(39)"><i class="fa fa-trash-o"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="collapse" id="sarah-fouad">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="bg-white pinside30 widget-todo">
+                                        <h3>Summary of Guests</h3>
+                                        <div id="todo-percentage" class="todo-percentage" data-percent="50"> </div>
+                                        <div class="todo-value"> <span class="todo-done">1 Accepted </span> <span class="todo-pending">1 Uninvited or Pending</span> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
