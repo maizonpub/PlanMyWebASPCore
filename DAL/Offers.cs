@@ -10,7 +10,6 @@ namespace DAL
         public OffersType OffersType { get;set; }
         public string Image { get; set; }
         public string Title { get; set; }
-        public int UserId { get; set; }
         public Users User { get; set; }
         public string Description { get; set; }
         public Validity Validity { get; set; }

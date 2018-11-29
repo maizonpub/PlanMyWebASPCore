@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using DAL;
 using PlanMyWeb.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace PlanMyWeb
 {
@@ -47,6 +48,7 @@ namespace PlanMyWeb
             services.AddScoped<Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<Users>, AppClaimsPrincipalFactory>();
             services.AddScoped<SignInManager<Users>, SignInManager<Users>>();
             services.AddScoped<UserManager<Users>, UserManager<Users>>();
+            services.AddTransient<IEmailSender, PlanMyEmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +57,7 @@ namespace PlanMyWeb
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {

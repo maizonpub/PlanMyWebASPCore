@@ -13,5 +13,6 @@ namespace DAL
         public string ActualCost { get; set; }
         public string PaidCost { get; set; }
         public string Notes { get; set; }
+        public Users User { get; set; }
     }
 }
