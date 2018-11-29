@@ -451,9 +451,11 @@ namespace DAL.Migrations
 
                     b.Property<bool>("IsFeatured");
 
-                    b.Property<double>("Latitude");
+                    b.Property<double?>("Latitude");
 
-                    b.Property<double>("Longitude");
+                    b.Property<string>("Location");
+
+                    b.Property<double?>("Longitude");
 
                     b.Property<string>("PhoneNumber");
 
@@ -495,7 +497,7 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<byte[]>("Image");
+                    b.Property<string>("Image");
 
                     b.Property<int?>("ItemId");
 
