@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.Cart>
+﻿@model IEnumerable<DAL.BasketItems>
 @{
     ViewData["Title"] = "Index";
 }
@@ -18,7 +18,7 @@
                 <ol class="breadcrumb listnone">
                     <li>
                         <!-- Breadcrumb NavXT 6.2.1 -->
-                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="~/" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Cart</span>
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="https://planmy.me" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Cart</span>
                     </li>
                 </ol>
             </div>
@@ -47,10 +47,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     @foreach (var row in Model)
                                     {
-
                                     <tr class="woocommerce-cart-form__cart-item cart_item">
 
                                         <td class="product-remove">
@@ -58,11 +56,11 @@
                                         </td>
 
                                         <td class="product-thumbnail">
-                                            <a href="#"><img width="320" height="260" src="~/Media/@row.Image" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" srcset="@row.Image 320w, @row.Image 300w" sizes="(max-width: 320px) 100vw, 320px" /></a>
+                                            <a href="#"><img width="320" height="260" src="#" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" srcset="# 320w, # 300w" sizes="(max-width: 320px) 100vw, 320px" /></a>
                                         </td>
 
                                         <td class="product-name" data-title="Product">
-                                            <a href="#">@row.Description</a><dl class="variation">
+                                            <a href="#">Your Dream Car for Less from Elma Wedding Cars</a><dl class="variation">
                                                 <dt class="variation-SoldBy">Sold By:</dt>
                                                 <dd class="variation-SoldBy">
                                                     <p>Plan My</p>
@@ -71,14 +69,14 @@
                                         </td>
 
                                         <td class="product-price" data-title="Price">
-                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.Price</span>
+                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.Offers.Price</span>
                                         </td>
 
                                         <td class="product-quantity" data-title="Quantity">
                                             <div class="quantity">
-                                                <label class="screen-reader-text" for="quantity_5bfe64c79fb10">@row.Quantity</label>
+                                                <label class="screen-reader-text" for="quantity_5bffb4353528a">@row.Quantity</label>
                                                 <input type="number"
-                                                       id="quantity_5bfe64c79fb10"
+                                                       id="quantity_5bffb4353528a"
                                                        class="input-text qty text"
                                                        step="1"
                                                        min="0"
@@ -94,13 +92,11 @@
                                         </td>
 
                                         <td class="product-subtotal" data-title="Total">
-                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.Total</span>
+                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.TotalPrice</span>
                                         </td>
                                     </tr>
                                     }
                                     
-                                    
-
 
                                     <tr>
                                         <td colspan="6" class="actions">
@@ -112,7 +108,7 @@
                                             <button type="submit" class="button" name="update_cart" value="Update cart">Update cart</button>
 
 
-                                            <input type="hidden" id="woocommerce-cart-nonce" name="woocommerce-cart-nonce" value="2e3d91e101" /><input type="hidden" name="_wp_http_referer" value="/cart/" />
+                                            <input type="hidden" id="woocommerce-cart-nonce" name="woocommerce-cart-nonce" value="917fd36b7e" /><input type="hidden" name="_wp_http_referer" value="/cart/" />
                                         </td>
                                     </tr>
 
@@ -124,7 +120,7 @@
                             <div class="cart_totals ">
 
 
-                                <h2></h2>
+                                <h2>Cart totals</h2>
 
                                 <table cellspacing="0" class="shop_table shop_table_responsive">
 
@@ -160,7 +156,8 @@
                     </div>
                     </div>
                 </div>
-            </div>
+</div>
         </div>
     </div>
+
 

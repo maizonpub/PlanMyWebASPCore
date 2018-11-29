@@ -506,7 +506,14 @@
             <param name="HttpHelper">reference to HttpHelper class for interaction with HTTP</param>
             <param name="defaultPath">path to site, EX. http://demo.com/wp-json/ </param>
         </member>
-        <returns>List of pages</returns>
+        <member name="M:WordPressPCL.Client.Pages.GetPagesByAuthor(System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Get pages by its author
+            </summary>
+            <param name="authorId">Author id</param>
+            <param name="embed">includ embed info</param>
+            <param name="useAuth">Send request with authenication header</param>
+            <returns>List of pages</returns>
         </member>
         <member name="M:WordPressPCL.Client.Pages.GetPagesBySearch(System.String,System.Boolean,System.Boolean)">
             <summary>
@@ -2333,14 +2340,6 @@
         <member name="P:WordPressPCL.Models.MediaItem.MediaDetails">
             <summary>
             Details about the resource file, specific to its type.
-            <see cref="T:WordPressPCL.Models.MediaDetails"/>
-            </summary>
-            <remarks>Context: view, edit, embed</remarks>
-        </member>
-        <member name="P:WordPressPCL.Models.MediaItem.Post">
-            <summary>
-            The id for the associated post of the resource.
-            </summary          Details about the resource file, specific to its type.
             <see cref="T:WordPressPCL.Models.MediaDetails"/>
             </summary>
             <remarks>Context: view, edit, embed</remarks>
