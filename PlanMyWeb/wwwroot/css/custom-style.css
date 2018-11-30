@@ -861,7 +861,19 @@ position: relative; float: left; padding: 6px 12px; margin-left: -1px; line-heig
 .filter-box{z-index: 99;}
 .filter-form{background: #fff; border: 1px solid #e9e6e0; padding: 30px 20px; margin-top: 70px; margin-right: 0px; margin-left: 0px;}
 .filter-form .control-label{ display: none;}
-form .btn-default{ height: 48px;background-color: #faf9f5; margin-bottom: 0px; border: 1px solid #e9e6e0; color: #2b212f; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px; color: #55575a; -webkit-appearance: none; -moz-appearance: none;}
+form .btn-default {
+    height: 48px;
+    background-color: #00aeaf;
+    margin-bottom: 0px;
+    border: 1px solid #00aeaf;
+    color: #ffffff;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px !important;
+    /* color: #55575a; */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
 form.btn-default.active.focus,
 .btn-default.active:focus, .btn-default.active:hover,
 .btn-default:active.focus, .btn-default:active:focus,

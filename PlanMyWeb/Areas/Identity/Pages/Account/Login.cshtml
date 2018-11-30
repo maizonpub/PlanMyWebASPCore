@@ -10,11 +10,82 @@
         font-family: Istok Web !important;
         font-weight: 400,400italic,700,700italic;
     }
+    h1 {
+        color: #333 !important;
+    }
 </style>
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="~/" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Login</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="main-container">
     <div class="container">
-        <h2>@ViewData["Title"]</h2>
         <div class="row">
+            <div class="col-md-12">
+
+                <div id="post-864" class="post-864 page type-page status-publish hentry">
+                    <input type="hidden" id="security" name="security" value="ad08bed105"><input type="hidden" name="_wp_http_referer" value="/login/"><input type="hidden" id="security-forgot" name="security-forgot" value="f6d0efe0f2"><input type="hidden" name="_wp_http_referer" value="/login/"><h1 style="text-align: center;">Welcome</h1>
+                    <p style="text-align: center;">We’re happy to have you back. </p><div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="login-boxes">
+                                <div class="well-box">
+                                    <div class="vendor-login" id="home">
+                                        <h2>Weddex</h2>
+                                        <form id="login" class="ajax-auth" action="login" method="post" novalidate="novalidate">
+                                            <p class="status"></p>
+                                            <input type="hidden" id="security" name="security" value="ad08bed105"><input type="hidden" name="_wp_http_referer" value="/login/">
+                                            <!-- Text input-->
+                                            <div class="form-group">
+                                                <label class="control-label" for="email">Username<span class="required" aria-required="true">*</span></label>
+                                                <input asp-for="Input.Email" class="form-control" />
+                                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                                @*<input id="username" name="username" type="text" placeholder="Username" class="form-control input-md valid" required="" aria-required="true" aria-invalid="false">*@
+                                            </div>
+
+                                            <!-- Text input-->
+                                            <div class="form-group">
+                                                <label class="control-label" for="password">Password<span class="required" aria-required="true">*</span></label>
+                                                <input asp-for="Input.Password" class="form-control" />
+                                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="checkbox">
+                                                    <label asp-for="Input.RememberMe">
+                                                        <input asp-for="Input.RememberMe" />
+                                                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <!-- Button -->
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-default">Log in</button>
+                                                <a asp-page="./ForgotPassword">Forgot your password?</a><br/><br/>
+                                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="entry-footer"></footer><!-- .entry-footer -->
+                </div><!-- #post-## -->
+            </div>
+        </div>
+        @*<div class="row">
             <div class="col-md-4">
                 <section>
                     <form method="post">
@@ -83,8 +154,8 @@
                     }
                 </section>
             </div>
-        </div>
-</div></div>
+        </div>*@
+    </div></div>
         @section Scripts {
             <partial name="_ValidationScriptsPartial" />
         }
