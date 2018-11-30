@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ImportFromWordPress
 {
-    public class consoleDbContext : DbContext
+    public class consoleDbContext : IdentityDbContext
     {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
