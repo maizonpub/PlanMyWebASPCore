@@ -4,34 +4,132 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"]</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+
+    h1 {
+        color: #333 !important;
+    }
+</style>
+
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="https://planmy.me" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Couple Register</span>
+                    </li>
+                </ol>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div id="post-816" class="post-816 page type-page status-publish hentry">
+                    <input type="hidden" id="signonsecurity" name="signonsecurity" value="42f9cd4214" /><input type="hidden" name="_wp_http_referer" value="/couple-register/" /><h1 style="text-align: center;">Create an account, save your date and start your Weddex experience</h1>
+                    <p style="text-align: center;">Choose your pick from thousands of vendors that fit all budgets, sizes and themes.</p>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="register-boxes">
+                                <div class="well-box">
+                                    <div class="register-form">
+                                        <h2 style="color:black">Couple Registration</h2>
+                                        <form id="coupleregister" class="ajax-auth" action="coupleregister" method="post">
+                                            <input type="hidden" id="signonsecurity" name="signonsecurity" value="42f9cd4214" /><input type="hidden" name="_wp_http_referer" value="/couple-register/" />
+                                            <p class="status"></p>
+                                            <!-- Text input-->
+                                            <div class="form-group">
+                                                <label class="control-label" for="signonname">Username<span class="required">*</span></label>
+                                                <input asp-for="Input.Username" class="form-control" />
+                                                <span asp-validation-for="Input.Username" class="text-danger"></span>
+                                                @*<input id="signonname" name="signonname" type="text" maxlength="15" minlength="4" placeholder="Username" class="form-control input-md required">*@
+                                            </div>
+
+                                            <!-- Text input-->
+                                            <div class="form-group mb30">
+                                                <label class="control-label" for="email">Email<span class="required">*</span></label>
+                                                <input asp-for="Input.Email" class="form-control" />
+                                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                                @*<input id="email" name="email" type="text" placeholder="Email" class="form-control input-md required email">*@
+                                            </div>
+                                            <!-- Text input-->
+                                            <div class="form-group mb30">
+                                                <label class="control-label" for="password">Password<span class="required">*</span></label>
+                                                <input asp-for="Input.Password" class="form-control" />
+                                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                                @*<input id="password" name="password" type="password" placeholder="Password" class="form-control input-md required password">*@
+                                            </div>
+                                            <!-- Text input-->
+                                            @*<div class="form-group mb30">
+                                                <label class="control-label" for="weddingdate">Wedding Date<span class="required">*</span></label>
+                                                <input asp-for="Input.Calendar" class="form-control" />
+                                                <span asp-validation-for="Input.Calendar" class="text-danger"></span>
+                                                <input id="weddingdate" name="weddingdate" type="text" placeholder="Wedding Date" class="form-control input-md book_date check_book_date required" readonly="readonly">
+                                            </div>*@
+
+                                            <!-- Button -->
+                                            <div class="form-group">
+                                                <button type="submit" style="border-radius:6px !important;" class="btn btn-default">Register</button>
+                                                @*<input id="submit" name="submit" type="submit" class="submit_button btn tp-btn-primary tp-btn-lg" value="Create Account">*@
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="well-box"><div class="row"><div class="feature-icon col-md-2"><img src="http://thegenius.co/wedding/demo/wp-content/uploads/2016/06/envelop.png" class="img-responsive" alt="" /></div><div class="feature-info col-md-10"><h3>Wedding Checklist</h3><p>Check things off your personalized to-do list all the way to your big day! .</p><a href="http://weddextest.maizonpub.com/contact-us/" class="btn tp-btn-default">Checklist Tool </a></div></div></div>
+                            <div class="well-box"><div class="row"><div class="feature-icon col-md-2"><img src="http://thegenius.co/wedding/demo/wp-content/uploads/2016/06/pricing.png" class="img-responsive" alt="" /></div><div class="feature-info col-md-10"><h3>Stay on Budget </h3><p>Track your spending, saving and splurging with our Budget Tool. </p><a href="#" class="btn tp-btn-default">Budget Tool</a></div></div></div>
+                        </div>
+                    </div>
+
+                    <footer class="entry-footer"></footer><!-- .entry-footer -->
+                </div><!-- #post-## -->
             </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-default">Register</button>
-        </form>
+        </div>
     </div>
 </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+
+
+@*<div class="row">
+        <div class="col-md-4">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <h4>Create a new account.</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-default">Register</button>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }*@
