@@ -48,8 +48,8 @@ namespace ImportFromWordPress
                             {
                                 filename = Guid.NewGuid() + ".jpg";
                                 galleryfile = Guid.NewGuid() + ".jpg";
-                                wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].MediaDetails.Sizes.FirstOrDefault().Value.SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + filename);
-                                wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + galleryfile);
+                                wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].MediaDetails.Sizes.FirstOrDefault().Value.SourceUrl, @"D:\MaizonPub\PlanMyWebASPCore\PlanMyWeb\wwwroot\Media\" + filename);
+                                wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl, @"D:\MaizonPub\PlanMyWebASPCore\PlanMyWeb\wwwroot\Media\" + galleryfile);
                             }
                             string locator = item.ItemMeta.locators[0];
                             var gallery = await service.GetItemMedia(item.Id);
@@ -63,7 +63,7 @@ namespace ImportFromWordPress
                             foreach (var img in gallery)
                             {
                                 string file = Guid.NewGuid() + ".jpg";
-                                wc.DownloadFile(img.SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + file);
+                                wc.DownloadFile(img.SourceUrl, @"D:\MaizonPub\PlanMyWebASPCore\PlanMyWeb\wwwroot\Media\" + file);
                                 context.VendorItemGalleries.Add(new VendorItemGallery { Image = file, Item = di });
                             }
                             passwordhasher.HashPassword(user, !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456");

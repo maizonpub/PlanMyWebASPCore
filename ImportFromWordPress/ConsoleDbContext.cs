@@ -12,7 +12,7 @@ namespace ImportFromWordPress
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=LAPTOP-VSL8JBEN;Database=PlanMy;Trusted_Connection=True;MultipleActiveResultSets=true;user id=sa;password=password2005;");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-BGV6L8N;Database=PlanMy;Trusted_Connection=True;MultipleActiveResultSets=true;user id=sa;password=password;");
         }
         public DbSet<DAL.HomeSlider> HomeSlider { get; set; }
 
