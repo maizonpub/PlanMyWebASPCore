@@ -14,6 +14,7 @@ using DAL;
 using PlanMyWeb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Net;
 
 namespace PlanMyWeb
 {
@@ -44,11 +45,15 @@ namespace PlanMyWeb
             services.AddIdentity<Users, IdentityRole>()
         .AddEntityFrameworkStores<DbWebContext>()
         .AddDefaultTokenProviders();
-
+            
             services.AddScoped<Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<Users>, AppClaimsPrincipalFactory>();
             services.AddScoped<SignInManager<Users>, SignInManager<Users>>();
             services.AddScoped<UserManager<Users>, UserManager<Users>>();
             services.AddTransient<IEmailSender, PlanMyEmailSender>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +69,6 @@ namespace PlanMyWeb
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

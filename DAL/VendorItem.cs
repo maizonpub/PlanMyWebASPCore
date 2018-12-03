@@ -19,6 +19,7 @@ namespace DAL
         public string Email { get; set; }
         public bool IsFeatured { get; set; }
         public string Thumb { get; set; }
+        public Country Country { get; set; }
         public List<VendorItemGallery> Gallery { get; set; }
         public List<VendorItemCategory> Categories { get; set; }
     }

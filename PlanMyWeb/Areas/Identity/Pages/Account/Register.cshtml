@@ -45,7 +45,8 @@
                                 <div class="well-box">
                                     <div class="register-form">
                                         <h2 style="color:black">Couple Registration</h2>
-                                        <form id="coupleregister" class="ajax-auth" action="coupleregister" method="post">
+                                        <div asp-validation-summary="All" class="text-danger"></div>
+                                        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="coupleregister" class="ajax-auth">
                                             <input type="hidden" id="signonsecurity" name="signonsecurity" value="42f9cd4214" /><input type="hidden" name="_wp_http_referer" value="/couple-register/" />
                                             <p class="status"></p>
                                             <!-- Text input-->
@@ -72,11 +73,11 @@
                                             </div>
                                             <!-- Text input-->
                                             @*<div class="form-group mb30">
-                                                <label class="control-label" for="weddingdate">Wedding Date<span class="required">*</span></label>
-                                                <input asp-for="Input.Calendar" class="form-control" />
-                                                <span asp-validation-for="Input.Calendar" class="text-danger"></span>
-                                                <input id="weddingdate" name="weddingdate" type="text" placeholder="Wedding Date" class="form-control input-md book_date check_book_date required" readonly="readonly">
-                                            </div>*@
+                <label class="control-label" for="weddingdate">Wedding Date<span class="required">*</span></label>
+                <input asp-for="Input.Calendar" class="form-control" />
+                <span asp-validation-for="Input.Calendar" class="text-danger"></span>
+                <input id="weddingdate" name="weddingdate" type="text" placeholder="Wedding Date" class="form-control input-md book_date check_book_date required" readonly="readonly">
+            </div>*@
 
                                             <!-- Button -->
                                             <div class="form-group">

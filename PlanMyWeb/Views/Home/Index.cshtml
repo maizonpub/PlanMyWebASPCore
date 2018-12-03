@@ -52,10 +52,12 @@
                     <form method="get" action="/vendors">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <select name="category_type" id="category_type" class="form-control selectpicker"><option value="">Select Category</option><option value="245">3D Mapping</option><option value="238">Banks</option><option value="247">Beauty Centers</option><option value="248">Cars &amp; Transportation</option><option value="44">Catering &amp; Bars</option><option value="46">Clothing &amp; Accessories</option><option value="59">Entertainment</option><option value="9">Florists</option><option value="60">Furniture</option><option value="43">Hair &amp; Beauty</option><option value="54">Honeymoon Experience</option><option value="156">Hostessing</option><option value="49">Invitations</option><option value="246">Jewelry</option><option value="51">Lighting &amp; Sound</option><option value="241">Miscellaneous</option><option value="4">Photography &amp; Videography</option><option value="52">Planners &amp; coordinators</option><option value="3">Venues</option></select>
+                                <select id="CategoryId" name="CategoryId" asp-items="@(new SelectList(Model.VendorCategories,"Id","Title"))" class="form-control selectpicker">
+                                    <option value="">Please select</option>
+</select>
                             </div>
                             <div class="form-group col-md-4">
-                                <select name="city" id="city" class="form-control selectpicker"><option value="">Select City</option><option value="185">Lebanon</option></select>
+                                <select name="CountryId" id="CountryId" asp-items="@(new SelectList(Model.Countries,"Id","Name"))" class="form-control selectpicker"><option value="">Select Country</option></select>
                             </div>
                             <div class="form-group col-md-4">
                                 <button class="btn tp-btn-primary btn-lg btn-block" type="submit">Find Vendors</button>

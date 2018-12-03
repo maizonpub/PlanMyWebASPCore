@@ -17,15 +17,18 @@ namespace PlanMyWeb.Controllers.FrontEnd
         {
             _context = context;
         }
-        public IActionResult Index([FromQuery(Name = "CategoryId")] int? CategoryId)
+        public IActionResult Index([FromQuery(Name = "CategoryId")] int? CategoryId, int? CountryId)
         {
             VendorsViewModel model = new VendorsViewModel();
-            model.VendorItems = GetVendorItems(CategoryId);
+            var items = GetVendorItems(CategoryId, CountryId);
             model.VendorCategories = GetCategories();
             if (CategoryId != null)
+            {
                 model.VendorTypes = GetTypes((int)CategoryId);
+            }
             else
                 model.VendorTypes = new List<VendorType>();
+            model.VendorItems = items;
             return View(model);
         }
         public async Task<IActionResult> Details(int? id)
@@ -53,12 +56,18 @@ namespace PlanMyWeb.Controllers.FrontEnd
             return _context.VendorCategories;
         }
 
-        public IEnumerable<VendorItem> GetVendorItems(int? CategoryId)
+        public IEnumerable<VendorItem> GetVendorItems(int? CategoryId, int? CountryId)
         {
+            var items = new List<VendorItem>().AsEnumerable();
             if (CategoryId != null)
-                return _context.VendorItems.Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0);
+                items =  _context.VendorItems.Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0);
             else
-                return _context.VendorItems;
+                items = _context.VendorItems;
+            if(CountryId!=null)
+            {
+                items = items.Where(x => x.Country.Id == CountryId);
+            }
+            return items;
         }
 
     }

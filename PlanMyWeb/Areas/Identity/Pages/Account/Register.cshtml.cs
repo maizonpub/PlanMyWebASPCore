@@ -18,19 +18,23 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<Users> _signInManager;
         private readonly UserManager<Users> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<Users> userManager,
+            RoleManager<IdentityRole> roleManager,
             SignInManager<Users> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            createRolesandUsers();
         }
 
         [BindProperty]
@@ -56,16 +60,12 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            [Required]
-            [Calendar]
-            [Display (Name ="Calendar")]
-            [DataType(DataType.DateTime)]
-            public string Calendar { get; set; }
+            
 
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
+            //[DataType(DataType.Password)]
+            //[Display(Name = "Confirm password")]
+            //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            //public string ConfirmPassword { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -80,10 +80,12 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
             {
                 var user = new Users { UserName = Input.Username, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    await _userManager.AddToRoleAsync(user, "Planner");
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
@@ -105,6 +107,39 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+        private async Task createRolesandUsers()
+        {
+            bool x = await _roleManager.RoleExistsAsync("Admin");
+            if (!x)
+            {
+                // first we create Admin rool    
+                var role = new IdentityRole();
+                role.Name = "Admin";
+                await _roleManager.CreateAsync(role);
+
+                //Here we create a Admin super user who will maintain the website                   
+
+               
+            }
+
+            // creating Creating Manager role     
+            x = await _roleManager.RoleExistsAsync("Planner");
+            if (!x)
+            {
+                var role = new IdentityRole();
+                role.Name = "Planner";
+                await _roleManager.CreateAsync(role);
+            }
+
+            // creating Creating Employee role     
+            x = await _roleManager.RoleExistsAsync("Vendor");
+            if (!x)
+            {
+                var role = new IdentityRole();
+                role.Name = "Vendor";
+                await _roleManager.CreateAsync(role);
+            }
         }
     }
 

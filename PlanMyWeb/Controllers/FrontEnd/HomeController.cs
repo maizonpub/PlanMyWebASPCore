@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DAL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PlanMyWeb.Models;
 
 namespace PlanMyWeb.Controllers
@@ -24,12 +25,22 @@ namespace PlanMyWeb.Controllers
             homemodel.FeaturedItems = GetFeaturedItems();
             homemodel.Webcontent = GetWebContent();
             homemodel.LatestInspirations = GetLatestInspirations();
+            homemodel.VendorCategories = GetVendorCategories().ToList();
+            homemodel.Countries = GetCountries().ToList();
             return View(homemodel);
         }
         
         public IEnumerable<HomeSlider> GetHomeSlider()
         {
             return _context.HomeSlider;
+        }
+        public IEnumerable<VendorCategory> GetVendorCategories()
+        {
+            return _context.VendorCategories;
+        }
+        public IEnumerable<Country> GetCountries()
+        {
+            return _context.Country;
         }
         public IEnumerable<HomeTips> GetHomeTips()
         {

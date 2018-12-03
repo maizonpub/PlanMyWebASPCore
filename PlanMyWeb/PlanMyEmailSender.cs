@@ -6,7 +6,7 @@ namespace PlanMyWeb
     {
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            return null;
+            return Task.FromResult(0);
             //throw new System.NotImplementedException();
         }
     }

@@ -60,7 +60,7 @@ namespace DAL
         public DbSet<DAL.WishList> WishLists { get; set; }
 
         public DbSet<DAL.BasketItems> BasketItems { get; set; }
-
+        public DbSet<DAL.Country> Country { get; set; }
         public DbSet<DAL.Order> Orders { get; set; }
         public DbSet<DAL.VendorType> VendorTypes { get; set; }
         public DbSet<DAL.VendorTypeValue> VendorTypeValues { get; set; }
