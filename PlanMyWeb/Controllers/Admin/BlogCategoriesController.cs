@@ -11,22 +11,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace PlanMyWeb.Controllers.Admin
 {
     
-    public class HomeSlidersController : Controller
+    public class BlogCategoriesController : Controller
     {
         private readonly DbWebContext _context;
 
-        public HomeSlidersController(DbWebContext context)
+        public BlogCategoriesController(DbWebContext context)
         {
             _context = context;
         }
 
-        // GET: HomeSliders
+        // GET: BlogCategories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.HomeSlider.ToListAsync());
+            return View(await _context.BlogCategories.ToListAsync());
         }
 
-        // GET: HomeSliders/Details/5
+        // GET: BlogCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +34,39 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var blogCategory = await _context.BlogCategories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (blogCategory == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(blogCategory);
         }
 
-        // GET: HomeSliders/Create
+        // GET: BlogCategories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: HomeSliders/Create
+        // POST: BlogCategories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Create([Bind("Id,Image,Title")] BlogCategory blogCategory)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(homeSlider);
+                _context.Add(blogCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            return View(blogCategory);
         }
 
-        // GET: HomeSliders/Edit/5
+        // GET: BlogCategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +74,22 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            if (homeSlider == null)
+            var blogCategory = await _context.BlogCategories.FindAsync(id);
+            if (blogCategory == null)
             {
                 return NotFound();
             }
-            return View(homeSlider);
+            return View(blogCategory);
         }
 
-        // POST: HomeSliders/Edit/5
+        // POST: BlogCategories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Image,Title")] BlogCategory blogCategory)
         {
-            if (id != homeSlider.Id)
+            if (id != blogCategory.Id)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 try
                 {
-                    _context.Update(homeSlider);
+                    _context.Update(blogCategory);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HomeSliderExists(homeSlider.Id))
+                    if (!BlogCategoryExists(blogCategory.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            return View(blogCategory);
         }
 
-        // GET: HomeSliders/Delete/5
+        // GET: BlogCategories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +125,30 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var blogCategory = await _context.BlogCategories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (blogCategory == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(blogCategory);
         }
 
-        // POST: HomeSliders/Delete/5
+        // POST: BlogCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            _context.HomeSlider.Remove(homeSlider);
+            var blogCategory = await _context.BlogCategories.FindAsync(id);
+            _context.BlogCategories.Remove(blogCategory);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool HomeSliderExists(int id)
+        private bool BlogCategoryExists(int id)
         {
-            return _context.HomeSlider.Any(e => e.Id == id);
+            return _context.BlogCategories.Any(e => e.Id == id);
         }
     }
 }

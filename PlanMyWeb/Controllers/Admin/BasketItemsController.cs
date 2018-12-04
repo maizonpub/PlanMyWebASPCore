@@ -10,23 +10,23 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-    
-    public class HomeSlidersController : Controller
+   
+    public class BasketItemsController : Controller
     {
         private readonly DbWebContext _context;
 
-        public HomeSlidersController(DbWebContext context)
+        public BasketItemsController(DbWebContext context)
         {
             _context = context;
         }
 
-        // GET: HomeSliders
+        // GET: BasketItems
         public async Task<IActionResult> Index()
         {
-            return View(await _context.HomeSlider.ToListAsync());
+            return View(await _context.BasketItems.ToListAsync());
         }
 
-        // GET: HomeSliders/Details/5
+        // GET: BasketItems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +34,39 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var basketItems = await _context.BasketItems
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (basketItems == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(basketItems);
         }
 
-        // GET: HomeSliders/Create
+        // GET: BasketItems/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: HomeSliders/Create
+        // POST: BasketItems/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Create([Bind("Id,Quantity,TotalPrice")] BasketItems basketItems)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(homeSlider);
+                _context.Add(basketItems);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            return View(basketItems);
         }
 
-        // GET: HomeSliders/Edit/5
+        // GET: BasketItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +74,22 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            if (homeSlider == null)
+            var basketItems = await _context.BasketItems.FindAsync(id);
+            if (basketItems == null)
             {
                 return NotFound();
             }
-            return View(homeSlider);
+            return View(basketItems);
         }
 
-        // POST: HomeSliders/Edit/5
+        // POST: BasketItems/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Quantity,TotalPrice")] BasketItems basketItems)
         {
-            if (id != homeSlider.Id)
+            if (id != basketItems.Id)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 try
                 {
-                    _context.Update(homeSlider);
+                    _context.Update(basketItems);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HomeSliderExists(homeSlider.Id))
+                    if (!BasketItemsExists(basketItems.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            return View(basketItems);
         }
 
-        // GET: HomeSliders/Delete/5
+        // GET: BasketItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +125,30 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var basketItems = await _context.BasketItems
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (basketItems == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(basketItems);
         }
 
-        // POST: HomeSliders/Delete/5
+        // POST: BasketItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            _context.HomeSlider.Remove(homeSlider);
+            var basketItems = await _context.BasketItems.FindAsync(id);
+            _context.BasketItems.Remove(basketItems);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool HomeSliderExists(int id)
+        private bool BasketItemsExists(int id)
         {
-            return _context.HomeSlider.Any(e => e.Id == id);
+            return _context.BasketItems.Any(e => e.Id == id);
         }
     }
 }

@@ -11,22 +11,23 @@ using Microsoft.AspNetCore.Authorization;
 namespace PlanMyWeb.Controllers.Admin
 {
     
-    public class HomeSlidersController : Controller
+    public class VendorItemTypeValuesController : Controller
     {
         private readonly DbWebContext _context;
 
-        public HomeSlidersController(DbWebContext context)
+        public VendorItemTypeValuesController(DbWebContext context)
         {
             _context = context;
         }
 
-        // GET: HomeSliders
+        // GET: VendorItemTypeValues
         public async Task<IActionResult> Index()
         {
-            return View(await _context.HomeSlider.ToListAsync());
+            var dbWebContext = _context.VendorItemTypeValues.Include(v => v.VendorItem);
+            return View(await dbWebContext.ToListAsync());
         }
 
-        // GET: HomeSliders/Details/5
+        // GET: VendorItemTypeValues/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +35,42 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var vendorItemTypeValue = await _context.VendorItemTypeValues
+                .Include(v => v.VendorItem)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (vendorItemTypeValue == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(vendorItemTypeValue);
         }
 
-        // GET: HomeSliders/Create
+        // GET: VendorItemTypeValues/Create
         public IActionResult Create()
         {
+            ViewData["VendorItemId"] = new SelectList(_context.VendorItems, "Id", "Id");
             return View();
         }
 
-        // POST: HomeSliders/Create
+        // POST: VendorItemTypeValues/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Create([Bind("Id,VendorItemId")] VendorItemTypeValue vendorItemTypeValue)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(homeSlider);
+                _context.Add(vendorItemTypeValue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            ViewData["VendorItemId"] = new SelectList(_context.VendorItems, "Id", "Id", vendorItemTypeValue.VendorItemId);
+            return View(vendorItemTypeValue);
         }
 
-        // GET: HomeSliders/Edit/5
+        // GET: VendorItemTypeValues/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +78,23 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            if (homeSlider == null)
+            var vendorItemTypeValue = await _context.VendorItemTypeValues.FindAsync(id);
+            if (vendorItemTypeValue == null)
             {
                 return NotFound();
             }
-            return View(homeSlider);
+            ViewData["VendorItemId"] = new SelectList(_context.VendorItems, "Id", "Id", vendorItemTypeValue.VendorItemId);
+            return View(vendorItemTypeValue);
         }
 
-        // POST: HomeSliders/Edit/5
+        // POST: VendorItemTypeValues/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,VendorItemId")] VendorItemTypeValue vendorItemTypeValue)
         {
-            if (id != homeSlider.Id)
+            if (id != vendorItemTypeValue.Id)
             {
                 return NotFound();
             }
@@ -98,12 +103,12 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 try
                 {
-                    _context.Update(homeSlider);
+                    _context.Update(vendorItemTypeValue);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HomeSliderExists(homeSlider.Id))
+                    if (!VendorItemTypeValueExists(vendorItemTypeValue.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +119,11 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            ViewData["VendorItemId"] = new SelectList(_context.VendorItems, "Id", "Id", vendorItemTypeValue.VendorItemId);
+            return View(vendorItemTypeValue);
         }
 
-        // GET: HomeSliders/Delete/5
+        // GET: VendorItemTypeValues/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +131,31 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var vendorItemTypeValue = await _context.VendorItemTypeValues
+                .Include(v => v.VendorItem)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (vendorItemTypeValue == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(vendorItemTypeValue);
         }
 
-        // POST: HomeSliders/Delete/5
+        // POST: VendorItemTypeValues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            _context.HomeSlider.Remove(homeSlider);
+            var vendorItemTypeValue = await _context.VendorItemTypeValues.FindAsync(id);
+            _context.VendorItemTypeValues.Remove(vendorItemTypeValue);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool HomeSliderExists(int id)
+        private bool VendorItemTypeValueExists(int id)
         {
-            return _context.HomeSlider.Any(e => e.Id == id);
+            return _context.VendorItemTypeValues.Any(e => e.Id == id);
         }
     }
 }

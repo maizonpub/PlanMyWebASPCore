@@ -10,9 +10,17 @@ namespace DAL
         public string Media { get; set; }
         public MediaType MediaType { get;set; }
     }
+    public class HomeSliderViewModel
+    {
+        public int Id { get; set; }
+        public IFormFile Media { get; set; }
+        public MediaType MediaType { get; set; }
+    }
+
     public enum MediaType
     {
         Video,
         Image
     }
+    
 }
