@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 
-namespace PlanMyWeb.Controllers
+namespace PlanMyWeb.Controllers.Admin
 {
     public class HomeSlidersController : Controller
     {
