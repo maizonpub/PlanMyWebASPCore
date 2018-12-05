@@ -23,7 +23,7 @@ namespace PlanMyWeb.Controllers.Admin
         {
             return View(await _context.Offers.ToListAsync());
         }
-        [Route("Admin/Offers/Details")]
+        [Route("Admin/Offers/Details/{id?}")]
         // GET: AdminOffers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
