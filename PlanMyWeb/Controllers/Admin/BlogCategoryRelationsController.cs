@@ -10,23 +10,23 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-    
-    public class HomeSlidersController : Controller
+   
+    public class BlogCategoryRelationsController : Controller
     {
         private readonly DbWebContext _context;
 
-        public HomeSlidersController(DbWebContext context)
+        public BlogCategoryRelationsController(DbWebContext context)
         {
             _context = context;
         }
 
-        // GET: HomeSliders
+        // GET: BlogCategoryRelations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.HomeSlider.ToListAsync());
+            return View(await _context.BlogCategoryRelations.ToListAsync());
         }
 
-        // GET: HomeSliders/Details/5
+        // GET: BlogCategoryRelations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +34,39 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var blogCategoryRelation = await _context.BlogCategoryRelations
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (blogCategoryRelation == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(blogCategoryRelation);
         }
 
-        // GET: HomeSliders/Create
+        // GET: BlogCategoryRelations/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: HomeSliders/Create
+        // POST: BlogCategoryRelations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Create([Bind("Id")] BlogCategoryRelation blogCategoryRelation)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(homeSlider);
+                _context.Add(blogCategoryRelation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            return View(blogCategoryRelation);
         }
 
-        // GET: HomeSliders/Edit/5
+        // GET: BlogCategoryRelations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +74,22 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            if (homeSlider == null)
+            var blogCategoryRelation = await _context.BlogCategoryRelations.FindAsync(id);
+            if (blogCategoryRelation == null)
             {
                 return NotFound();
             }
-            return View(homeSlider);
+            return View(blogCategoryRelation);
         }
 
-        // POST: HomeSliders/Edit/5
+        // POST: BlogCategoryRelations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Edit(int id, [Bind("Id")] BlogCategoryRelation blogCategoryRelation)
         {
-            if (id != homeSlider.Id)
+            if (id != blogCategoryRelation.Id)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 try
                 {
-                    _context.Update(homeSlider);
+                    _context.Update(blogCategoryRelation);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HomeSliderExists(homeSlider.Id))
+                    if (!BlogCategoryRelationExists(blogCategoryRelation.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            return View(blogCategoryRelation);
         }
 
-        // GET: HomeSliders/Delete/5
+        // GET: BlogCategoryRelations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +125,30 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var blogCategoryRelation = await _context.BlogCategoryRelations
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (blogCategoryRelation == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(blogCategoryRelation);
         }
 
-        // POST: HomeSliders/Delete/5
+        // POST: BlogCategoryRelations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            _context.HomeSlider.Remove(homeSlider);
+            var blogCategoryRelation = await _context.BlogCategoryRelations.FindAsync(id);
+            _context.BlogCategoryRelations.Remove(blogCategoryRelation);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool HomeSliderExists(int id)
+        private bool BlogCategoryRelationExists(int id)
         {
-            return _context.HomeSlider.Any(e => e.Id == id);
+            return _context.BlogCategoryRelations.Any(e => e.Id == id);
         }
     }
 }

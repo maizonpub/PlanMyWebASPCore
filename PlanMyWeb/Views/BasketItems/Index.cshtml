@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.HomeSlider>
+﻿@model IEnumerable<DAL.BasketItems>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,6 +8,7 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
+
 <div class="col-xs-12">
     <div class="box">
         <div class="box-body">
@@ -15,10 +16,10 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Media)
+                            @Html.DisplayNameFor(model => model.Quantity)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.MediaType)
+                            @Html.DisplayNameFor(model => model.TotalPrice)
                         </th>
                         <th></th>
                     </tr>
@@ -28,16 +29,10 @@
                     {
                         <tr>
                             <td>
-                                @if (item.MediaType == DAL.MediaType.Image)
-                                {
-                                <img src="~/Media/@item.Media" style="height:50px"/>
-                                }else
-                                {
-                                    <video src="~/Media/@item.Media" style="height:100px"/>
-                                }
+                                @Html.DisplayFor(modelItem => item.Quantity)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.MediaType)
+                                @Html.DisplayFor(modelItem => item.TotalPrice)
                             </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -48,6 +43,6 @@
                     }
                 </tbody>
             </table>
-        </div>
+            </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.HomeSlider>
+﻿@model IEnumerable<DAL.Blog>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,10 +15,16 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Media)
+                            @Html.DisplayNameFor(model => model.Title)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.MediaType)
+                            @Html.DisplayNameFor(model => model.Image)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.HtmlDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PostDate)
                         </th>
                         <th></th>
                     </tr>
@@ -28,16 +34,16 @@
                     {
                         <tr>
                             <td>
-                                @if (item.MediaType == DAL.MediaType.Image)
-                                {
-                                <img src="~/Media/@item.Media" style="height:50px"/>
-                                }else
-                                {
-                                    <video src="~/Media/@item.Media" style="height:100px"/>
-                                }
+                                @Html.DisplayFor(modelItem => item.Title)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.MediaType)
+                                @Html.DisplayFor(modelItem => item.Image)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HtmlDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PostDate)
                             </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -48,6 +54,6 @@
                     }
                 </tbody>
             </table>
-        </div>
+            </div>
         </div>
     </div>

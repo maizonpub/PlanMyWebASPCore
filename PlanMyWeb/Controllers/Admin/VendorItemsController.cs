@@ -11,22 +11,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace PlanMyWeb.Controllers.Admin
 {
     
-    public class HomeSlidersController : Controller
+    public class VendorItemsController : Controller
     {
         private readonly DbWebContext _context;
 
-        public HomeSlidersController(DbWebContext context)
+        public VendorItemsController(DbWebContext context)
         {
             _context = context;
         }
 
-        // GET: HomeSliders
+        // GET: VendorItems
         public async Task<IActionResult> Index()
         {
-            return View(await _context.HomeSlider.ToListAsync());
+            return View(await _context.VendorItems.ToListAsync());
         }
 
-        // GET: HomeSliders/Details/5
+        // GET: VendorItems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +34,39 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var vendorItem = await _context.VendorItems
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (vendorItem == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(vendorItem);
         }
 
-        // GET: HomeSliders/Create
+        // GET: VendorItems/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: HomeSliders/Create
+        // POST: VendorItems/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Create([Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb")] VendorItem vendorItem)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(homeSlider);
+                _context.Add(vendorItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            return View(vendorItem);
         }
 
-        // GET: HomeSliders/Edit/5
+        // GET: VendorItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +74,22 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            if (homeSlider == null)
+            var vendorItem = await _context.VendorItems.FindAsync(id);
+            if (vendorItem == null)
             {
                 return NotFound();
             }
-            return View(homeSlider);
+            return View(vendorItem);
         }
 
-        // POST: HomeSliders/Edit/5
+        // POST: VendorItems/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb")] VendorItem vendorItem)
         {
-            if (id != homeSlider.Id)
+            if (id != vendorItem.Id)
             {
                 return NotFound();
             }
@@ -98,12 +98,12 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 try
                 {
-                    _context.Update(homeSlider);
+                    _context.Update(vendorItem);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HomeSliderExists(homeSlider.Id))
+                    if (!VendorItemExists(vendorItem.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +114,10 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            return View(vendorItem);
         }
 
-        // GET: HomeSliders/Delete/5
+        // GET: VendorItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +125,30 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var homeSlider = await _context.HomeSlider
+            var vendorItem = await _context.VendorItems
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (homeSlider == null)
+            if (vendorItem == null)
             {
                 return NotFound();
             }
 
-            return View(homeSlider);
+            return View(vendorItem);
         }
 
-        // POST: HomeSliders/Delete/5
+        // POST: VendorItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var homeSlider = await _context.HomeSlider.FindAsync(id);
-            _context.HomeSlider.Remove(homeSlider);
+            var vendorItem = await _context.VendorItems.FindAsync(id);
+            _context.VendorItems.Remove(vendorItem);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool HomeSliderExists(int id)
+        private bool VendorItemExists(int id)
         {
-            return _context.HomeSlider.Any(e => e.Id == id);
+            return _context.VendorItems.Any(e => e.Id == id);
         }
     }
 }

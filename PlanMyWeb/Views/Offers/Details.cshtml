@@ -38,7 +38,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div id="post-4928" class="post-4928 product type-product status-publish has-post-thumbnail product_cat-uncategorized product_cat-honeymoon-experience product_tag-hot-deal first instock virtual purchasable product-type-simple">
-                    <div class="post-image"><div class="effect-pic"><img alt="" class="img-responsive" src="~/Media/@Model.Offers.Image" /></div></div>             
+                    <div class="post-image"><div class="effect-pic"><img alt="" class="img-responsive" src="~/Media/@Model.Offers.Image" /></div></div>
                     <div class="entry-content">
                         <div class="woocommerce">
                             <div class="single-product" data-product-page-preselected-id="0">
@@ -223,15 +223,21 @@
                         </div>
                     </div><!-- .entry-content -->
                 </div>
-                <div class="post-next-prev"><div class="row">
-    @if (Model.PreviousPage != null)
-    {
-        <div class="col-md-6 col-sm-6 prev-post">
-                    <span>
-                        <a href="Offers/Details/@Model.PreviousPage.Id" class="link-prev-next"><i class="fa fa-angle-double-left"></i>Previous </a><h3>
-                        <a href="Offers/Details/@Model.PreviousPage.Id" title="@Model.PreviousPage.Id" class="link">@Model.PreviousPage.Id</a></h3></span></div>
-    } </div></div>
-    
+                <div class="post-next-prev">
+                    <div class="row">
+                        @if (Model.PreviousPage != null)
+                        {
+                            <div class="col-md-6 col-sm-6 prev-post">
+                                <span>
+                                    <a href="Offers/Details/@Model.PreviousPage.Id" class="link-prev-next"><i class="fa fa-angle-double-left"></i>Previous </a><h3>
+                                        <a href="Offers/Details/@Model.PreviousPage.Id" title="@Model.PreviousPage.Id" class="link">@Model.PreviousPage.Id</a>
+                                    </h3>
+                                </span>
+                            </div>
+                        }
+                    </div>
+                </div>
+
                 <div class="post-author">
                     <div class="row">
                         <div class="author-pic col-md-3">
@@ -249,9 +255,9 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div><!-- #main -->
-           </div>
-         </div>
+        </div>
     </div>
+</div>
 
