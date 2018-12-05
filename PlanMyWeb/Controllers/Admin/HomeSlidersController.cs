@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/HomeSliders")]
         // GET: HomeSliders
         public async Task<IActionResult> Index()
         {
             return View(await _context.HomeSlider.ToListAsync());
         }
-
+        [Route("Admin/HomeSliders/Details/{id?}")]
         // GET: HomeSliders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(homeSlider);
         }
-
+        [Route("Admin/HomeSliders/Create")]
         // GET: HomeSliders/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/HomeSliders/Create")]
         public async Task<IActionResult> Create([Bind("Id,Media,MediaType")] HomeSlider homeSlider)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(homeSlider);
         }
-
+        [Route("Admin/HomeSliders/Edit/{id?}")]
         // GET: HomeSliders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/HomeSliders/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Media,MediaType")] HomeSlider homeSlider)
         {
             if (id != homeSlider.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(homeSlider);
         }
-
+        [Route("Admin/HomeSliders/Delete/{id?}")]
         // GET: HomeSliders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: HomeSliders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/HomeSliders/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var homeSlider = await _context.HomeSlider.FindAsync(id);

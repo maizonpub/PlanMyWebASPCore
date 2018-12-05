@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/Budgets")]
         // GET: Budgets
         public async Task<IActionResult> Index()
         {
             return View(await _context.Budgets.ToListAsync());
         }
-
+        [Route("Admin/Budgets/Details/{id?}")]
         // GET: Budgets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(budget);
         }
-
+        [Route("Admin/Budgets/Create")]
         // GET: Budgets/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/Budgets/Create")]
         public async Task<IActionResult> Create([Bind("Id,Description,EstimatedCost,ActualCost,PaidCost,Notes")] Budget budget)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(budget);
         }
-
+        [Route("Admin/Budgets/Edit/{id?}")]
         // GET: Budgets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/Budgets/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,EstimatedCost,ActualCost,PaidCost,Notes")] Budget budget)
         {
             if (id != budget.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(budget);
         }
-
+        [Route("Admin/Budgets/Delete/{id?}")]
         // GET: Budgets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: Budgets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/Budgets/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var budget = await _context.Budgets.FindAsync(id);

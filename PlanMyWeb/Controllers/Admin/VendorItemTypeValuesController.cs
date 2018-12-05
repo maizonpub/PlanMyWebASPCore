@@ -19,14 +19,14 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/VendorItemTypeValues")]
         // GET: VendorItemTypeValues
         public async Task<IActionResult> Index()
         {
             var dbWebContext = _context.VendorItemTypeValues.Include(v => v.VendorItem);
             return View(await dbWebContext.ToListAsync());
         }
-
+        [Route("Admin/VendorItemTypeValues/Details/{id?}")]
         // GET: VendorItemTypeValues/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -45,7 +45,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(vendorItemTypeValue);
         }
-
+        [Route("Admin/VendorItemTypeValues/Create")]
         // GET: VendorItemTypeValues/Create
         public IActionResult Create()
         {
@@ -58,6 +58,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/VendorItemTypeValues/Create")]
         public async Task<IActionResult> Create([Bind("Id,VendorItemId")] VendorItemTypeValue vendorItemTypeValue)
         {
             if (ModelState.IsValid)
@@ -69,7 +70,7 @@ namespace PlanMyWeb.Controllers.Admin
             ViewData["VendorItemId"] = new SelectList(_context.VendorItems, "Id", "Id", vendorItemTypeValue.VendorItemId);
             return View(vendorItemTypeValue);
         }
-
+        [Route("Admin/VendorItemTypeValues/Edit/{id?}")]
         // GET: VendorItemTypeValues/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -92,6 +93,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/VendorItemTypeValues/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,VendorItemId")] VendorItemTypeValue vendorItemTypeValue)
         {
             if (id != vendorItemTypeValue.Id)
@@ -122,7 +124,7 @@ namespace PlanMyWeb.Controllers.Admin
             ViewData["VendorItemId"] = new SelectList(_context.VendorItems, "Id", "Id", vendorItemTypeValue.VendorItemId);
             return View(vendorItemTypeValue);
         }
-
+        [Route("Admin/VendorItemTypeValues/Delete/{id?}")]
         // GET: VendorItemTypeValues/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -145,6 +147,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: VendorItemTypeValues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/VendorItemTypeValues/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vendorItemTypeValue = await _context.VendorItemTypeValues.FindAsync(id);

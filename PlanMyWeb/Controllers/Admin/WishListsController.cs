@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/WishLists")]
         // GET: WishLists
         public async Task<IActionResult> Index()
         {
             return View(await _context.WishLists.ToListAsync());
         }
-
+        [Route("Admin/WishLists/Details/{id?}")]
         // GET: WishLists/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(wishList);
         }
-
+        [Route("Admin/WishLists/Create")]
         // GET: WishLists/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/WishLists/Create")]
         public async Task<IActionResult> Create([Bind("Id")] WishList wishList)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(wishList);
         }
-
+        [Route("Admin/WishLists/Edit/{id?}")]
         // GET: WishLists/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/WishLists/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id")] WishList wishList)
         {
             if (id != wishList.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(wishList);
         }
-
+        [Route("Admin/WishLists/Delete/{id?}")]
         // GET: WishLists/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: WishLists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/WishLists/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var wishList = await _context.WishLists.FindAsync(id);

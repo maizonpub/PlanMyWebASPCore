@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/Blogs")]
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
             return View(await _context.Blogs.ToListAsync());
         }
-
+        [Route("Admin/Blog/Details/{id?}")]
         // GET: Blogs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(blog);
         }
-
+        [Route("Admin/Blogs/Create")]
         // GET: Blogs/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/Blogs/Create")]
         public async Task<IActionResult> Create([Bind("Id,Title,Image,HtmlDescription,PostDate")] Blog blog)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(blog);
         }
-
+        [Route("Admin/Blogs/Edit/{id?}")]
         // GET: Blogs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/Blogs/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Image,HtmlDescription,PostDate")] Blog blog)
         {
             if (id != blog.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(blog);
         }
-
+        [Route("Admin/Blogs/Delete/{id?}")]
         // GET: Blogs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: Blogs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/Blogs/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var blog = await _context.Blogs.FindAsync(id);

@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/WebContents")]
         // GET: WebContents
         public async Task<IActionResult> Index()
         {
             return View(await _context.WebContents.ToListAsync());
         }
-
+        [Route("Admin/WebContents/Details/{id?}")]
         // GET: WebContents/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(webContent);
         }
-
+        [Route("Admin/WebContents/Create")]
         // GET: WebContents/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/WebContents/Create")]
         public async Task<IActionResult> Create([Bind("Id,TipsTitle,FeaturedVendorsTitle,BlogTitle,ContactAddress,ContactEmail,ContactPhone,AdminEmail,AdminEmailPassword")] WebContent webContent)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(webContent);
         }
-
+        [Route("Admin/WebContents/Edit/{id?}")]
         // GET: WebContents/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/WebContents/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,TipsTitle,FeaturedVendorsTitle,BlogTitle,ContactAddress,ContactEmail,ContactPhone,AdminEmail,AdminEmailPassword")] WebContent webContent)
         {
             if (id != webContent.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(webContent);
         }
-
+        [Route("Admin/WebContents/Delete/{id?}")]
         // GET: WebContents/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: WebContents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/WebContents/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var webContent = await _context.WebContents.FindAsync(id);

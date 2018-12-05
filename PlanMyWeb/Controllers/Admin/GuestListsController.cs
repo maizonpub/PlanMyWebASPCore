@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/GuestLists")]
         // GET: GuestLists
         public async Task<IActionResult> Index()
         {
             return View(await _context.GuestLists.ToListAsync());
         }
-
+        [Route("Admin/GuestLists/Details/{id?}")]
         // GET: GuestLists/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(guestList);
         }
-
+        [Route("Admin/GuestLists/Create")]
         // GET: GuestLists/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/GuestLists/Create")]
         public async Task<IActionResult> Create([Bind("Id,FullName,GuestStatus,Side,Email,Phone,Address")] GuestList guestList)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(guestList);
         }
-
+        [Route("Admin/GuestLists/Edit/{id?}")]
         // GET: GuestLists/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/GuestLists/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,GuestStatus,Side,Email,Phone,Address")] GuestList guestList)
         {
             if (id != guestList.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(guestList);
         }
-
+        [Route("Admin/GuestLists/Delete/{id?}")]
         // GET: GuestLists/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: GuestLists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/GuestLists/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var guestList = await _context.GuestLists.FindAsync(id);

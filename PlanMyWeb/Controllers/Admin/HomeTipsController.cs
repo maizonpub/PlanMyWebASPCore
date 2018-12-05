@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/HomeTips")]
         // GET: HomeTips
         public async Task<IActionResult> Index()
         {
             return View(await _context.HomeTips.ToListAsync());
         }
-
+        [Route("Admin/HomeTips/Details/{id?}")]
         // GET: HomeTips/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(homeTips);
         }
-
+        [Route("Admin/HomeTips/Create")]
         // GET: HomeTips/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/HomeTips/Create")]
         public async Task<IActionResult> Create([Bind("Id,Image,Title,Description")] HomeTips homeTips)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(homeTips);
         }
-
+        [Route("Admin/HomeTips/Edit/{id?}")]
         // GET: HomeTips/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/HomeTips/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Image,Title,Description")] HomeTips homeTips)
         {
             if (id != homeTips.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(homeTips);
         }
-
+        [Route("Admin/HomeTips/Delete/{id?}")]
         // GET: HomeTips/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: HomeTips/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/HomeTips/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var homeTips = await _context.HomeTips.FindAsync(id);

@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/BasketItems")]
         // GET: BasketItems
         public async Task<IActionResult> Index()
         {
             return View(await _context.BasketItems.ToListAsync());
         }
-
+        [Route("Admin/BasketItems/Details/{id?}")]
         // GET: BasketItems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(basketItems);
         }
-
+        [Route("Admin/BasketItems/Create")]
         // GET: BasketItems/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/BasketItems/Create")]
         public async Task<IActionResult> Create([Bind("Id,Quantity,TotalPrice")] BasketItems basketItems)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(basketItems);
         }
-
+        [Route("Admin/BasketItems/Edit/{id?}")]
         // GET: BasketItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/BasketItems/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Quantity,TotalPrice")] BasketItems basketItems)
         {
             if (id != basketItems.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(basketItems);
         }
-
+        [Route("Admin/BasketItems/Delete/{id?}")]
         // GET: BasketItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,7 +136,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(basketItems);
         }
-
+        [Route("Admin/BasketItems/Delete/{id?}")]
         // POST: BasketItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/Orders")]
         // GET: Orders
         public async Task<IActionResult> Index()
         {
             return View(await _context.Orders.ToListAsync());
         }
-
+        [Route("Admin/Orders/Details/{id?}")]
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(order);
         }
-
+        [Route("Admin/Orders/Create")]
         // GET: Orders/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/Orders/Create")]
         public async Task<IActionResult> Create([Bind("Id,Status,ReferenceNumber,TransactionUUID,TransactionDate,Total")] Order order)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(order);
         }
-
+        [Route("Admin/Orders/Edit/{id?}")]
         // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/Orders/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Status,ReferenceNumber,TransactionUUID,TransactionDate,Total")] Order order)
         {
             if (id != order.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(order);
         }
-
+        [Route("Admin/Orders/Delete/{id?}")]
         // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/Orders/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var order = await _context.Orders.FindAsync(id);

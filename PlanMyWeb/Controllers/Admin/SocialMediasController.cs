@@ -18,13 +18,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/SocialMedias")]
         // GET: SocialMedias
         public async Task<IActionResult> Index()
         {
             return View(await _context.SocialMedias.ToListAsync());
         }
-
+        [Route("Admin/SocialMedias/Details/{id?}")]
         // GET: SocialMedias/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -42,7 +42,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(socialMedia);
         }
-
+        [Route("Admin/SocialMedias/Create")]
         // GET: SocialMedias/Create
         public IActionResult Create()
         {
@@ -54,6 +54,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/SocialMedias/Create")]
         public async Task<IActionResult> Create([Bind("Id,Title,Link,Image")] SocialMedia socialMedia)
         {
             if (ModelState.IsValid)
@@ -64,7 +65,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(socialMedia);
         }
-
+        [Route("Admin/SocialMedias/Edit/{id?}")]
         // GET: SocialMedias/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,6 +87,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/SocialMedias/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Link,Image")] SocialMedia socialMedia)
         {
             if (id != socialMedia.Id)
@@ -115,7 +117,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(socialMedia);
         }
-
+        [Route("Admin/SocialMedias/Delete/{id?}")]
         // GET: SocialMedias/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -137,6 +139,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: SocialMedias/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/SocialMedias/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var socialMedia = await _context.SocialMedias.FindAsync(id);

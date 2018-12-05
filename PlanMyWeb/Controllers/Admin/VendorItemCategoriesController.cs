@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/VendorItemCategories")]
         // GET: VendorItemCategories
         public async Task<IActionResult> Index()
         {
             return View(await _context.VendorItemCategories.ToListAsync());
         }
-
+        [Route("Admin/VendorItemCategories/Details/{id?}")]
         // GET: VendorItemCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(vendorItemCategory);
         }
-
+        [Route("Admin/VendorItemCategories/Create")]
         // GET: VendorItemCategories/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/VendorItemCategories/Create")]
         public async Task<IActionResult> Create([Bind("Id")] VendorItemCategory vendorItemCategory)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(vendorItemCategory);
         }
-
+        [Route("Admin/VendorItemCategories/Edit/{id?}")]
         // GET: VendorItemCategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/VendorItemCategories/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id")] VendorItemCategory vendorItemCategory)
         {
             if (id != vendorItemCategory.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(vendorItemCategory);
         }
-
+        [Route("Admin/VendorItemCategories/Delete/{id?}")]
         // GET: VendorItemCategories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: VendorItemCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/VendorItemCategories/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vendorItemCategory = await _context.VendorItemCategories.FindAsync(id);

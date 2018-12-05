@@ -19,13 +19,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/VendorItemGalleries")]
         // GET: VendorItemGalleries
         public async Task<IActionResult> Index()
         {
             return View(await _context.VendorItemGalleries.ToListAsync());
         }
-
+        [Route("Admin/VendorItemGalleries/Details/{id?}")]
         // GET: VendorItemGalleries/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(vendorItemGallery);
         }
-
+        [Route("Admin/VendorItemGalleries/Create")]
         // GET: VendorItemGalleries/Create
         public IActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/VendorItemGalleries/Create")]
         public async Task<IActionResult> Create([Bind("Id,Image")] VendorItemGallery vendorItemGallery)
         {
             if (ModelState.IsValid)
@@ -65,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(vendorItemGallery);
         }
-
+        [Route("Admin/VendorItemGalleries/Edit/{id?}")]
         // GET: VendorItemGalleries/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,6 +88,7 @@ namespace PlanMyWeb.Controllers.Admin
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Admin/VendorItemGalleries/Edit/{id?}")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Image")] VendorItemGallery vendorItemGallery)
         {
             if (id != vendorItemGallery.Id)
@@ -116,7 +118,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
             return View(vendorItemGallery);
         }
-
+        [Route("Admin/VendorItemGalleries/Delete/{id?}")]
         // GET: VendorItemGalleries/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,6 +140,7 @@ namespace PlanMyWeb.Controllers.Admin
         // POST: VendorItemGalleries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Admin/VendorItemGalleries/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vendorItemGallery = await _context.VendorItemGalleries.FindAsync(id);
