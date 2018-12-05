@@ -70,9 +70,9 @@
                                     <label class="control-label" for="type_type">@row.Title</label>
                                     <div class="form-group">
                                         <br /><h4>@row.Title</h4>
-                                        @foreach (var record in row.VendorItemTypeValues)
+                                        @foreach (var record in row.VendorTypeValues)
                                         {
-                                            <label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="@record.VendorTypeValue.Id" />@record.VendorTypeValue.Title</label>
+                                            <label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="@record.Id" />@record.Title</label>
                                         }
 
                                     </div>

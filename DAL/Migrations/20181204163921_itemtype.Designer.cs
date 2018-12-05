@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DbWebContext))]
-    partial class DbWebContextModelSnapshot : ModelSnapshot
+    [Migration("20181204163921_itemtype")]
+    partial class itemtype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -508,11 +510,15 @@ namespace DAL.Migrations
 
                     b.Property<int>("VendorItemId");
 
+                    b.Property<int?>("VendorTypeId");
+
                     b.Property<int?>("VendorTypeValueId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("VendorItemId");
+
+                    b.HasIndex("VendorTypeId");
 
                     b.HasIndex("VendorTypeValueId");
 
@@ -928,6 +934,10 @@ namespace DAL.Migrations
                         .HasForeignKey("VendorItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("DAL.VendorType")
+                        .WithMany("VendorItemTypeValues")
+                        .HasForeignKey("VendorTypeId");
+
                     b.HasOne("DAL.VendorTypeValue", "VendorTypeValue")
                         .WithMany("VendorItemTypeValues")
                         .HasForeignKey("VendorTypeValueId");
@@ -943,7 +953,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.VendorTypeValue", b =>
                 {
                     b.HasOne("DAL.VendorType", "VendorType")
-                        .WithMany("VendorTypeValues")
+                        .WithMany()
                         .HasForeignKey("VendorTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

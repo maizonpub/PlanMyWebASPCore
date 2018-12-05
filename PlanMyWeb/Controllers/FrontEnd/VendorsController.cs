@@ -22,12 +22,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
             VendorsViewModel model = new VendorsViewModel();
             var items = GetVendorItems(CategoryId, CountryId);
             model.VendorCategories = GetCategories();
-            if (CategoryId != null)
-            {
-                model.VendorTypes = GetTypes((int)CategoryId);
-            }
-            else
-                model.VendorTypes = new List<VendorType>();
+            model.VendorTypes = GetTypes(CategoryId);
             model.VendorItems = items;
             return View(model);
         }
@@ -46,9 +41,9 @@ namespace PlanMyWeb.Controllers.FrontEnd
 
             return View(vendorItem);
         }
-        private IEnumerable<VendorType> GetTypes(int categoryId)
+        private IEnumerable<VendorType> GetTypes(int? categoryId)
         {
-            return _context.VendorTypes.Where(x => x.CategoryId == categoryId);
+            return _context.VendorTypes.Include(x=>x.VendorTypeValues).Where(x => x.CategoryId == categoryId);
         }
 
         private IEnumerable<VendorCategory> GetCategories()

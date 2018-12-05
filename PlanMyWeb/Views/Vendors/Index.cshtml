@@ -70,9 +70,9 @@
                                     <label class="control-label" for="type_type">@row.Title</label>
                                     <div class="form-group">
                                         <br /><h4>@row.Title</h4>
-                                        @foreach (var record in row.VendorItemTypeValues)
+                                        @foreach (var record in row.VendorTypeValues)
                                         {
-                                            <label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="@record.VendorTypeValue.Id" />@record.VendorTypeValue.Title</label>
+                                            <label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="@record.Id" />@record.Title</label>
                                         }
 
                                     </div>
@@ -105,9 +105,9 @@
                                             <img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" />
 
                                             <figcaption>
-                                                <h2><a href="Vendors/Details/@row.Id">@row.Title</a></h2>
+                                                <h2><a href="./Details/@row.Id">@row.Title</a></h2>
                                                 <p></p>
-                                                <a href="Vendors/Details/@row.Id">View more</a>
+                                                <a href="./Details/@row.Id">View more</a>
                                             </figcaption>
                                         </figure>
                                     </div>

@@ -1,0 +1,66 @@
+﻿@model List<PlanMyWeb.Models.SearchViewModel>  
+@{
+    
+    Layout = "~/Views/Shared/_PlanMy.cshtml";
+}
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 content-left">
+
+                <header class="page-header">
+                    <h1 class="page-title">Search Results for: <span>@ViewData["Search"]</span></h1>
+                </header><!-- .page-header -->
+                @foreach (var item in Model)
+                {
+                <div class="well-box">
+                    <div id="post-1709" class="post-1709 item type-item status-publish has-post-thumbnail hentry itemcategory-caterers itemlocation-beirut itemcateringservices-bars-alcohol-retail itemcity-lebanon">
+                        <div class="post-image">
+                            @if (item.SearchType == SearchType.Vendors)
+                            {
+                                <a href="/Vendors/Details/@item.Id"><img alt="" class="img-responsive img-radius" src="~/Media/@item.Thumb"></a>
+                            }
+                            else
+                            {
+                                <a href="/Inspirations/Details/@item.Id"><img alt="" class="img-responsive img-radius" src="~/Media/@item.Thumb"></a>
+                            }
+                        </div>
+                        <h1 class="post-title">
+                            @if (item.SearchType == SearchType.Vendors)
+                            {
+                                <a href="/Vendors/Details/@item.Id" rel="bookmark">@item.Title</a>
+                            }
+                            else
+                            {
+                                <a href="/Inspirations/Details/@item.Id" rel="bookmark">@item.Title</a>
+                            }
+
+                        </h1>
+                        <div class="entry-content">
+                            <p> @Html.Raw(item.Text)</p>
+                        </div><!-- .entry-content -->
+                        @if (item.SearchType == SearchType.Vendors)
+                        {
+                            <a class="btn tp-btn-primary" href="/Vendors/Details/@item.Id">Read More</a>
+                        }
+                        else
+                        {
+                            <a class="btn tp-btn-primary" href="/Inspirations/Details/@item.Id">Read More</a>
+                        }
+
+                    </div><!-- #post-## -->
+                </div>
+                }
+            </div>
+            
+        </div>
+    </div>
+</div>
+

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using WordPressPCL.Models;
 
 namespace ImportFromWordPress
 {
@@ -33,10 +34,109 @@ namespace ImportFromWordPress
                     var passwordValidators = new List<PasswordValidator<Users>>().AsEnumerable();
                     _userManager = new UserManager<Users>(store, null, passwordhasher, userValidators, passwordValidators, null, null, null, null);
                     var categories = context.VendorCategories;
+                    var itemlocations = await service.GetItemLocationsAsync();
+                    var itemlocation = context.VendorTypes.Add(new VendorType { Title = "Location", CategoryId = null });
+                    foreach (var r in itemlocations)
+                    {
+                        context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = itemlocation.Entity.Id });
+                    }
                     foreach (var category in categories)
                     {
                         Console.WriteLine("Fetching Items from category " + category.Title);
                         var dbcat = await service.GetItemCategoryAsync(category.Title);
+                        switch (dbcat.Id)
+                        {
+
+                            case 3:
+                                var types = await service.GetItemTypesAsync();
+                                var cities = await service.GetItemCitiesAsync();
+                                var settings = await service.GetItemSettingsAsync();
+                                var capacities = await service.GetCapacitiesAsync();
+                                
+                                var type = context.VendorTypes.Add(new VendorType { Title = "Type of venue", CategoryId = category.Id });
+                                var city = context.VendorTypes.Add(new VendorType { Title = "City", CategoryId = category.Id });
+                                var setting = context.VendorTypes.Add(new VendorType { Title = "Setting", CategoryId = category.Id });
+                                var capacity = context.VendorTypes.Add(new VendorType { Title = "Capacity", CategoryId = category.Id });
+                                foreach(var r in types)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = type.Entity.Id });
+                                }
+                                foreach (var r in cities)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = city.Entity.Id });
+                                }
+                                foreach (var r in settings)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = setting.Entity.Id });
+                                }
+                                foreach (var r in capacities)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = capacity.Entity.Id });
+                                }
+                                break;
+                            case 44:
+                                var cateringservices = await service.GetItemCateringServicesAsync();
+                                var cateringservice = context.VendorTypes.Add(new VendorType { Title = "Catering Services", CategoryId = category.Id });
+                                foreach (var r in cateringservices)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = cateringservice.Entity.Id });
+                                }
+                                break;
+                            case 60:
+                                var typeoffurnitures = await service.GetItemTypeOfFurnituresAsync();
+                                var typeoffurniture = context.VendorTypes.Add(new VendorType { Title = "Type of furniture", CategoryId = category.Id });
+                                foreach (var r in typeoffurnitures)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = typeoffurniture.Entity.Id });
+                                }
+                                break;
+                            case 46:
+                                var itemclienteles = await service.GetItemClientelesAsync();
+                                var itemclothings = await service.GetItemClothingsAsync();
+                                var itemclientele = context.VendorTypes.Add(new VendorType { Title = "Clientele", CategoryId = category.Id });
+                                foreach (var r in itemclienteles)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = itemclientele.Entity.Id });
+                                }
+                                var itemclothing = context.VendorTypes.Add(new VendorType { Title = "Clothing", CategoryId = category.Id });
+                                foreach (var r in itemclothings)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = itemclothing.Entity.Id });
+                                }
+                                break;
+                            case 43:
+                                var itembeautyservices = await service.GetItemBeautyServicesAsync();
+                                var itembeautyservice = context.VendorTypes.Add(new VendorType { Title = "Beauty Services", CategoryId = category.Id });
+                                foreach (var r in itembeautyservices)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = itembeautyservice.Entity.Id });
+                                }
+                                break;
+                            case 59:
+                                var itemtypeofmusicians = await service.GetItemTypeOfMusiciansAsync();
+                                var itemtypeofmusician = context.VendorTypes.Add(new VendorType { Title = "Type of Entertainment", CategoryId = category.Id });
+                                foreach (var r in itemtypeofmusicians)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = itemtypeofmusician.Entity.Id });
+                                }
+                                break;
+                            case 54:
+                                var honeymoonexperiences = await service.GetHoneymoonExperiencesAsync();
+                                var honeymoonexperience = context.VendorTypes.Add(new VendorType { Title = "Honeymoon Experience", CategoryId = category.Id });
+                                foreach (var r in honeymoonexperiences)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = honeymoonexperience.Entity.Id });
+                                }
+                                break;
+                            case 51:
+                                var typeofservices = await service.GetTypeOfServicesAsync();
+                                var typeofservice = context.VendorTypes.Add(new VendorType { Title = "Type of Service", CategoryId = category.Id });
+                                foreach (var r in typeofservices)
+                                {
+                                    context.VendorTypeValues.Add(new VendorTypeValue { Title = r.Name, VendorTypeId = typeofservice.Entity.Id });
+                                }
+                                break;
+                        }
 
                         var items = await service.GetItemsByFilterAsync(dbcat.Id, null, null, null, null, null, null, null, null, null, null, null, null, null);
                         foreach (var item in items)
@@ -46,24 +146,24 @@ namespace ImportFromWordPress
                             string galleryfile = "";
                             if (item.Embedded.WpFeaturedmedia != null && item.Embedded.WpFeaturedmedia.Count() > 0 && !string.IsNullOrEmpty(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl))
                             {
-                                filename = Guid.NewGuid() + ".jpg";
-                                galleryfile = Guid.NewGuid() + ".jpg";
-                                wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].MediaDetails.Sizes.FirstOrDefault().Value.SourceUrl, @"D:\MaizonPub\PlanMyWebASPCore\PlanMyWeb\wwwroot\Media\" + filename);
-                                wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl, @"D:\MaizonPub\PlanMyWebASPCore\PlanMyWeb\wwwroot\Media\" + galleryfile);
+                                filename = System.Guid.NewGuid() + ".jpg";
+                                galleryfile = System.Guid.NewGuid() + ".jpg";
+                                wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].MediaDetails.Sizes.FirstOrDefault().Value.SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + filename);
+                                wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + galleryfile);
                             }
                             string locator = item.ItemMeta.locators[0];
                             var gallery = await service.GetItemMedia(item.Id);
-                            
+
                             //var position = await Geolocator.CrossGeolocator.Current.GetPositionsForAddressAsync(locator);
                             var dbuser = await service.GetAuthorByIDAsync(item.Author);
                             string desc = System.Net.WebUtility.HtmlDecode(item.Content.Rendered);
-                            var user = new Users { Address = item.ItemMeta.item_address[0], UserType = UserType.Vendor, FirstName = !string.IsNullOrEmpty(dbuser.FirstName)?dbuser.FirstName:dbuser.Name, LastName = !string.IsNullOrEmpty(dbuser.LastName) ? dbuser.LastName : dbuser.Name, PasswordHash = !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456", Gender = Gender.Male, UserName = dbuser.UserName, PhoneNumber = (item.ItemMeta.item_phone!=null && item.ItemMeta.item_phone.Count()>0) ?item.ItemMeta.item_phone[0]:"", Email = !string.IsNullOrEmpty(dbuser.Email)?dbuser.Email:"" };
-                            VendorItem di = new VendorItem { Address = (item.ItemMeta.item_address!=null && item.ItemMeta.item_address.Count()>0) ?item.ItemMeta.item_address[0]:"", IsFeatured = false, Location = locator, HtmlDescription = desc, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Thumb = filename, Title = item.Title.Rendered, User = user, Email = dbuser.Email };
+                            var user = new Users { Address = item.ItemMeta.item_address[0], UserType = UserType.Vendor, FirstName = !string.IsNullOrEmpty(dbuser.FirstName) ? dbuser.FirstName : dbuser.Name, LastName = !string.IsNullOrEmpty(dbuser.LastName) ? dbuser.LastName : dbuser.Name, PasswordHash = !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456", Gender = Gender.Male, UserName = dbuser.UserName, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Email = !string.IsNullOrEmpty(dbuser.Email) ? dbuser.Email : "" };
+                            VendorItem di = new VendorItem { Address = (item.ItemMeta.item_address != null && item.ItemMeta.item_address.Count() > 0) ? item.ItemMeta.item_address[0] : "", IsFeatured = false, Location = locator, HtmlDescription = desc, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Thumb = filename, Title = item.Title.Rendered, User = user, Email = dbuser.Email };
                             VendorItemCategory catrel = new VendorItemCategory { VendorCategory = category, VendorItem = di };
                             foreach (var img in gallery)
                             {
-                                string file = Guid.NewGuid() + ".jpg";
-                                wc.DownloadFile(img.SourceUrl, @"D:\MaizonPub\PlanMyWebASPCore\PlanMyWeb\wwwroot\Media\" + file);
+                                string file = System.Guid.NewGuid() + ".jpg";
+                                wc.DownloadFile(img.SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + file);
                                 context.VendorItemGalleries.Add(new VendorItemGallery { Image = file, Item = di });
                             }
                             passwordhasher.HashPassword(user, !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456");
@@ -71,7 +171,7 @@ namespace ImportFromWordPress
                             context.VendorItems.Add(di);
                             context.VendorItemGalleries.Add(new VendorItemGallery { Image = galleryfile, Item = di });
                             context.VendorItemCategories.Add(catrel);
-                            
+
 
                         }
                         Console.WriteLine("Saving Items for category " + category.Title);
@@ -85,6 +185,25 @@ namespace ImportFromWordPress
 
             }
 
+        }
+        
+        protected static int[] AddSwitches(IEnumerable<ItemCategory> types)
+        {
+            List<int> par = new List<int>();
+            try
+            {
+                foreach (var row in types)
+                {
+
+                    if (!par.Contains(row.Id))
+                        par.Add(row.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return par.ToArray();
         }
     }
     

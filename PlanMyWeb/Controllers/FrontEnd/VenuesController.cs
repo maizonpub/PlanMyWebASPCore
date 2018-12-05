@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DAL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PlanMyWeb.Models;
 
 namespace PlanMyWeb.Controllers.FrontEnd
@@ -30,7 +31,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
 
         private IEnumerable<VendorType> GetTypes(int categoryId)
         {
-            return _context.VendorTypes.Where(x=>x.CategoryId == categoryId);
+            return _context.VendorTypes.Include(x => x.VendorTypeValues).Where(x=>x.CategoryId == categoryId);
         }
 
         private IEnumerable<VendorCategory> GetCategories()
