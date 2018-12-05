@@ -17,13 +17,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             _context = context;
         }
-
+        [Route("Admin/Offers/Index")]
         // GET: AdminOffers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Offers.ToListAsync());
         }
-
+        [Route("Admin/Offers/Details")]
         // GET: AdminOffers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -41,7 +41,7 @@ namespace PlanMyWeb.Controllers.Admin
 
             return View(offers);
         }
-
+        [Route("Admin/Offers/Create")]
         // GET: AdminOffers/Create
         public IActionResult Create()
         {
