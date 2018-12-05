@@ -6,27 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
-using Microsoft.AspNetCore.Authorization;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-   
-    public class OffersController : Controller
+    public class AdminOffersController : Controller
     {
         private readonly DbWebContext _context;
 
-        public OffersController(DbWebContext context)
+        public AdminOffersController(DbWebContext context)
         {
             _context = context;
         }
 
-        // GET: Offers
+        // GET: AdminOffers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Offers.ToListAsync());
         }
 
-        // GET: Offers/Details/5
+        // GET: AdminOffers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,13 +42,13 @@ namespace PlanMyWeb.Controllers.Admin
             return View(offers);
         }
 
-        // GET: Offers/Create
+        // GET: AdminOffers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Offers/Create
+        // POST: AdminOffers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,7 +64,7 @@ namespace PlanMyWeb.Controllers.Admin
             return View(offers);
         }
 
-        // GET: Offers/Edit/5
+        // GET: AdminOffers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,7 +80,7 @@ namespace PlanMyWeb.Controllers.Admin
             return View(offers);
         }
 
-        // POST: Offers/Edit/5
+        // POST: AdminOffers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -117,7 +115,7 @@ namespace PlanMyWeb.Controllers.Admin
             return View(offers);
         }
 
-        // GET: Offers/Delete/5
+        // GET: AdminOffers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +133,7 @@ namespace PlanMyWeb.Controllers.Admin
             return View(offers);
         }
 
-        // POST: Offers/Delete/5
+        // POST: AdminOffers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

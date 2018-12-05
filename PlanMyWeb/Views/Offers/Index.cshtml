@@ -1,96 +1,128 @@
 ﻿@model IEnumerable<DAL.Offers>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    ViewData["Title"] = "Offers";
 }
 
-<h2>Index</h2>
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OffersType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Validity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SalePrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SaleFromDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SaleToDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OffersType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Validity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SalePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SaleFromDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SaleToDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="tp-page-head">
+    <!-- page header -->
+    <div class="container blog-header">
+        <!--<div class="row">
+          <div class="col-md-12">
+            <div class="page-header">
+              <h1>Vendors</h1>
+            </div>
+          </div>
+        </div>-->
+    </div>
+</div>
+<!-- ./ page header -->
+
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="https://planmy.me" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Offers</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-container">
+    <!--main-container-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="left-sidebar">
+                    <div class="filter-box collapse in" id="searchform">
+                        <div class="row filter-form">
+
+                            <form method="get">
+                                <!--<div class="col-md-12">
+                                    <div class="amount_box">$<span id="amount"></span></div>
+                                    <div id="price-range" class="pricing_range"></div>
+                                    <input type="hidden" id="min_price" />
+                                    <input type="hidden" id="max_price" />
+                                    <input type="hidden" id="list_style" value="oscar"  />
+                                </div>-->
+                                <input type="hidden" id="list_style" value="oscar" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label" for="category_type">Category</label>
+                                        <select name="category_type" id="category_type" class="form-control input-md" onchange="window.location.href='/offers?CategoryId='+this.value"><option value="">Select Category</option><option value="245">3D Mapping</option><option value="238">Banks</option><option value="247">Beauty Centers</option><option value="248">Cars &amp; Transportation</option><option value="44">Catering &amp; Bars</option><option value="46">Clothing &amp; Accessories</option><option value="59">Entertainment</option><option value="9">Florists</option><option value="60">Furniture</option><option value="43">Hair &amp; Beauty</option><option value="54">Honeymoon Experience</option><option value="156">Hostessing</option><option value="49">Invitations</option><option value="246">Jewelry</option><option value="51">Lighting &amp; Sound</option><option value="241">Miscellaneous</option><option value="4">Photography &amp; Videography</option><option value="52">Planners &amp; coordinators</option><option value="3">Venues</option></select>
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-12">
+                                            <div class="form-group">
+                                              <label class="control-label" for="capacity">Capacity</label>
+                                              <select class="form-control" name="capacity" id="capacity">
+                                                    <option  value="0">0</option>
+                                                    <option  value="1 - 50">1 - 50</option>
+                                                    <option  value="50 - 200">50 - 200</option>
+                                                    <option  value="200 - 500">200 - 500</option>
+                                                    <option  value="500 - 1000">500 - 1000</option>
+                                                    <option  value="1000 - more">1000 - more</option>
+                                                  </select>
+                                            </div>
+                                </div>-->
+                                <div class="col-md-12">
+                                    <button type="button" id="leftsidebar-search" class="btn tp-btn-default tp-btn-lg btn-block">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 content-left">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="item_results">
+                            <div class="row">
+                                <div class="col-md-12 vendor-listing">
+                                    <h2 style="color:#000000;">Total @Model.Count() items in your search</h2>
+                                </div>
+                                @foreach (var row in Model)
+                                {
+                                    <div class="col-md-4 vendor-box">
+                                        <div class="grid">
+
+                                            <figure class="effect-oscar">
+                                                <img width="440" height="290" src="~/Media/@row.Image" class="img-responsive wp-post-image" alt="" />
+
+                                                <figcaption>
+                                                    <h2><a href="@row.Title">@row.Title</a></h2>
+                                                    <p></p>
+                                                    <a href="#">Buy Now</a>
+                                                </figcaption>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
