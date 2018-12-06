@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PlanMyWeb.Controllers.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class SocialMediasController : Controller
     {
         private readonly DbWebContext _context;

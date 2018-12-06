@@ -23,4 +23,5 @@ namespace DAL
         public List<VendorItemGallery> Gallery { get; set; }
         public List<VendorItemCategory> Categories { get; set; }
     }
+    
 }

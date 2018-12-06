@@ -11,4 +11,5 @@ namespace DAL
         public string Title { get; set; }
         public List<VendorItemCategory> Categories { get; set; }
     }
+  
 }

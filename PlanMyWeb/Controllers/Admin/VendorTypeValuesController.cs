@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-    
+    [Authorize(Roles = "Admin")]
     public class VendorTypeValuesController : Controller
     {
         private readonly DbWebContext _context;

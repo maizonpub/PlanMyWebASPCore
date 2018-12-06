@@ -13,4 +13,5 @@ namespace DAL
         public DateTime PostDate { get; set; }
         public List<BlogCategoryRelation> BlogCategoryRelations { get; set; }
     }
+   
 }

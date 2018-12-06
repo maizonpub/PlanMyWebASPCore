@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PlanMyWeb.Controllers.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class AdminOffersController : Controller
     {
         private readonly DbWebContext _context;
@@ -149,4 +151,6 @@ namespace PlanMyWeb.Controllers.Admin
             return _context.Offers.Any(e => e.Id == id);
         }
     }
+
+    
 }

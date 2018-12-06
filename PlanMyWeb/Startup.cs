@@ -53,6 +53,7 @@ namespace PlanMyWeb
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Error";
             });
         }
 
@@ -66,7 +67,7 @@ namespace PlanMyWeb
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
