@@ -8,6 +8,7 @@ namespace DAL
     {
         public int Id { get; set; }
         public VendorTypeValue VendorTypeValue { get; set; }
+        public int VendorTypeValueId { get; set; }
         public VendorItem VendorItem { get; set; }
         public int VendorItemId { get; set; }
     }

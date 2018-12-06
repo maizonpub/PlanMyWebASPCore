@@ -36,7 +36,7 @@ namespace ImportFromWordPress
 
             return posts;
         }
-        public async Task<IEnumerable<Item>> GetFeaturedItemsAsync(int page = 0, int perPage = 20)
+        public async Task<IEnumerable<Item>> GetFeaturedItemsAsync(int page = 0, int perPage = 1000)
         {
             page++;
 
@@ -51,7 +51,7 @@ namespace ImportFromWordPress
             //posts = posts.Skip((page - 1) * perPage).Take(perPage);//.Where(x => ((Dictionary<string,string>)x.Meta)["featured_item"]=="on");
             return posts;
         }
-        public async Task<IEnumerable<Item>> GetFeaturedItemsByCategoryAsync(int categoryId, int page = 0, int perPage = 20)
+        public async Task<IEnumerable<Item>> GetFeaturedItemsByCategoryAsync(int categoryId, int page = 0, int perPage = 1000)
         {
             page++;
             int[] cats = new int[1];
@@ -69,7 +69,7 @@ namespace ImportFromWordPress
             //posts = posts.Skip((page - 1) * perPage).Take(perPage);//.Where(x => ((Dictionary<string,string>)x.Meta)["featured_item"]=="on");
             return posts;
         }
-        public async Task<IEnumerable<Item>> GetItemsByCategoryAsync(int categoryId, int page = 0, int perPage = 10)
+        public async Task<IEnumerable<Item>> GetItemsByCategoryAsync(int categoryId, int page = 0, int perPage = 1000)
         {
             page++;
             int[] cats = new int[1];
@@ -97,7 +97,7 @@ namespace ImportFromWordPress
             //posts = posts.Skip((page - 1) * perPage).Take(perPage);//.Where(x => ((Dictionary<string,string>)x.Meta)["featured_item"]=="on");
             return posts;
         }
-        public async Task<IEnumerable<Item>> GetItemsByFilterAsync(int categoryId, int[] ItemTypes, int[] HoneymoonExperience, int[] TypeOfService, int[] Capacity, int[] ItemSetting, int[] ItemCateringServices, int[] ItemtypeOfFurniture, int[] ItemClientele, int[] ItemClothing, int[] ItemBeautyServices, int[] ItemTypeOfMusicians, int[] ItemCity, int[] ItemLocation, int page = 0, int perPage = 1)
+        public async Task<IEnumerable<Item>> GetItemsByFilterAsync(int categoryId, int[] ItemTypes, int[] HoneymoonExperience, int[] TypeOfService, int[] Capacity, int[] ItemSetting, int[] ItemCateringServices, int[] ItemtypeOfFurniture, int[] ItemClientele, int[] ItemClothing, int[] ItemBeautyServices, int[] ItemTypeOfMusicians, int[] ItemCity, int[] ItemLocation, int page = 0, int perPage = 1000)
         {
             page++;
             int[] cats = new int[1];
@@ -180,7 +180,7 @@ namespace ImportFromWordPress
             });
             return posts.Where(x=>WebUtility.HtmlDecode(x.Name).Contains(title)).FirstOrDefault();
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemTypesAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemTypesAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -192,7 +192,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemCitiesAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemCitiesAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -204,7 +204,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemSettingsAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemSettingsAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -216,7 +216,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetCapacitiesAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetCapacitiesAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -228,7 +228,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemCateringServicesAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemCateringServicesAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -240,7 +240,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemTypeOfFurnituresAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemTypeOfFurnituresAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -252,7 +252,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemClientelesAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemClientelesAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -264,7 +264,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemClothingsAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemClothingsAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -276,7 +276,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemBeautyServicesAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemBeautyServicesAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -288,7 +288,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemTypeOfMusiciansAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemTypeOfMusiciansAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -300,7 +300,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetHoneymoonExperiencesAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetHoneymoonExperiencesAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -312,7 +312,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetTypeOfServicesAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetTypeOfServicesAsync(int page = 0, int perPage = 100)
         {
             page++;
 
@@ -324,7 +324,7 @@ namespace ImportFromWordPress
             });
             return posts;
         }
-        public async Task<IEnumerable<ItemCategory>> GetItemLocationsAsync(int page = 0, int perPage = 50)
+        public async Task<IEnumerable<ItemCategory>> GetItemLocationsAsync(int page = 0, int perPage = 100)
         {
             page++;
 
