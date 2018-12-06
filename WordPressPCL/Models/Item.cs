@@ -187,7 +187,19 @@ namespace WordPressPCL.Models
         public int[] Categories { get; set; }
         [JsonProperty("itemcategory", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int[] ItemCategories { get; set; }
-
+        public int[] itemtype { get; set; }
+        public int[] itemlocation { get; set; }
+        public int[] honeymoonexperience { get; set; }
+        public int[] typeofservice { get; set; }
+        public int[] capacity { get; set; }
+        public int[] itemsetting { get; set; }
+        public int[] itemcateringservices { get; set; }
+        public int[] itemtypeoffurniture { get; set; }
+        public int[] itemclientele { get; set; }
+        public int[] itemclothing { get; set; }
+        public int[] itembeautyservices { get; set; }
+        public int[] itemtypeofmusicians { get; set; }
+        public int[] itemcity { get; set; }
         /// <summary>
         /// The terms assigned to the object in the post_tag taxonomy.
         /// </summary>

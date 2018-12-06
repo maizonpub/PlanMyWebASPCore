@@ -508,7 +508,7 @@ namespace DAL.Migrations
 
                     b.Property<int>("VendorItemId");
 
-                    b.Property<int?>("VendorTypeValueId");
+                    b.Property<int>("VendorTypeValueId");
 
                     b.HasKey("Id");
 
@@ -930,7 +930,8 @@ namespace DAL.Migrations
 
                     b.HasOne("DAL.VendorTypeValue", "VendorTypeValue")
                         .WithMany("VendorItemTypeValues")
-                        .HasForeignKey("VendorTypeValueId");
+                        .HasForeignKey("VendorTypeValueId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.VendorType", b =>
