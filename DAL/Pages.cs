@@ -7,7 +7,7 @@ namespace DAL
     public class Pages
     {
         public int Id { get; set; }
-        public string title { get; set; }
+        public string Title { get; set; }
         public string HtmlText { get; set; }
     }
 }

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace PlanMyWeb.Controllers.Admin
 {
@@ -14,9 +17,10 @@ namespace PlanMyWeb.Controllers.Admin
     public class VendorCategoriesController : Controller
     {
         private readonly DbWebContext _context;
-
-        public VendorCategoriesController(DbWebContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public VendorCategoriesController(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
         [Route("Admin/VendorCategories")]
@@ -56,16 +60,29 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorCategories/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Image,Title")] VendorCategory vendorCategory)
+        public async Task<IActionResult> Create([Bind("Id,Image,Title")] VendorCategoryViewModel vendorCategoryViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vendorCategory);
+                string filename = Guid.NewGuid().ToString().Substring(4) + vendorCategoryViewModel.Image.FileName;
+                UploadFile(vendorCategoryViewModel.Image, filename);
+                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = vendorCategoryViewModel.MediaType };
+                _context.Add(homeSlider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vendorCategory);
+
+            return View(vendorCategoryViewModel);
         }
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
+        }
+
         [Route("Admin/VendorCategories/Edit/{id?}")]
         // GET: VendorCategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -89,34 +106,19 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorCategories/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Image,Title")] VendorCategory vendorCategory)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Image,Title")] VendorCategoryViewModel vendorCategoryViewModel)
         {
-            if (id != vendorCategory.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(vendorCategory);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VendorCategoryExists(vendorCategory.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                string filename = Guid.NewGuid().ToString().Substring(4) + vendorCategoryViewModel.Image.FileName;
+                UploadFile(vendorCategoryViewModel.Image, filename);
+                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
+                row.Media = filename;
+                row.MediaType = vendorCategoryViewModel.MediaType;
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vendorCategory);
+            return View(vendorCategoryViewModel);
         }
         [Route("Admin/VendorCategories/Delete/{id?}")]
         // GET: VendorCategories/Delete/5
