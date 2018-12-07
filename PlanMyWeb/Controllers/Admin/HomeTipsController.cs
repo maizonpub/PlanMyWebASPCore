@@ -68,8 +68,8 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 string filename = Guid.NewGuid().ToString().Substring(4) + homeTipsViewModel.Image.FileName;
                 UploadFile(homeTipsViewModel.Image, filename);
-                HomeTips homeSlider = new HomeTips { Media = filename, MediaType = homeTipsViewModel.MediaType };
-                _context.Add(homeSlider);
+                HomeTips homeTips = new HomeTips { Media = filename, MediaType = homeTipsViewModel.MediaType };
+                _context.Add(homeTips);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -95,6 +95,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var homeTips = await _context.HomeTips.FindAsync(id);
+            homeTipsViewModel model = new homeTipsViewModel { Id = homeTips.Id, MediaType = homeTips.MediaType };
             if (homeTips == null)
             {
                 return NotFound();
@@ -112,16 +113,19 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + homeTipsViewModel.Image.FileName;
-                UploadFile(homeTipsViewModel.Image, filename);
                 var row = _context.HomeTips.Where(x => x.Id == id).FirstOrDefault();
-                row.Media = filename;
+                if (homeTipsViewModel.Image != null)
+                {
+                    string filename = Guid.NewGuid().ToString().Substring(4) + homeTipsViewModel.Image.FileName;
+                    UploadFile(homeTipsViewModel.Image, filename);
+                    row.MediaType = homeTipsViewModel.MediaType;
+                }
+                else
+                    row.Media = row.Media;
                 row.MediaType = homeTipsViewModel.MediaType;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-
             return View(homeTipsViewModel);
         }
         [Route("Admin/HomeTips/Delete/{id?}")]

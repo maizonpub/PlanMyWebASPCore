@@ -92,6 +92,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var blogCategory = await _context.BlogCategories.FindAsync(id);
+            BlogCategoryViewModel model = new BlogCategoryViewModel { Id = blogCategory.Id, MediaType = blogCategory.MediaType };
             if (blogCategory == null)
             {
                 return NotFound();
@@ -109,10 +110,15 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + blogCategoryViewModel.Image.FileName;
-                UploadFile(blogCategoryViewModel.Image, filename);
                 var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
-                row.Media = filename;
+                if (blogCategoryViewModel.Image != null)
+                {
+                    string filename = Guid.NewGuid().ToString().Substring(4) + blogCategoryViewModel.Image.FileName;
+                    UploadFile(blogCategoryViewModel.Image, filename);
+                    row.MediaType = blogCategoryViewModel.MediaType;
+                }
+                else
+                row.Media = row.Media;
                 row.MediaType = blogCategoryViewModel.MediaType;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

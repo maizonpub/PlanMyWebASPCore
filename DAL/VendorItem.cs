@@ -23,6 +23,7 @@ namespace DAL
         public Country Country { get; set; }
         public List<VendorItemGallery> Gallery { get; set; }
         public List<VendorItemCategory> Categories { get; set; }
+        public MediaType MediaType { get; set; }
     }
     public class VendorItemViewModel
     {

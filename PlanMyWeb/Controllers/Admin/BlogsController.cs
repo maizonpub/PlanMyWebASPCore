@@ -91,6 +91,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var blog = await _context.Blogs.FindAsync(id);
+            BlogViewModel model = new BlogViewModel { Id = blog.Id, MediaType = blog.MediaType };
             if (blog == null)
             {
                 return NotFound();
@@ -108,16 +109,22 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + blogViewModel.Image.FileName;
-                UploadFile(blogViewModel.Image, filename);
                 var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
-                row.Media = filename;
-                row.MediaType = blogViewModel.MediaType;
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(blogViewModel);
+                if (blogViewModel.Image != null)
+                {
+                    string filename = Guid.NewGuid().ToString().Substring(4) + blogViewModel.Image.FileName;
+                    UploadFile(blogViewModel.Image, filename);
+                    row.MediaType = blogViewModel.MediaType;
+                }
+                else
+                    row.Media = row.Media;
+                    row.MediaType = blogViewModel.MediaType;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(blogViewModel);
         }
+        
         [Route("Admin/Blogs/Delete/{id?}")]
         // GET: Blogs/Delete/5
         public async Task<IActionResult> Delete(int? id)

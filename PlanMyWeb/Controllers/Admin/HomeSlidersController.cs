@@ -95,11 +95,12 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var homeSlider = await _context.HomeSlider.FindAsync(id);
+            HomeSliderViewModel model = new HomeSliderViewModel { Id = homeSlider.Id, MediaType = homeSlider.MediaType };
             if (homeSlider == null)
             {
                 return NotFound();
             }
-            return View(homeSlider);
+            return View(model);
         }
 
 
@@ -113,10 +114,15 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + homeSliderViewModel.Media.FileName;
-                UploadFile(homeSliderViewModel.Media, filename);
                 var row = _context.HomeSlider.Where(x => x.Id == id).FirstOrDefault();
-                row.Media = filename;
+                if (homeSliderViewModel.Media != null)
+                {
+                    string filename = Guid.NewGuid().ToString().Substring(4) + homeSliderViewModel.Media.FileName;
+                    UploadFile(homeSliderViewModel.Media, filename);
+                    row.Media = filename;
+                }
+                else
+                    row.Media = row.Media;
                 row.MediaType = homeSliderViewModel.MediaType;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

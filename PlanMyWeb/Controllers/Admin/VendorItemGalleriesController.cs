@@ -93,6 +93,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var vendorItemGallery = await _context.VendorItemGalleries.FindAsync(id);
+            VendorItemGalleryViewModel model = new VendorItemGalleryViewModel { Id = vendorItemGallery.Id, MediaType = vendorItemGallery.MediaType };
             if (vendorItemGallery == null)
             {
                 return NotFound();
@@ -110,13 +111,18 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
-                UploadFile(vendorItemGalleryViewModel.Image, filename);
                 var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
-                row.Media = filename;
+                if (vendorItemGalleryViewModel.Image != null)
+                {
+                    string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
+                    UploadFile(vendorItemGalleryViewModel.Image, filename);
+                    row.MediaType = vendorItemGalleryViewModel.MediaType;
+                }
+                else
+                    row.Media = row.Media;
                 row.MediaType = vendorItemGalleryViewModel.MediaType;
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
             }
             return View(vendorItemGalleryViewModel);
         }

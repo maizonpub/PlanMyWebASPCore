@@ -10,6 +10,7 @@ namespace DAL
         public int Id { get; set; }
         public VendorItem Item { get; set; }
         public string Image { get; set; }
+        public MediaType MediaType { get; set; }
     }
     public class VendorItemGalleryViewModel
     {

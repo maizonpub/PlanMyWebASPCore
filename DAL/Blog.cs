@@ -13,6 +13,7 @@ namespace DAL
         public string HtmlDescription { get; set; }
         public DateTime PostDate { get; set; }
         public List<BlogCategoryRelation> BlogCategoryRelations { get; set; }
+        public MediaType MediaType { get; set; }
     }
    public class BlogViewModel
     {

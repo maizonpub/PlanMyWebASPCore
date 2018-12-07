@@ -92,6 +92,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var socialMedia = await _context.SocialMedias.FindAsync(id);
+            SocialMediaViewModel model = new SocialMediaViewModel { Id = socialMedia.Id, MediaType = socialMedia.MediaType};
             if (socialMedia == null)
             {
                 return NotFound();
@@ -109,10 +110,16 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + socialMediaViewModel.Image.FileName;
-                UploadFile(socialMediaViewModel.Image, filename);
                 var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
-                row.Media = filename;
+                if (socialMediaViewModel.Image != null)
+                {
+
+                    string filename = Guid.NewGuid().ToString().Substring(4) + socialMediaViewModel.Image.FileName;
+                    UploadFile(socialMediaViewModel.Image, filename);
+                    row.MediaType = socialMediaViewModel.MediaType;
+                }
+                else
+                row.Media = row.Media;
                 row.MediaType = socialMediaViewModel.MediaType;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

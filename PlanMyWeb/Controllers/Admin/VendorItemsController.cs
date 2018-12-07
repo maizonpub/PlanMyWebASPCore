@@ -14,11 +14,11 @@ using System.IO;
 namespace PlanMyWeb.Controllers.Admin
 {
     [Authorize(Roles = "Admin")]
-    public class VendorItemsController : Controller
+    public class VendorItemsViewModel : Controller
     {
         private readonly DbWebContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public VendorItemsController(DbWebContext context, IHostingEnvironment hostingEnvironment)
+        public VendorItemsViewModel(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
@@ -91,6 +91,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var vendorItem = await _context.VendorItems.FindAsync(id);
+            VendorItemViewModel model = new VendorItemViewModel { Id = vendorItem.Id, MediaType = vendorItem.MediaType };
             if (vendorItem == null)
             {
                 return NotFound();
@@ -108,10 +109,15 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemViewModel.Thumb.FileName;
-                UploadFile(vendorItemViewModel.Thumb, filename);
-                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
-                row.Media = filename;
+                var row = _context.VendorItems.Where(x => x.Id == id).FirstOrDefault();
+                if (vendorItemViewModel.Thumb != null)
+                {
+                    string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemViewModel.Thumb.FileName;
+                    UploadFile(vendorItemViewModel.Thumb, filename);
+                    row.MediaType = vendorItemViewModel.MediaType;
+                }
+                else
+                    row.Thumb = row.Thumb;
                 row.MediaType = vendorItemViewModel.MediaType;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

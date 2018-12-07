@@ -92,6 +92,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var offersGallery = await _context.OffersGalleries.FindAsync(id);
+            OffersGalleryViewModel model = new OffersGalleryViewModel { Id = offersGallery.Id, MediaType = offersGallery.MediaType};
             if (offersGallery == null)
             {
                 return NotFound();
@@ -109,10 +110,15 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + offersGalleryViewModel.Image.FileName;
-                UploadFile(offersGalleryViewModel.Image, filename);
                 var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
-                row.Media = filename;
+                if (offersGalleryViewModel.Image != null)
+                {
+                    string filename = Guid.NewGuid().ToString().Substring(4) + offersGalleryViewModel.Image.FileName;
+                    UploadFile(offersGalleryViewModel.Image, filename);
+                    row.MediaType = offersGalleryViewModel.MediaType;
+                }
+                else
+                    row.Media = row.Media;
                 row.MediaType = offersGalleryViewModel.MediaType;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

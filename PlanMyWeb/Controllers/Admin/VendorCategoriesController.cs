@@ -66,8 +66,8 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 string filename = Guid.NewGuid().ToString().Substring(4) + vendorCategoryViewModel.Image.FileName;
                 UploadFile(vendorCategoryViewModel.Image, filename);
-                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = vendorCategoryViewModel.MediaType };
-                _context.Add(homeSlider);
+                VendorCategory vendorCategory = new VendorCategory { Image = filename, MediaType = vendorCategoryViewModel.MediaType };
+                _context.Add(vendorCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -93,6 +93,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var vendorCategory = await _context.VendorCategories.FindAsync(id);
+            VendorCategoryViewModel model = new VendorCategoryViewModel { Id = vendorCategory.Id, MediaType = vendorCategory.MediaType };
             if (vendorCategory == null)
             {
                 return NotFound();
@@ -110,15 +111,20 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + vendorCategoryViewModel.Image.FileName;
-                UploadFile(vendorCategoryViewModel.Image, filename);
-                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
-                row.Media = filename;
-                row.MediaType = vendorCategoryViewModel.MediaType;
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(vendorCategoryViewModel);
+                var row = _context.VendorCategories.Where(x => x.Id == id).FirstOrDefault();
+                if (vendorCategoryViewModel.Image != null)
+                {
+                    string filename = Guid.NewGuid().ToString().Substring(4) + vendorCategoryViewModel.Image.FileName;
+                    UploadFile(vendorCategoryViewModel.Image, filename);
+                    row.MediaType = vendorCategoryViewModel.MediaType;
+                }
+                else
+                
+                    row.Image = row.Image;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(vendorCategoryViewModel);
         }
         [Route("Admin/VendorCategories/Delete/{id?}")]
         // GET: VendorCategories/Delete/5
