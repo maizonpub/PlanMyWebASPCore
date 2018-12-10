@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DbWebContext))]
-    partial class DbWebContextModelSnapshot : ModelSnapshot
+    [Migration("20181206125411_db")]
+    partial class db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,8 +49,6 @@ namespace DAL.Migrations
                     b.Property<string>("HtmlDescription");
 
                     b.Property<string>("Image");
-
-                    b.Property<int>("MediaType");
 
                     b.Property<DateTime>("PostDate");
 
@@ -354,8 +354,6 @@ namespace DAL.Migrations
 
                     b.Property<string>("Image");
 
-                    b.Property<int>("MediaType");
-
                     b.Property<int?>("OffersId");
 
                     b.HasKey("Id");
@@ -415,8 +413,6 @@ namespace DAL.Migrations
 
                     b.Property<string>("Link");
 
-                    b.Property<int>("MediaType");
-
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -431,8 +427,6 @@ namespace DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Image");
-
-                    b.Property<int>("MediaType");
 
                     b.Property<string>("Title");
 
@@ -462,8 +456,6 @@ namespace DAL.Migrations
                     b.Property<string>("Location");
 
                     b.Property<double?>("Longitude");
-
-                    b.Property<int>("MediaType");
 
                     b.Property<string>("PhoneNumber");
 
@@ -511,8 +503,6 @@ namespace DAL.Migrations
 
                     b.Property<int?>("ItemId");
 
-                    b.Property<int>("MediaType");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
@@ -528,7 +518,7 @@ namespace DAL.Migrations
 
                     b.Property<int>("VendorItemId");
 
-                    b.Property<int>("VendorTypeValueId");
+                    b.Property<int?>("VendorTypeValueId");
 
                     b.HasKey("Id");
 
@@ -544,6 +534,8 @@ namespace DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CategoryId");
 
                     b.Property<string>("Title");
 
@@ -948,8 +940,7 @@ namespace DAL.Migrations
 
                     b.HasOne("DAL.VendorTypeValue", "VendorTypeValue")
                         .WithMany("VendorItemTypeValues")
-                        .HasForeignKey("VendorTypeValueId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("VendorTypeValueId");
                 });
 
             modelBuilder.Entity("DAL.VendorType", b =>

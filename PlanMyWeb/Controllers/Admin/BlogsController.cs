@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace PlanMyWeb.Controllers.Admin
 {
@@ -14,9 +17,10 @@ namespace PlanMyWeb.Controllers.Admin
     public class BlogsController : Controller
     {
         private readonly DbWebContext _context;
-
-        public BlogsController(DbWebContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public BlogsController(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
         [Route("Admin/Blogs")]
@@ -56,15 +60,26 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/Blogs/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Image,HtmlDescription,PostDate")] Blog blog)
+        public async Task<IActionResult> Create([Bind("Id,Title,Image,HtmlDescription,PostDate")] BlogViewModel blogViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blog);
+                string filename = Guid.NewGuid().ToString().Substring(4) + blogViewModel.Image.FileName;
+                UploadFile(blogViewModel.Image, filename);
+                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = blogViewModel.MediaType };
+                _context.Add(homeSlider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(blog);
+            return View(blogViewModel);
+        }
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
         }
         [Route("Admin/Blogs/Edit/{id?}")]
         // GET: Blogs/Edit/5
@@ -76,6 +91,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var blog = await _context.Blogs.FindAsync(id);
+            BlogViewModel model = new BlogViewModel { Id = blog.Id, MediaType = blog.MediaType };
             if (blog == null)
             {
                 return NotFound();
@@ -89,35 +105,26 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/Blogs/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Image,HtmlDescription,PostDate")] Blog blog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Image,HtmlDescription,PostDate")] BlogViewModel blogViewModel)
         {
-            if (id != blog.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
+                if (blogViewModel.Image != null)
                 {
-                    _context.Update(blog);
+                    string filename = Guid.NewGuid().ToString().Substring(4) + blogViewModel.Image.FileName;
+                    UploadFile(blogViewModel.Image, filename);
+                    row.MediaType = blogViewModel.MediaType;
+                }
+                else
+                    row.Media = row.Media;
+                    row.MediaType = blogViewModel.MediaType;
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BlogExists(blog.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(blog);
+                return View(blogViewModel);
         }
+        
         [Route("Admin/Blogs/Delete/{id?}")]
         // GET: Blogs/Delete/5
         public async Task<IActionResult> Delete(int? id)

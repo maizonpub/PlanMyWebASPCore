@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace PlanMyWeb.Controllers.Admin
 {
     [Authorize(Roles = "Admin")]
-    public class VendorItemsController : Controller
+    public class VendorItemsViewModel : Controller
     {
         private readonly DbWebContext _context;
-
-        public VendorItemsController(DbWebContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public VendorItemsViewModel(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
         [Route("Admin/VendorItems")]
@@ -56,15 +60,26 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorItems/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb")] VendorItem vendorItem)
+        public async Task<IActionResult> Create([Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb")] VendorItemViewModel vendorItemViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vendorItem);
+                string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemViewModel.Thumb.FileName;
+                UploadFile(vendorItemViewModel.Thumb, filename);
+                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = vendorItemViewModel.MediaType };
+                _context.Add(homeSlider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vendorItem);
+            return View(vendorItemViewModel);
+        }
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
         }
         [Route("Admin/VendorItems/Edit/{id?}")]
         // GET: VendorItems/Edit/5
@@ -76,6 +91,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var vendorItem = await _context.VendorItems.FindAsync(id);
+            VendorItemViewModel model = new VendorItemViewModel { Id = vendorItem.Id, MediaType = vendorItem.MediaType };
             if (vendorItem == null)
             {
                 return NotFound();
@@ -89,35 +105,27 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorItems/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb")] VendorItem vendorItem)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb")] VendorItemViewModel vendorItemViewModel)
         {
-            if (id != vendorItem.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var row = _context.VendorItems.Where(x => x.Id == id).FirstOrDefault();
+                if (vendorItemViewModel.Thumb != null)
                 {
-                    _context.Update(vendorItem);
-                    await _context.SaveChangesAsync();
+                    string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemViewModel.Thumb.FileName;
+                    UploadFile(vendorItemViewModel.Thumb, filename);
+                    row.MediaType = vendorItemViewModel.MediaType;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VendorItemExists(vendorItem.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                else
+                    row.Thumb = row.Thumb;
+                row.MediaType = vendorItemViewModel.MediaType;
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vendorItem);
+            return View(vendorItemViewModel);
         }
+           
+        
         [Route("Admin/VendorItems/Delete/{id?}")]
         // GET: VendorItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -153,5 +161,6 @@ namespace PlanMyWeb.Controllers.Admin
         {
             return _context.VendorItems.Any(e => e.Id == id);
         }
+        
     }
 }

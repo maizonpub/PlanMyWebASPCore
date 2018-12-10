@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PlanMyWeb.Controllers.Admin
 {
@@ -14,11 +17,14 @@ namespace PlanMyWeb.Controllers.Admin
     public class HomeTipsController : Controller
     {
         private readonly DbWebContext _context;
-
-        public HomeTipsController(DbWebContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public HomeTipsController(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
+
+        
         [Route("Admin/HomeTips")]
         // GET: HomeTips
         public async Task<IActionResult> Index()
@@ -56,16 +62,29 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/HomeTips/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Image,Title,Description")] HomeTips homeTips)
+        public async Task<IActionResult> Create([Bind("Id,Image,Title,Description")] homeTipsViewModel homeTipsViewModel)
         {
             if (ModelState.IsValid)
             {
+                string filename = Guid.NewGuid().ToString().Substring(4) + homeTipsViewModel.Image.FileName;
+                UploadFile(homeTipsViewModel.Image, filename);
+                HomeTips homeTips = new HomeTips { Media = filename, MediaType = homeTipsViewModel.MediaType };
                 _context.Add(homeTips);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeTips);
+            return View(homeTipsViewModel);
         }
+
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
+        }
+
         [Route("Admin/HomeTips/Edit/{id?}")]
         // GET: HomeTips/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -76,6 +95,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var homeTips = await _context.HomeTips.FindAsync(id);
+            homeTipsViewModel model = new homeTipsViewModel { Id = homeTips.Id, MediaType = homeTips.MediaType };
             if (homeTips == null)
             {
                 return NotFound();
@@ -89,34 +109,24 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/HomeTips/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Image,Title,Description")] HomeTips homeTips)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Image,Title,Description")] homeTipsViewModel homeTipsViewModel)
         {
-            if (id != homeTips.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var row = _context.HomeTips.Where(x => x.Id == id).FirstOrDefault();
+                if (homeTipsViewModel.Image != null)
                 {
-                    _context.Update(homeTips);
-                    await _context.SaveChangesAsync();
+                    string filename = Guid.NewGuid().ToString().Substring(4) + homeTipsViewModel.Image.FileName;
+                    UploadFile(homeTipsViewModel.Image, filename);
+                    row.MediaType = homeTipsViewModel.MediaType;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HomeTipsExists(homeTips.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                else
+                    row.Media = row.Media;
+                row.MediaType = homeTipsViewModel.MediaType;
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeTips);
+            return View(homeTipsViewModel);
         }
         [Route("Admin/HomeTips/Delete/{id?}")]
         // GET: HomeTips/Delete/5

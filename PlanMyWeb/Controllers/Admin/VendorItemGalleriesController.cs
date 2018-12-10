@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace PlanMyWeb.Controllers.Admin
 {
@@ -14,9 +17,10 @@ namespace PlanMyWeb.Controllers.Admin
     public class VendorItemGalleriesController : Controller
     {
         private readonly DbWebContext _context;
-
-        public VendorItemGalleriesController(DbWebContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public VendorItemGalleriesController(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
         [Route("Admin/VendorItemGalleries")]
@@ -56,16 +60,29 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorItemGalleries/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Image")] VendorItemGallery vendorItemGallery)
+        public async Task<IActionResult> Create([Bind("Id,Image")] VendorItemGalleryViewModel vendorItemGalleryViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vendorItemGallery);
+                string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
+                UploadFile(vendorItemGalleryViewModel.Image, filename);
+                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = vendorItemGalleryViewModel.MediaType };
+                _context.Add(homeSlider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vendorItemGallery);
+
+            return View(vendorItemGalleryViewModel);
         }
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
+        }
+
         [Route("Admin/VendorItemGalleries/Edit/{id?}")]
         // GET: VendorItemGalleries/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -76,6 +93,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var vendorItemGallery = await _context.VendorItemGalleries.FindAsync(id);
+            VendorItemGalleryViewModel model = new VendorItemGalleryViewModel { Id = vendorItemGallery.Id, MediaType = vendorItemGallery.MediaType };
             if (vendorItemGallery == null)
             {
                 return NotFound();
@@ -89,34 +107,24 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorItemGalleries/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Image")] VendorItemGallery vendorItemGallery)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Image")] VendorItemGalleryViewModel vendorItemGalleryViewModel)
         {
-            if (id != vendorItemGallery.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
+                if (vendorItemGalleryViewModel.Image != null)
                 {
-                    _context.Update(vendorItemGallery);
-                    await _context.SaveChangesAsync();
+                    string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
+                    UploadFile(vendorItemGalleryViewModel.Image, filename);
+                    row.MediaType = vendorItemGalleryViewModel.MediaType;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VendorItemGalleryExists(vendorItemGallery.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                else
+                    row.Media = row.Media;
+                row.MediaType = vendorItemGalleryViewModel.MediaType;
+                await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
             }
-            return View(vendorItemGallery);
+            return View(vendorItemGalleryViewModel);
         }
         [Route("Admin/VendorItemGalleries/Delete/{id?}")]
         // GET: VendorItemGalleries/Delete/5

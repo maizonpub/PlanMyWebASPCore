@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace PlanMyWeb.Controllers.Admin
 {
@@ -14,9 +17,10 @@ namespace PlanMyWeb.Controllers.Admin
     public class OffersGalleriesController : Controller
     {
         private readonly DbWebContext _context;
-
-        public OffersGalleriesController(DbWebContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public OffersGalleriesController(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
         [Route("Admin/OffersGalleries")]
@@ -56,16 +60,28 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/OffersGalleries/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Image")] OffersGallery offersGallery)
+        public async Task<IActionResult> Create([Bind("Id,Image")] OffersGalleryViewModel offersGalleryViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(offersGallery);
+                string filename = Guid.NewGuid().ToString().Substring(4) + offersGalleryViewModel.Image.FileName;
+                UploadFile(offersGalleryViewModel.Image, filename);
+                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = offersGalleryViewModel.MediaType };
+                _context.Add(homeSlider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(offersGallery);
+            return View(offersGalleryViewModel);
         }
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
+        }
+
         [Route("Admin/OffersGalleries/Edit/{id?}")]
         // GET: OffersGalleries/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -76,6 +92,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var offersGallery = await _context.OffersGalleries.FindAsync(id);
+            OffersGalleryViewModel model = new OffersGalleryViewModel { Id = offersGallery.Id, MediaType = offersGallery.MediaType};
             if (offersGallery == null)
             {
                 return NotFound();
@@ -89,34 +106,26 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/OffersGalleries/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Image")] OffersGallery offersGallery)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Image")] OffersGalleryViewModel offersGalleryViewModel)
         {
-            if (id != offersGallery.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
+                if (offersGalleryViewModel.Image != null)
                 {
-                    _context.Update(offersGallery);
-                    await _context.SaveChangesAsync();
+                    string filename = Guid.NewGuid().ToString().Substring(4) + offersGalleryViewModel.Image.FileName;
+                    UploadFile(offersGalleryViewModel.Image, filename);
+                    row.MediaType = offersGalleryViewModel.MediaType;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OffersGalleryExists(offersGallery.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                else
+                    row.Media = row.Media;
+                row.MediaType = offersGalleryViewModel.MediaType;
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(offersGallery);
+
+
+            return View(offersGalleryViewModel);
         }
         [Route("Admin/OffersGalleries/Delete/{id?}")]
         // GET: OffersGalleries/Delete/5

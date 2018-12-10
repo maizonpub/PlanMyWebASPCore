@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace PlanMyWeb.Controllers.Admin
 {
@@ -14,9 +17,10 @@ namespace PlanMyWeb.Controllers.Admin
     public class SocialMediasController : Controller
     {
         private readonly DbWebContext _context;
-
-        public SocialMediasController(DbWebContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public SocialMediasController(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
         [Route("Admin/SocialMedias")]
@@ -56,16 +60,28 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/SocialMedias/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Link,Image")] SocialMedia socialMedia)
+        public async Task<IActionResult> Create([Bind("Id,Title,Link,Image")] SocialMediaViewModel socialMediaViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(socialMedia);
+                string filename = Guid.NewGuid().ToString().Substring(4) + socialMediaViewModel.Image.FileName;
+                UploadFile(socialMediaViewModel.Image, filename);
+                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = socialMediaViewModel.MediaType };
+                _context.Add(homeSlider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(socialMedia);
+            return View(socialMediaViewModel);
         }
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
+        }
+
         [Route("Admin/SocialMedias/Edit/{id?}")]
         // GET: SocialMedias/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -76,6 +92,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var socialMedia = await _context.SocialMedias.FindAsync(id);
+            SocialMediaViewModel model = new SocialMediaViewModel { Id = socialMedia.Id, MediaType = socialMedia.MediaType};
             if (socialMedia == null)
             {
                 return NotFound();
@@ -89,34 +106,25 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/SocialMedias/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Link,Image")] SocialMedia socialMedia)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Link,Image")] SocialMediaViewModel socialMediaViewModel)
         {
-            if (id != socialMedia.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
+                if (socialMediaViewModel.Image != null)
                 {
-                    _context.Update(socialMedia);
-                    await _context.SaveChangesAsync();
+
+                    string filename = Guid.NewGuid().ToString().Substring(4) + socialMediaViewModel.Image.FileName;
+                    UploadFile(socialMediaViewModel.Image, filename);
+                    row.MediaType = socialMediaViewModel.MediaType;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SocialMediaExists(socialMedia.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                else
+                row.Media = row.Media;
+                row.MediaType = socialMediaViewModel.MediaType;
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(socialMedia);
+            return View(socialMediaViewModel);
         }
         [Route("Admin/SocialMedias/Delete/{id?}")]
         // GET: SocialMedias/Delete/5

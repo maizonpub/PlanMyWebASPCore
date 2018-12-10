@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PlanMyWeb.Controllers.Admin
 {
@@ -14,11 +17,13 @@ namespace PlanMyWeb.Controllers.Admin
     public class HomeSlidersController : Controller
     {
         private readonly DbWebContext _context;
-
-        public HomeSlidersController(DbWebContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public HomeSlidersController(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
+
         [Route("Admin/HomeSliders")]
         // GET: HomeSliders
         public async Task<IActionResult> Index()
@@ -56,16 +61,30 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/HomeSliders/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Create([Bind("Id,Media,MediaType")] HomeSliderViewModel homeSliderViewModel)
         {
+            
             if (ModelState.IsValid)
             {
+                string filename = Guid.NewGuid().ToString().Substring(4) + homeSliderViewModel.Media.FileName;
+                UploadFile(homeSliderViewModel.Media, filename);
+                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = homeSliderViewModel.MediaType };
                 _context.Add(homeSlider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+            return View(homeSliderViewModel);
         }
+
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
+        }
+
         [Route("Admin/HomeSliders/Edit/{id?}")]
         // GET: HomeSliders/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -76,12 +95,14 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var homeSlider = await _context.HomeSlider.FindAsync(id);
+            HomeSliderViewModel model = new HomeSliderViewModel { Id = homeSlider.Id, MediaType = homeSlider.MediaType };
             if (homeSlider == null)
             {
                 return NotFound();
             }
-            return View(homeSlider);
+            return View(model);
         }
+
 
         // POST: HomeSliders/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -89,35 +110,29 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/HomeSliders/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Media,MediaType")] HomeSlider homeSlider)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Media,MediaType")] HomeSliderViewModel homeSliderViewModel)
         {
-            if (id != homeSlider.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var row = _context.HomeSlider.Where(x => x.Id == id).FirstOrDefault();
+                if (homeSliderViewModel.Media != null)
                 {
-                    _context.Update(homeSlider);
-                    await _context.SaveChangesAsync();
+                    string filename = Guid.NewGuid().ToString().Substring(4) + homeSliderViewModel.Media.FileName;
+                    UploadFile(homeSliderViewModel.Media, filename);
+                    row.Media = filename;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HomeSliderExists(homeSlider.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                else
+                    row.Media = row.Media;
+                row.MediaType = homeSliderViewModel.MediaType;
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(homeSlider);
+
+            
+            return View(homeSliderViewModel);
         }
+        
+
         [Route("Admin/HomeSliders/Delete/{id?}")]
         // GET: HomeSliders/Delete/5
         public async Task<IActionResult> Delete(int? id)
