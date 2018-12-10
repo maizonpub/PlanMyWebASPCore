@@ -82,7 +82,7 @@
             </p>
         </div>
 
-        <div class="col-md-12 venue-action"> <a href="#googleMap" class="btn tp-btn-primary">VIEW MAP</a> <a href="#inquiry" class="btn tp-btn-default">Book Now</a> </div>
+        <div class="col-md-12 venue-action"> <a href="#map-canvas" class="btn tp-btn-primary">VIEW MAP</a> <a href="#inquiry" class="btn tp-btn-default">Book Now</a> </div>
     </div>
 </div>
 
@@ -259,10 +259,10 @@
 </div>
 <div id="map-canvas" class="map" style="position: relative; overflow: hidden;"></div>
 
-<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyBnjJnc9WnxcqgnoLru-A1JKdaV3DrRd80"></script>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyB5gJ-TdFei2HbcY4cg62x0MPCAEcmfKZ4"></script>
 <script type="text/javascript">
-    var stockholm = new google.maps.LatLng(33.8739855, 35.5169851);
-    var parliament = new google.maps.LatLng(33.8739855, 35.5169851);
+    var stockholm = new google.maps.LatLng(@Model.Latitude, @Model.Longitude);
+    var parliament = new google.maps.LatLng(@Model.Latitude, @Model.Longitude);
     var marker;
     var map;
     var directionsDisplay;
