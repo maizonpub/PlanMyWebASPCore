@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <title>Plan My &#8211; Start planing my&#8230;</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -25,7 +28,7 @@
     <link rel='stylesheet' id='weddingvendor-owl-carousel-css' href='~/css/owl.carousel.css?ver=4.8.7' type='text/css' media='all' />
     <link rel='stylesheet' id='font-awesome-min-css' href='~/css/font-awesome.min.css?ver=4.5.0' type='text/css' media='all' />
     <link rel='stylesheet' id='jquery-style-css' href='//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css?ver=5.1.7' type='text/css' media='all' />
-    
+
     <script type='text/javascript' src='~/js/ajax-auth-script.js?ver=4.8.7'></script>
     <script type='text/javascript' src='~/js/jquery.validate.js?ver=4.8.7'></script>
     <script type='text/javascript' src='~/js/menumaker.js?ver=4.8.7'></script>
@@ -211,7 +214,7 @@
         }
     </style>
 
-    
+
 
     <!-- Jetpack Open Graph Tags -->
     <meta property="og:type" content="website" />
@@ -303,26 +306,7 @@
 
     @RenderBody()
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+    
 
     @RenderSection("Scripts", required: false)
     <div class="footer">
