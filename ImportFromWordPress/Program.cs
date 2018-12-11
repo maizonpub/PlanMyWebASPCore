@@ -150,6 +150,8 @@ namespace ImportFromWordPress
                     foreach (var item in items)
                     {
                         WebClient wc = new WebClient();
+                        var itemhref = wc.DownloadString("http://planmy.me/maizonpub-api/singleitem.php?itemId=" + item.Id);
+                        var i = Newtonsoft.Json.JsonConvert.DeserializeObject<SingleItem>(itemhref);
                         string filename = "";
                         string galleryfile = "";
                         if (item.Embedded.WpFeaturedmedia != null && item.Embedded.WpFeaturedmedia.Count() > 0 && !string.IsNullOrEmpty(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl))
@@ -160,14 +162,15 @@ namespace ImportFromWordPress
                             wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + galleryfile);
                         }
                         string locator = item.ItemMeta.locators[0];
+                        
                         var gallery = await service.GetItemMedia(item.Id);
 
                         //var position = await Geolocator.CrossGeolocator.Current.GetPositionsForAddressAsync(locator);
                         var dbuser = await service.GetAuthorByIDAsync(item.Author);
                         string desc = System.Net.WebUtility.HtmlDecode(item.Content.Rendered);
                         var user = new Users { Address = item.ItemMeta.item_address[0], UserType = UserType.Vendor, FirstName = !string.IsNullOrEmpty(dbuser.FirstName) ? dbuser.FirstName : dbuser.Name, LastName = !string.IsNullOrEmpty(dbuser.LastName) ? dbuser.LastName : dbuser.Name, PasswordHash = !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456", Gender = Gender.Male, UserName = dbuser.UserName, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Email = !string.IsNullOrEmpty(dbuser.Email) ? dbuser.Email : "" };
-                        await _userManager.AddToRoleAsync(user, "Vendor ");
-                        VendorItem di = new VendorItem { Address = (item.ItemMeta.item_address != null && item.ItemMeta.item_address.Count() > 0) ? item.ItemMeta.item_address[0] : "", IsFeatured = false, Location = locator, HtmlDescription = desc, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Thumb = filename, Title = item.Title.Rendered, User = user, Email = dbuser.Email };
+                        await _userManager.AddToRoleAsync(user, "Vendor");
+                        VendorItem di = new VendorItem { Address = (item.ItemMeta.item_address != null && item.ItemMeta.item_address.Count() > 0) ? item.ItemMeta.item_address[0] : "", IsFeatured = false, Location = locator,Latitude = i.latitude, Longitude = i.longitude, HtmlDescription = desc, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Thumb = filename, Title = item.Title.Rendered, User = user, Email = dbuser.Email };
                         VendorItemCategory catrel = new VendorItemCategory { VendorCategory = category, VendorItem = di };
                         foreach (var img in gallery)
                         {
@@ -446,6 +449,11 @@ namespace ImportFromWordPress
             }
             return par.ToArray();
         }
+    }
+    public class SingleItem
+    {
+        public double latitude { get; set; }
+        public double longitude { get; set; }
     }
     
     public class CustomUserStore : IUserStore<Users>, IUserPasswordStore<Users>, IUserSecurityStampStore<Users>, IUserRoleStore<Users>

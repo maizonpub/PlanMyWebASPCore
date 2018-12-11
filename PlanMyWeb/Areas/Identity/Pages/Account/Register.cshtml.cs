@@ -34,7 +34,7 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            createRolesandUsers();
+            
         }
 
         [BindProperty]
@@ -68,9 +68,10 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
             //public string ConfirmPassword { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public async void OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            await createRolesandUsers();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

@@ -36,7 +36,7 @@
                         <div class="col-md-12">
                             <h2>Refine Your Search</h2>
                         </div>
-                        <form method="get">
+                        <form method="post">
                             <!--<div class="col-md-12">
                                 <div class="amount_box">$<span id="amount"></span></div>
                                 <div id="price-range" class="pricing_range"></div>
@@ -48,7 +48,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label" for="category_type">Category</label>
-                                    <select name="category_type" id="category_type" class="form-control input-md" onchange="window.location.href='/vendors?CategoryId='+this.value">
+                                    <select name="CategoryId" id="CategoryId" class="form-control input-md" onchange="window.location.href='/vendors?CategoryId='+this.value">
                                         <option value="">Select Category</option>
                                         @foreach (var row in Model.VendorCategories)
                                         {
@@ -67,19 +67,26 @@
                             @foreach (var row in Model.VendorTypes)
                             {
                                 <div class="col-md-12">
-                                    <label class="control-label" for="type_type">@row.Title</label>
+                                    <label class="control-label" for="TypeId">@row.Title</label>
                                     <div class="form-group">
                                         <br /><h4>@row.Title</h4>
                                         @foreach (var record in row.VendorTypeValues)
                                         {
-                                            <label class="aminities_box"><input type="checkbox" class="aminities" name="type_type" id="type_type" value="@record.Id" />@record.Title</label>
+                                            if (Context.Request.HasFormContentType && Context.Request.Form["TypeId"] != "" && Context.Request.Form["TypeId"].Contains(record.Id.ToString()))
+                                            {
+                                                <label class="aminities_box"><input type="checkbox" checked class="aminities" name="TypeId" id="TypeId" value="@record.Id" />@record.Title</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="aminities_box"><input type="checkbox" class="aminities" name="TypeId" id="TypeId" value="@record.Id" />@record.Title</label>
+                                            }
                                         }
 
                                     </div>
                                 </div>
                             }
                             <div class="col-md-12">
-                                <button type="button" id="leftsidebar-search" class="btn tp-btn-default tp-btn-lg btn-block">Search</button>
+                                <button type="submit" id="leftsidebar-search" class="btn tp-btn-default tp-btn-lg btn-block">Search</button>
                             </div>
                         </form>
                     </div>
@@ -105,9 +112,9 @@
                                             <img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" />
 
                                             <figcaption>
-                                                <h2><a href="./Details/@row.Id">@row.Title</a></h2>
+                                                <h2><a href="~/Vendors/Details/@row.Id">@row.Title</a></h2>
                                                 <p></p>
-                                                <a href="Vendors/Details/@row.Id">View more</a>
+                                                <a href="~/Vendors/Details/@row.Id">View more</a>
                                             </figcaption>
                                         </figure>
                                     </div>

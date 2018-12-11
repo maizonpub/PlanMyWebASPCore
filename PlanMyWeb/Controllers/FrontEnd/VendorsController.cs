@@ -17,10 +17,10 @@ namespace PlanMyWeb.Controllers.FrontEnd
         {
             _context = context;
         }
-        public IActionResult Index([FromQuery(Name = "CategoryId")] int? CategoryId, int? CountryId)
+        public IActionResult Index(int? CategoryId, int? CountryId, int[] TypeId)
         {
             VendorsViewModel model = new VendorsViewModel();
-            var items = GetVendorItems(CategoryId, CountryId);
+            var items = GetVendorItems(CategoryId, CountryId, TypeId);
             model.VendorCategories = GetCategories();
             model.VendorTypes = GetTypes(CategoryId);
             model.VendorItems = items;
@@ -38,7 +38,6 @@ namespace PlanMyWeb.Controllers.FrontEnd
             {
                 return NotFound();
             }
-
             return View(vendorItem);
         }
         private IEnumerable<VendorType> GetTypes(int? categoryId)
@@ -51,13 +50,23 @@ namespace PlanMyWeb.Controllers.FrontEnd
             return _context.VendorCategories;
         }
 
-        public IEnumerable<VendorItem> GetVendorItems(int? CategoryId, int? CountryId)
+        public IEnumerable<VendorItem> GetVendorItems(int? CategoryId, int? CountryId, int[] TypeId)
         {
             var items = new List<VendorItem>().AsEnumerable();
             if (CategoryId != null)
-                items =  _context.VendorItems.Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0);
+            {
+                if (TypeId != null && TypeId.Length > 0)
+                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0 && x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0);
+                else
+                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0);
+            }
             else
-                items = _context.VendorItems;
+            {
+                if (TypeId != null && TypeId.Length > 0)
+                    items = _context.VendorItems.Include(x=>x.VendorItemTypeValues).Where(x => x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0);
+                else
+                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues);
+            }
             if(CountryId!=null)
             {
                 items = items.Where(x => x.Country.Id == CountryId);

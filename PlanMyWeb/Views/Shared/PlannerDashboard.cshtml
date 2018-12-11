@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<DAL.Users> SignInManager
+@inject UserManager<DAL.Users> UserManager
+
+@{
+    var user = await SignInManager.UserManager.GetUserAsync(User);
+}
+<!DOCTYPE html>
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
@@ -289,12 +297,11 @@
                             <li id="menu-item-929" class="dropdown-togglemenu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-929">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Planning Tools <span class="fa fa-angle-down"></span></a>
                                 <ul>
-                                    <li> <a href="#">Checklist</a></li>
-                                    <li> <a href="#">My Budget</a></li>
-                                    <li> <a href="#">Couple Wishlist</a></li>
-                                    <li> <a href="#">Guest List</a></li>
-                                    <li> <a href="#">Seating Chart</a></li>
-                                    <li> <a href="#">Messages</a></li>
+                                    <li> <a href="~/Dashboard/CheckList">Checklist</a></li>
+                                    <li> <a href="~/Dashboard/MyBudget">My Budget</a></li>
+                                    <li> <a href="~/Dashboard/WishList">My Wishlist</a></li>
+                                    <li> <a href="~/Dashboard/GuestList">Guest List</a></li>
+                                    <li> <a href="~/Dashboard/SeatingChart">Seating Chart</a></li>
                                 </ul>
                             </li>
                             <li id="menu-item-1220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1220"><a href="@Url.Action("Index","Venues",new { area = "" })">Venues</a></li>
@@ -316,7 +323,7 @@
                 <div class="col-md-12 profile-header">
                     <div class="profile-pic col-md-2"><img src="http://weddexonline.com/wp-content/uploads/2018/02/7a8df-11-2-290x290.png" alt="" class="img-responsive img-circle"></div>
                     <div class="profile-info col-md-9">
-                        <h1 class="profile-title">aanthony  assaad<small>Welcome Back  aanthony</small></h1>
+                        <h1 class="profile-title">@user.FirstName<small>Welcome Back  @user.UserName</small></h1>
                     </div>
                 </div>
             </div>
@@ -327,42 +334,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 dashboard-nav">
-                    <ul class="nav nav-pills nav-justified listnone">
-                        <li class="active"><a href="#"><i class="fa fa-dashboard db-icon"></i>Couple Dashboard</a></li>
-                        <li><a href="#"><i class="fa fa-list db-icon"></i>Checklist</a></li>
-                        <li><a href="#"><i class="fa fa-calculator db-icon"></i>My Budget</a></li>
-                        <li><a href="#"><i class="fa fa-heart db-icon"></i>Couple Wishlist</a></li>
-                        <li><a href="#"><i class="fa fa-list db-icon"></i>Guest List</a></li>
-                        <li><a href="#"><i class="fa fa-list db-icon"></i>Seating Chart</a></li>
-                        <li><a href="#"><i class="fa fa-user db-icon"></i>Couple Profile</a></li>
-                    </ul>
+                    <partial name="_DashboardMenuPartial" />
+                    
                 </div>
             </div>
         </div>
     </div>
-    <div class="main-container">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>Welcome back to aanthony</h1>
-                    <p>We are happy to have you back.</p>
-                </div>
-                <div class="col-md-6">
-                    <div class="well-box text-center">
-                        <h3 class="package_title">Count Down Days&nbsp;&nbsp;<small>[Sun, 08 July 2018]</small></h3>
-                        <h1 class="package_number">144</h1>
-                        <h3 class="package_title"></h3>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="well-box text-center">
-                        <h3 class="package_title">Your Wishlist Items</h3>
-                        <h1 class="package_number">13</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     @RenderBody()
 
     <environment include="Development">

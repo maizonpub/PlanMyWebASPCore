@@ -1990,6 +1990,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="MVC.GoogleMaps" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -6717,6 +6718,9 @@
 
   <ItemGroup>
     <Content Update="Views\DashBoard\WishList.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_DashboardMenuPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

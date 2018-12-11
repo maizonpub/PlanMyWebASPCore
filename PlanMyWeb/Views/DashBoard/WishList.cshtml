@@ -1,7 +1,11 @@
-﻿@model IEnumerable<DAL.Users>
+﻿@model DashBoardViewModel;
+;
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<DAL.Users> UserManager
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/PlannerDashboard.cshtml";
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <style>
@@ -17,38 +21,38 @@
         <div class="row">
             <div class="col-md-12 dashboard-page-head">
                 <div class="page-header">
-                    <h1>Couple Wishlist&nbsp;&nbsp;&nbsp;&nbsp;<small>Your selected vendor items</small></h1>
+                    <h1>My Wishlist&nbsp;&nbsp;&nbsp;&nbsp;<small>Your selected vendor items</small></h1>
                 </div>
             </div>
         </div>
         <div class="row">
-            @foreach (var row in Model)
+            @foreach (var row in Model.WishList)
             {
-            <div class="col-md-4 vendor-box">
-                <!-- venue box start-->
-                <div class="vendor-image">
-                    <!-- venue pic -->
-                    <a href="#">
-                        <img width="440" height="290" src="~/Media/@row." class="img-responsive wp-post-image" alt="" />
-                    </a>
-                    <a href="#" class="label-primary">Catering &amp; Bars</a>
-                    <div class="favorite-action" id="fav_1806"> <a class="fav-icon" href="#" onclick=remove_wishlist(1806)><i class="fa fa-close"></i></a> </div>
-                </div>
-                <!-- /.venue pic -->
-                <div class="vendor-detail">
-                    <!-- venue details -->
-                    <div class="caption">
-                        <!-- caption -->
-                        <h2><a class="title" href="#">Tonia Chocolatier</a></h2>
-                        <p class="location"><i class="fa fa-map-marker"></i>&nbsp; Lebanon</p>
+                <div class="col-md-4 vendor-box">
+                    <!-- venue box start-->
+                    <div class="vendor-image">
+                        <!-- venue pic -->
+                        <a href="#">
+                            <img width="440" height="290" src="~/Media/@row." class="img-responsive wp-post-image" alt="" />
+                        </a>
+                        <a href="#" class="label-primary">@row.VendorItem.Categories.FirstOrDefault().VendorCategory.Title</a>
+                        <div class="favorite-action" id="fav_1806"> <a class="fav-icon" href="#" onclick=remove_wishlist(@row.Id)><i class="fa fa-close"></i></a> </div>
                     </div>
-                    <!-- /.caption -->
-                </div>
+                    <!-- /.venue pic -->
+                    <div class="vendor-detail">
+                        <!-- venue details -->
+                        <div class="caption">
+                            <!-- caption -->
+                            <h2><a class="title" href="#">@row.VendorItem.Title</a></h2>
+                            @*<p class="location"><i class="fa fa-map-marker"></i>&nbsp; @row.VendorItem.Address</p>*@
+                        </div>
+                        <!-- /.caption -->
+                    </div>
 
-                <!-- venue details -->
-            </div>
+                    <!-- venue details -->
+                </div>
             }
-            </div>
+        </div>
     </div>
 </div>
 
