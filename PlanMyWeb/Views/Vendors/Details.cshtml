@@ -105,16 +105,65 @@
 
                 <div id="comments" class="comments-area post-comments single_item">
                     <div id="respond" class="comment-respond">
-                        <h3 id="reply-title" class="comment-reply-title">User Review <small><a rel="nofollow" id="cancel-comment-reply-link" href="#" style="display:none;">Cancel reply</a></small></h3>			<form action="#" method="post" id="commentform" class="leave-comments" novalidate>
-                            <p class="comment-form-comment"><label for="comment">Your Review</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required" placeholder="Tell about your experience or leave a tip for others"></textarea></p><div class="form-group"><div class="col-md-12"><label for="author" class="control-label">Name</label><input id="author" name="author" type="text" value="" aria-required="true" class="form-control" /></div></div>
+                        <h3 id="reply-title" class="comment-reply-title">User Review <small><a rel="nofollow" id="cancel-comment-reply-link" href="#" style="display:none;">Cancel reply</a></small></h3>			
+                    <form action="#" method="post" id="commentform" class="leave-comments" novalidate>
+                            <p class="comment-form-comment"><label for="comment">Your Review</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required" placeholder="Tell about your experience or leave a tip for others" class="form-control" data-gramm="true" data-txt_gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" data-gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" spellcheck="false" data-gramm_editor="true" style="z-index: auto;position: relative;line-height: 20px;font-size: 14px;transition: none 0s ease 0s;border-radius:2px;border:1px solid #e9e6e0;"></textarea></p>
+                        <div class="form-group"><div class="col-md-12"><label for="author" class="control-label">Name</label><input id="author" name="author" type="text" value="" aria-required="true" class="form-control" /></div></div>
                             <div class="form-group"><div class="col-md-12"><label for="email" class="control-label">Email</label><input class="form-control" id="email" name="email" type="text" value="" aria-required="true" /></div></div>
                             <div class="form-group"><div class="col-md-12"><label for="subject" class="control-label">Subject</label><input class="form-control" id="subject" name="subject" type="text" value="" aria-required="true" /></div></div>
                             <p class="comment-subscription-form"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts by email.</label></p>
                             <div id="add_comment_rating_wrap">
                                 <label for="add_post_rating">Your overall rating of this listing:</label>
-
-                                <div id="add_post_rating" data-pixrating="4" data-assets_path="#"></div>
                             </div>
+                        <script language="javascript" type="text/javascript">
+                            $(function () {
+                                $("img").mouseover(function () {
+                                    giveRating($(this), "FilledStar.png");
+                                    $(this).css("cursor", "pointer");
+                                });
+                                $("img").mouseout(function () {
+                                    giveRating($(this), "EmptyStar.png");
+                                });
+                                $("img").mouseout(function () {
+                                    $("img").unbind("mouseout mouseover click");
+                                })
+                                var url = "/Rating/PostRating?rating=" + ParseInt($(this).attr("id"));
+                                $.post(url, null, function (data) {
+                                    $("#result").text(data);
+                                });
+                            });
+
+                            function giveRating(img, image) {
+                                img.attr("src", "/images/" + image)
+                                    .prevAll("img").attr("src", "/images/" + image);
+                            }
+                            $("img").mouseover(function () {
+                                giveRating($(this), "FilledStar.png");
+                                $(this).css("cursor", "pointer");
+                            });
+                            $("img").mouseout(function () {
+                                giveRating($(this), "EmptyStar.png");
+                            });
+                            function giveRating(img, image) {
+                                img.attr("src", "/images/" + image)
+                                    .prevAll("img").attr("src", "/images/" + image);
+                            }
+                            $("img").click(function () {
+                                $("img").unbind("mouseout mouseover click");
+                                var url = "/Rating/PostRating?rating=" + parseInt($(this).attr("id"));
+                                $.post(url, null, function (data) {
+                                    $("#result").text(data);
+                                });
+                            });
+                        </script>
+                        <p>
+                            <img src="~/images/EmptyStar.png" alt="StarRating" align="middle" id="1" style="width:50px;height:50px;"/>
+                            <img src="~/images/EmptyStar.png" alt="StarRating" align="middle" id="2" style="width:50px;height:50px;" />
+                            <img src="~/images/EmptyStar.png" alt="StarRating" align="middle" id="3" style="width:50px;height:50px;" />
+                            <img src="~/images/EmptyStar.png" alt="StarRating" align="middle" id="4" style="width:50px;height:50px;"/>
+                            <img src="~/images/EmptyStar.png" alt="StarRating" align="middle" id="5" style="width:50px;height:50px;"/>
+                        </p>
+                     
                             <p class="review-title-form">
                                 <label for="pixrating_title">Title of your review:</label>
                                 <input type='text' id='pixrating_title' name='pixrating_title' value="" placeholder="Summarize your opinion or highlight an interesting detail" size='25' />
@@ -123,7 +172,7 @@
                             <p class="form-submit">
                                 <input name="submit" type="submit" id="submit" class="btn tp-btn-primary tp-btn-lg" value="Submit Review" /> <input type='hidden' name='comment_post_ID' value='521' id='comment_post_ID' />
                                 <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
-                            </p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="46b205dd2f" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="223" /></p>
+                            </p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="46b205dd2f" /></p><p style="display: none"><input type="hidden" id="ak_js" name="ak_js" value="223" /></p>
                         </form>
                     </div><!-- #respond -->
                 </div><!-- #comments -->
