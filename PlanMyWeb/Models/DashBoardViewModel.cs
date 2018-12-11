@@ -9,6 +9,8 @@ namespace PlanMyWeb.Models
     {
         public IEnumerable<DAL.WishList> WishList { get; set; }
         public IEnumerable<DAL.CheckList> CheckList { get; set; }
+        public IEnumerable<DAL.GuestList> GuestList { get; set; }
+        public IEnumerable<DAL.Budget> Budget { get; set; }
         public DAL.Events Event { get; set; } 
     }
 }

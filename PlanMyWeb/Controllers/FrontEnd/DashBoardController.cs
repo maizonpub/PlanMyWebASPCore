@@ -18,6 +18,8 @@ namespace PlanMyWeb.Controllers.FrontEnd
         private readonly UserManager<DAL.Users> _userManager;
         protected IEnumerable<WishList> wishlist;
         protected IEnumerable<CheckList> checklist;
+        protected IEnumerable<GuestList> guestLists;
+        protected IEnumerable<Budget> budgets;
         protected Events Event;
         public DashBoardController(DbWebContext context, UserManager<DAL.Users> userManager)
         {
@@ -39,15 +41,21 @@ namespace PlanMyWeb.Controllers.FrontEnd
             var userId = _userManager.GetUserId(User);
             checklist = _context.CheckLists.Where(x => x.User.Id == userId).OrderByDescending(x => x.Id);
             DashBoardViewModel model = new DashBoardViewModel { CheckList = checklist};
-            return View();
+            return View(model);
         }
         public IActionResult GuestList()
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+            guestLists = _context.GuestLists.Where(x => x.User.Id == userId).OrderByDescending(x => x.Id);
+            DashBoardViewModel model = new DashBoardViewModel { GuestList = guestLists };
+            return View(model);
         }
         public IActionResult MyBudget()
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+            budgets = _context.Budgets.Where(x => x.User.Id == userId).OrderByDescending(x => x.Id);
+            DashBoardViewModel model = new DashBoardViewModel { Budget = budgets };
+            return View(model);
         }
         public IActionResult SeatingChart()
         {
