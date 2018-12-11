@@ -16,10 +16,10 @@ namespace PlanMyWeb.Controllers.FrontEnd
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int[] TypeId)
         {
             VendorsViewModel model = new VendorsViewModel();
-            model.VendorItems = GetVenues();
+            model.VendorItems = GetVenues(TypeId);
             model.VendorCategories = GetCategories();
             var VenueCategory = model.VendorCategories.Where(x => x.Title.ToLower().Contains("venu")).FirstOrDefault();
             if(VenueCategory !=null)
@@ -39,9 +39,14 @@ namespace PlanMyWeb.Controllers.FrontEnd
             return _context.VendorCategories;
         }
 
-        public IEnumerable<VendorItem> GetVenues()
+        public IEnumerable<VendorItem> GetVenues(int[] TypeId)
         {
-            return _context.VendorItems.Where(x => x.Categories.Where(y => y.VendorCategory.Title.ToLower().Contains("venu")).Count() > 0).AsEnumerable();
+            var items = _context.VendorItems.Include(x=>x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Title.ToLower().Contains("venu")).Count() > 0).AsEnumerable();
+            if(TypeId.Length>0)
+            {
+                items = items.Where(x => x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0);
+            }
+            return items;
         }
     }
 }

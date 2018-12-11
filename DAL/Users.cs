@@ -15,6 +15,7 @@ namespace DAL
         public UserType UserType { get; set; }
         public List<Offers> Offers { get; set; }
         public List<VendorItem> VendorItems { get; set; }
+        public List<WishList> WishList { get; set; }
     }
         public enum Gender
     {

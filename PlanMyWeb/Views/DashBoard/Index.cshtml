@@ -1,7 +1,11 @@
-﻿@model DAL.Users
+﻿@model DashBoardViewModel;
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<DAL.Users> UserManager
+@inject SignInManager<DAL.Users> SignInManager
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/PlannerDashboard.cshtml";
+    var user = await SignInManager.UserManager.GetUserAsync(User);
 }
 
 <style>
@@ -16,20 +20,29 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Welcome back to aanthony</h1>
+                <h1 style="color:#333333">Welcome back to @user.UserName</h1>
                 <p>We are happy to have you back.</p>
             </div>
             <div class="col-md-6">
                 <div class="well-box text-center">
-                    <h3 class="package_title">Count Down Days&nbsp;&nbsp;<small>[Sun, 08 July 2018]</small></h3>
-                    <h1 class="package_number">144</h1>
-                    <h3 class="package_title"></h3>
+                    @if (Model.Event != null)
+                    {
+                        <h3 class="package_title">Count Down Days&nbsp;&nbsp;<small>[@Model.Event.Date.DayOfWeek, @Model.Event.Date.Date @Model.Event.Date.Month @Model.Event.Date.Year]</small></h3>
+                        <h1 class="package_number">@Model.Event.Date.Subtract(DateTime.Now) Days</h1>
+                        <h3 class="package_title"></h3>
+                    }
+                    else
+                    {
+                        <h3 class="package_title">Count Down Days&nbsp;&nbsp;<small>[<a asp-area="Identity" asp-page="/Account/Manage">Please Create your event first</a>]</small></h3>
+                        <h1 class="package_number"></h1>
+                        <h3 class="package_title"></h3>
+                    }
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="well-box text-center">
                     <h3 class="package_title">Your Wishlist Items</h3>
-                    <h1 class="package_number">13</h1>
+                    <h1 class="package_number">@Model.WishList.Count()</h1>
                 </div>
             </div>
         </div>
