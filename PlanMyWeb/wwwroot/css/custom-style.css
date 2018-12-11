@@ -350,10 +350,10 @@ label .required {
 .venue-header{position: relative;z-index:1;}
 .venue-head{position: absolute;bottom: 60px; width: 100%;}
 .venue-head h1{font-size: 42px; color: #fff; margin-bottom: 10px;}
-.venue-head .title{border-bottom: 1px solid #504849; padding-bottom: 20px;margin-bottom: 20px;}
-.venue-head .location{color: #fff;}
+.venue-head .title{border-bottom: 1px solid #504849; padding-bottom: 20px;margin-bottom: 5px;}
+.venue-head .location{color: #fff; margin-bottom:-20px;}
 .venue-head .location i{padding-right: 10px;}
-.rating-box, .venue-action{margin-bottom: 20px;}
+.rating-box, .venue-action{margin-bottom: -30px;}
 .venue-action{text-align: right;}
 .label-primary{background-color: #00aeaf; color: #fff; text-transform: uppercase; font-size: 10px; padding: 4px 8px; border-radius: 2px; font-weight: 700;}
 .label-primary[href]:focus, .label-primary[href]:hover{background-color: #f9a630; color: #fff;}
@@ -1772,7 +1772,7 @@ table tbody:first-child tr:first-child td
 .tp-nav .dropdown-submenu>.dropdown-menu li{padding-left: 10px;}
 .tp-nav .navbar-default .navbar-nav>li>a{border-bottom: 1px solid #019394;}
 .venue-head, .blog-head { position: inherit; bottom: 0px; width: 100%; margin-top: 30px;}
-.venue-head h1, .blog-head h1 { font-size: 42px; color: #3c3634; margin-bottom: 10px;}
+.venue-head h1, .blog-head h1 { font-size: 42px; color: #000000; margin-bottom: 10px;}
 .venue-head .location { color: #706a68;}
 .blog-header .post-meta { color: #706a68;}
 .blog-header .post-meta a{color: #706a68;}
