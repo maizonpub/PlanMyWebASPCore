@@ -42,7 +42,7 @@
                                 <h2 class="form-title">Create New Task</h2>
                                 <form id="form-todolist" method="post">
                                     <div class="status"></div>
-                                    <input type="hidden" id="security" name="security" value="f32627dc7e" /><input type="hidden" name="_wp_http_referer" value="/checklist/" />                
+                                    <input type="hidden" id="security" name="security" value="f32627dc7e" /><input type="hidden" name="_wp_http_referer" value="/checklist/" />
                                     <div class="close-sign"><a href="javascript:void(0);" id="hide"><i class="fa fa-close"></i></a></div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -78,10 +78,12 @@
                                         </div>
                                     </div>
                                 </form>
+
                             </div>
 
                         </div>
                     </div>
+                   
 
                     <div class="row">
                         <div class="col-md-8">
@@ -98,38 +100,42 @@
                                                 <ul class="listnone">
                                                     @foreach (var row in Model.CheckList)
                                                     {
-                                                    <li class="todo-list-item">
-                                                        <div class="todo-list">
+                                                        <li class="todo-list-item">
+                                                            <div class="todo-list">
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <div class="todo-task">
+                                                                            <h3 class="todo-title"><a class="title" data-toggle="collapse" href="#youseftest410__2018" aria-expanded="false" aria-controls="collapseExample">@row.User</a> </h3>
+                                                                            <span class="todo-date">@row.Timing</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="todo-action">
+                                                                            <span id="todolist_56">
+                                                                                <a href="#" class="btn-circle read-todo" onclick="unread_todolist(56)"><i class="fa fa-circle"></i></a>
+                                                                            </span>
+                                                                            <a href="?edit=NTY=" class="btn-circle" title="Edit">
+                                                                            <i class="fa fa-edit"></i>
+                                                                            </a>
+                                                                            <a href="#" class="btn-circle" title="Delete" onclick="delete_todolist(56)">
+                                                                            <i class="fa fa-trash-o"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             <div class="row">
-                                                                <div class="col-md-8">
-                                                                    <div class="todo-task">
-                                                                        <h3 class="todo-title"><a class="title" data-toggle="collapse" href="#youseftest410__2018" aria-expanded="false" aria-controls="collapseExample">@row.User</a> </h3>
-                                                                        <span class="todo-date">@row.Timing</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="todo-action">
-                                                                        <span id="todolist_56">
-                                                                            <a href="#" class="btn-circle read-todo" onclick="unread_todolist(56)"><i class="fa fa-circle"></i></a>
-                                                                        </span>
-                                                                        <a href="#" class="btn-circle" title="Edit"><i class="fa fa-edit"></i></a>
-                                                                        <a href="#" class="btn-circle" title="Delete" onclick="delete_todolist(56)"><i class="fa fa-trash-o"></i></a>
+                                                                <div class="col-md-12">
+                                                                    <div class="collapse" id="youseftest410__2018">
+                                                                        <div class="todo-notes pinside30">
+                                                                            <p>@row.Description</p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="collapse" id="youseftest410__2018">
-                                                                    <div class="todo-notes pinside30">
-                                                                        <p>@row.Description</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
+                                                        </li>
                                                     }
-                                                    
+
 
                                                 </ul>
                                             </div>
@@ -146,8 +152,10 @@
                                         <div id="todo-percentage" class="todo-percentage" data-percent="100">
                                             <div style="width: 160px; height: 160px; margin: 0px auto;">
                                                 <div class="ab" style="position: relative; text-align: center; width: 160px; height: 160px; border-radius: 100%; background-color: rgb(239, 238, 232); background-image: linear-gradient(450deg, transparent 50%, rgb(0, 174, 175) 50%), linear-gradient(90deg, rgb(0, 174, 175) 50%, transparent 50%);">
-                                                <div class="cir" style="position: relative; top: 10px; left: 10px; text-align: center; width: 140px; height: 140px; border-radius: 100%; background-color: rgb(255, 255, 255);">
-                                                <span class="perc" style="display: block; width: 160px; height: 160px; line-height: 160px; vertical-align: middle; font-size: 45px; font-weight: 700; color: rgb(0, 174, 175);">100%</span></div></div>
+                                                    <div class="cir" style="position: relative; top: 10px; left: 10px; text-align: center; width: 140px; height: 140px; border-radius: 100%; background-color: rgb(255, 255, 255);">
+                                                        <span class="perc" style="display: block; width: 160px; height: 160px; line-height: 160px; vertical-align: middle; font-size: 45px; font-weight: 700; color: rgb(0, 174, 175);">100%</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="todo-value"> <span class="todo-done">@Model.CheckList.Count()</span> <span class="todo-pending">@Model.CheckList.Count()</span> </div>
