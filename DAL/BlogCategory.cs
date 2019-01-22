@@ -12,6 +12,7 @@ namespace DAL
         public string Image { get; set; }
         public string Title { get; set; }
         public string Media { get; set; }
+        public List<BlogCategoryRelation> Categories { get; set; }
         public MediaType MediaType { get; set; }
     }
     public class BlogCategoryViewModel
@@ -19,6 +20,7 @@ namespace DAL
         public int Id { get; set; }
         public IFormFile Image { get; set; }
         public string Title { get; set; }
+        public List<BlogCategoryRelation> Categories { get; set; }
         public MediaType MediaType { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using PlanMyWeb.Models;
 
 namespace PlanMyWeb.Controllers.Admin
 {
@@ -51,6 +52,8 @@ namespace PlanMyWeb.Controllers.Admin
         // GET: Blogs/Create
         public IActionResult Create()
         {
+            var blogcategories = _context.BlogCategories.AsEnumerable();
+            ViewBag.Categories = new SelectList(blogcategories, "Id", "Title");
             return View();
         }
 
@@ -60,22 +63,28 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/Blogs/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Image,HtmlDescription,PostDate")] BlogViewModel blogViewModel)
+        public async Task<IActionResult> Create([Bind("Id,Title,Image,HtmlDescription,PostDate,Categories")] BlogsViewModel blogsViewModel)
         {
             if (ModelState.IsValid)
             {
                 string filename = "";
-                if (blogViewModel.Image != null)
+                if (blogsViewModel.Image != null && blogsViewModel.Image.Length > 0)
                 {
-                    filename = Guid.NewGuid().ToString().Substring(4) + blogViewModel.Image.FileName;
-                    UploadFile(blogViewModel.Image, filename);
+                    filename = Guid.NewGuid().ToString().Substring(4) + blogsViewModel.Image.FileName;
+                    UploadFile(blogsViewModel.Image, filename);
                 }
-                Blog blog = new Blog { Image = filename, MediaType = blogViewModel.MediaType, Title = blogViewModel.Title, HtmlDescription = blogViewModel.HtmlDescription, PostDate = blogViewModel.PostDate };
-                _context.Blogs.Add(blog);
+                Blog row = new Blog { Image = filename, MediaType = blogsViewModel.MediaType, Title = blogsViewModel.Title, HtmlDescription = blogsViewModel.HtmlDescription, PostDate = blogsViewModel.PostDate };
+                string[] catIds = Request.Form["Categories"].ToString().Split(',');
+
+                var dbcats = _context.BlogCategories.Where(x => catIds.Contains(x.Id.ToString())).ToList();
+                foreach (var dbcat in dbcats)
+                    _context.BlogCategoryRelations.Add(new BlogCategoryRelation { Category = dbcat, Blog = row });
+            
+                _context.Blogs.Add(row);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(blogViewModel);
+            return View(blogsViewModel);
         }
         private async void UploadFile(IFormFile media, string FileName)
         {
@@ -94,13 +103,27 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var blog = await _context.Blogs.FindAsync(id);
-            BlogViewModel model = new BlogViewModel { Id = blog.Id, MediaType = blog.MediaType };
-            if (blog == null)
+            var blogcategory = _context.BlogCategoryRelations.Include(x => x.Category).Include(x => x.Blog).Where(x => x.Id == id).FirstOrDefault();
+            var blogcategories = _context.BlogCategoryRelations.AsEnumerable();
+            var catslist = new SelectList(blogcategories, "Id", "Title");
+            foreach (var item in catslist)
+            {
+                foreach (var itemcategory in blogcategory.Blog.BlogCategoryRelations)
+                {
+                    if (item.Value == itemcategory.Blog.Id.ToString())
+                    {
+                        item.Selected = true;
+                    }
+                }
+            }
+            var blogcategoryrelation = _context.BlogCategoryRelations.Where(x => x.Blog == blogcategories).Include(x => x.Blog).ToList();
+            //ViewBag.Categories = selectfield;
+            BlogsViewModel model = new BlogsViewModel { Id = blogcategory.Id, MediaType = blogcategory.Blog.MediaType, HtmlDescription = blogcategory.Blog.HtmlDescription, PostDate = blogcategory.Blog.PostDate, Title = blogcategory.Blog.Title, Categories = catslist, BlogCategoryRelations = blogcategoryrelation };
+            if (blogcategory == null)
             {
                 return NotFound();
             }
-            return View(blog);
+            return View(model);
         }
 
         // POST: Blogs/Edit/5
