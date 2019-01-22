@@ -64,10 +64,14 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + socialMediaViewModel.Image.FileName;
-                UploadFile(socialMediaViewModel.Image, filename);
-                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = socialMediaViewModel.MediaType };
-                _context.Add(homeSlider);
+                string filename = "";
+                if (socialMediaViewModel.Image!=null)
+                {
+                    filename = Guid.NewGuid().ToString().Substring(4) + socialMediaViewModel.Image.FileName;
+                    UploadFile(socialMediaViewModel.Image, filename);
+                }
+                SocialMedia socialmedia = new SocialMedia { Image = filename, MediaType = socialMediaViewModel.MediaType, Link = socialMediaViewModel.Link, Title = socialMediaViewModel.Title };
+                _context.Add(socialmedia);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -97,7 +101,7 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 return NotFound();
             }
-            return View(socialMedia);
+            return View(model);
         }
 
         // POST: SocialMedias/Edit/5
@@ -110,7 +114,7 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
+                var row = _context.SocialMedias.Where(x => x.Id == id).FirstOrDefault();
                 if (socialMediaViewModel.Image != null)
                 {
 
@@ -119,7 +123,9 @@ namespace PlanMyWeb.Controllers.Admin
                     row.MediaType = socialMediaViewModel.MediaType;
                 }
                 else
-                row.Media = row.Media;
+                    row.Image = row.Image;
+                row.Link = socialMediaViewModel.Link;
+                row.Title = socialMediaViewModel.Title;
                 row.MediaType = socialMediaViewModel.MediaType;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

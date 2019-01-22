@@ -1,4 +1,7 @@
-﻿@model IEnumerable<DAL.Offers>
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Common
+@model IPagedList<DAL.Offers>
 
 @{
     ViewData["Title"] = "Offers";
@@ -102,11 +105,11 @@
                                                 <img width="440" height="290" src="~/Media/@row.Image" class="img-responsive wp-post-image" alt="" />
 
                                                 <figcaption>
-                                                    <h2><a href="@row.Title">@row.Title</a></h2>
+                                                    <h2><a href="/offers/details/@row.Id">@row.Title</a></h2>
                                                     <p></p>
-                                                    <a href="#">Buy Now</a>
                                                 </figcaption>
                                             </figure>
+                                            
                                         </div>
                                     </div>
                                 }
@@ -120,6 +123,9 @@
 
 
                         </div>
+                    </div>
+                    <div class="col-md-12">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
                     </div>
                 </div>
             </div>

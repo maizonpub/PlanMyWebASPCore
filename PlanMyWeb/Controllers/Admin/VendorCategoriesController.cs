@@ -64,9 +64,13 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + vendorCategoryViewModel.Image.FileName;
-                UploadFile(vendorCategoryViewModel.Image, filename);
-                VendorCategory vendorCategory = new VendorCategory { Image = filename, MediaType = vendorCategoryViewModel.MediaType };
+                string filename = "";
+                if (vendorCategoryViewModel.Image != null)
+                {
+                    filename = Guid.NewGuid().ToString().Substring(4) + vendorCategoryViewModel.Image.FileName;
+                    UploadFile(vendorCategoryViewModel.Image, filename);
+                }
+                VendorCategory vendorCategory = new VendorCategory { Image = filename, MediaType = vendorCategoryViewModel.MediaType , Title = vendorCategoryViewModel.Title};
                 _context.Add(vendorCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -93,12 +97,12 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var vendorCategory = await _context.VendorCategories.FindAsync(id);
-            VendorCategoryViewModel model = new VendorCategoryViewModel { Id = vendorCategory.Id, MediaType = vendorCategory.MediaType };
+            VendorCategoryViewModel model = new VendorCategoryViewModel { Id = vendorCategory.Id, MediaType = vendorCategory.MediaType, Title= vendorCategory.Title };
             if (vendorCategory == null)
             {
                 return NotFound();
             }
-            return View(vendorCategory);
+            return View(model);
         }
 
         // POST: VendorCategories/Edit/5
@@ -119,11 +123,12 @@ namespace PlanMyWeb.Controllers.Admin
                     row.MediaType = vendorCategoryViewModel.MediaType;
                 }
                 else
-                
+
                     row.Image = row.Image;
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
+                row.Title = vendorCategoryViewModel.Title;
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
                 return View(vendorCategoryViewModel);
         }
         [Route("Admin/VendorCategories/Delete/{id?}")]

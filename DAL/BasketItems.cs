@@ -8,7 +8,8 @@ namespace DAL
     {
         public int Id { get; set; }
         public Offers Offers { get; set; }
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
         public decimal TotalPrice { get; set; }
+        public Order Order { get; set; }
     }
 }

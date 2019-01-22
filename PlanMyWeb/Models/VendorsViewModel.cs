@@ -8,7 +8,7 @@ namespace PlanMyWeb.Models
 {
     public class VendorsViewModel
     {
-        public IEnumerable<VendorItem> VendorItems { get; set; }
+        public X.PagedList.IPagedList<VendorItem> VendorItems { get; set; }
         public IEnumerable<VendorCategory> VendorCategories { get; set; }
         public IEnumerable<VendorType> VendorTypes { get; set; }
     }

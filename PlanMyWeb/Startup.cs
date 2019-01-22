@@ -15,6 +15,7 @@ using PlanMyWeb.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Net;
+using System.IO;
 
 namespace PlanMyWeb
 {
@@ -35,9 +36,10 @@ namespace PlanMyWeb
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+                
             });
 
-
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<DbWebContext>(options =>
@@ -49,17 +51,20 @@ namespace PlanMyWeb
             services.AddScoped<Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<Users>, AppClaimsPrincipalFactory>();
             services.AddScoped<SignInManager<Users>, SignInManager<Users>>();
             services.AddScoped<UserManager<Users>, UserManager<Users>>();
+            services.AddScoped<RoleManager<IdentityRole>, RoleManager<IdentityRole>>();
             services.AddTransient<IEmailSender, PlanMyEmailSender>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Error";
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            env.EnvironmentName = EnvironmentName.Development;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -70,7 +75,15 @@ namespace PlanMyWeb
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+            app.UseStatusCodePages(async context =>
+            {
+                context.HttpContext.Response.ContentType = "text/plain";
+
+                await context.HttpContext.Response.WriteAsync(
+                    "Status code page, status code: " +
+                    context.HttpContext.Response.StatusCode);
+            });
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();

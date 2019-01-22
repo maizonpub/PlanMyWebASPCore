@@ -14,12 +14,14 @@ namespace DAL
         public Users User { get; set; }
         public string Description { get; set; }
         public Validity Validity { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public decimal Price { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public decimal? Price { get; set; }
         public decimal? SalePrice { get; set; }
-        public DateTime SaleFromDate { get; set; }
-        public DateTime SaleToDate { get; set; }
+        public DateTime? SaleFromDate { get; set; }
+        public DateTime? SaleToDate { get; set; }
+        public List<OffersCategory> OffersCategories { get; set; }
+        public List<OffersGallery> OffersGalleries { get; set; }
     }
     public enum OffersType
     {

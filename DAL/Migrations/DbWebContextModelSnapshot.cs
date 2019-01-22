@@ -27,13 +27,17 @@ namespace DAL.Migrations
 
                     b.Property<int?>("OffersId");
 
-                    b.Property<string>("Quantity");
+                    b.Property<int?>("OrderId");
+
+                    b.Property<int>("Quantity");
 
                     b.Property<decimal>("TotalPrice");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OffersId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("BasketItems");
                 });
@@ -103,17 +107,17 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ActualCost");
+                    b.Property<decimal>("ActualCost");
 
-                    b.Property<int?>("BudgetCategoryId");
+                    b.Property<int>("BudgetCategoryId");
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("EstimatedCost");
+                    b.Property<decimal>("EstimatedCost");
 
                     b.Property<string>("Notes");
 
-                    b.Property<string>("PaidCost");
+                    b.Property<decimal>("PaidCost");
 
                     b.Property<string>("UserId");
 
@@ -150,6 +154,8 @@ namespace DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description");
+
+                    b.Property<int>("Status");
 
                     b.Property<DateTime>("Timing");
 
@@ -213,6 +219,10 @@ namespace DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
 
                     b.Property<string>("Email");
 
@@ -298,21 +308,21 @@ namespace DAL.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("EndDate");
+                    b.Property<DateTime?>("EndDate");
 
                     b.Property<string>("Image");
 
                     b.Property<int>("OffersType");
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal?>("Price");
 
-                    b.Property<DateTime>("SaleFromDate");
+                    b.Property<DateTime?>("SaleFromDate");
 
                     b.Property<decimal?>("SalePrice");
 
-                    b.Property<DateTime>("SaleToDate");
+                    b.Property<DateTime?>("SaleToDate");
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime?>("StartDate");
 
                     b.Property<string>("Title");
 
@@ -371,6 +381,8 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("OrderStatus");
+
                     b.Property<string>("ReferenceNumber");
 
                     b.Property<string>("Status");
@@ -405,6 +417,27 @@ namespace DAL.Migrations
                     b.ToTable("Pages");
                 });
 
+            modelBuilder.Entity("DAL.PaymentSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccessKey");
+
+                    b.Property<int>("PaymentType");
+
+                    b.Property<string>("ProfileId");
+
+                    b.Property<string>("RecurringFrequency");
+
+                    b.Property<string>("SecuritySign");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentSettings");
+                });
+
             modelBuilder.Entity("DAL.SocialMedia", b =>
                 {
                     b.Property<int>("Id")
@@ -422,6 +455,29 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SocialMedias");
+                });
+
+            modelBuilder.Entity("DAL.UserPaymentToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("PaymentSettingId");
+
+                    b.Property<string>("Token");
+
+                    b.Property<int>("TokenStatus");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentSettingId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPaymentTokens");
                 });
 
             modelBuilder.Entity("DAL.VendorCategory", b =>
@@ -518,6 +574,35 @@ namespace DAL.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("VendorItemGalleries");
+                });
+
+            modelBuilder.Entity("DAL.VendorItemReview", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateIn");
+
+                    b.Property<int>("Status");
+
+                    b.Property<int?>("VendorItemId");
+
+                    b.Property<string>("author");
+
+                    b.Property<string>("comment");
+
+                    b.Property<string>("email");
+
+                    b.Property<int>("rating");
+
+                    b.Property<string>("subject");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendorItemId");
+
+                    b.ToTable("VendorItemReviews");
                 });
 
             modelBuilder.Entity("DAL.VendorItemTypeValue", b =>
@@ -793,9 +878,17 @@ namespace DAL.Migrations
 
                     b.Property<string>("Age");
 
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<DateTime>("CreationDate");
+
                     b.Property<string>("FirstName");
 
                     b.Property<int>("Gender");
+
+                    b.Property<string>("Image");
 
                     b.Property<string>("LastName");
 
@@ -811,6 +904,10 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Offers", "Offers")
                         .WithMany()
                         .HasForeignKey("OffersId");
+
+                    b.HasOne("DAL.Order", "Order")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("DAL.BlogCategoryRelation", b =>
@@ -827,8 +924,9 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Budget", b =>
                 {
                     b.HasOne("DAL.BudgetCategory", "BudgetCategory")
-                        .WithMany()
-                        .HasForeignKey("BudgetCategoryId");
+                        .WithMany("Budgets")
+                        .HasForeignKey("BudgetCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DAL.Users", "User")
                         .WithMany()
@@ -888,7 +986,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.OffersCategory", b =>
                 {
                     b.HasOne("DAL.Offers", "Offers")
-                        .WithMany()
+                        .WithMany("OffersCategories")
                         .HasForeignKey("OffersId");
 
                     b.HasOne("DAL.VendorCategory", "VendorCategory")
@@ -899,7 +997,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.OffersGallery", b =>
                 {
                     b.HasOne("DAL.Offers", "Offers")
-                        .WithMany()
+                        .WithMany("OffersGalleries")
                         .HasForeignKey("OffersId");
                 });
 
@@ -908,6 +1006,17 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Users", "Users")
                         .WithMany()
                         .HasForeignKey("UsersId");
+                });
+
+            modelBuilder.Entity("DAL.UserPaymentToken", b =>
+                {
+                    b.HasOne("DAL.PaymentSetting", "PaymentSetting")
+                        .WithMany()
+                        .HasForeignKey("PaymentSettingId");
+
+                    b.HasOne("DAL.Users", "User")
+                        .WithMany("UserPaymentTokens")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DAL.VendorItem", b =>
@@ -939,10 +1048,17 @@ namespace DAL.Migrations
                         .HasForeignKey("ItemId");
                 });
 
+            modelBuilder.Entity("DAL.VendorItemReview", b =>
+                {
+                    b.HasOne("DAL.VendorItem", "VendorItem")
+                        .WithMany("VendorItemReviews")
+                        .HasForeignKey("VendorItemId");
+                });
+
             modelBuilder.Entity("DAL.VendorItemTypeValue", b =>
                 {
                     b.HasOne("DAL.VendorItem", "VendorItem")
-                        .WithMany()
+                        .WithMany("VendorItemTypeValues")
                         .HasForeignKey("VendorItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -970,7 +1086,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.WishList", b =>
                 {
                     b.HasOne("DAL.Users", "User")
-                        .WithMany()
+                        .WithMany("WishList")
                         .HasForeignKey("UserId");
 
                     b.HasOne("DAL.VendorItem", "VendorItem")

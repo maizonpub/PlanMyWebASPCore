@@ -24,7 +24,7 @@ namespace PlanMyWeb.Controllers.Admin
         // GET: VendorTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.VendorTypes.ToListAsync());
+            return View(await _context.VendorTypes.Include(x=>x.VendorCategory).ToListAsync());
         }
         [Route("Admin/VendorTypes/Details/{id?}")]
         // GET: VendorTypes/Details/5
@@ -48,6 +48,7 @@ namespace PlanMyWeb.Controllers.Admin
         // GET: VendorTypes/Create
         public IActionResult Create()
         {
+            ViewBag.Categories = new SelectList(_context.VendorCategories, "Id", "Title");
             return View();
         }
 
@@ -57,10 +58,13 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorTypes/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Title,CategoryId,VendorCategory")] VendorType vendorType)
+        public async Task<IActionResult> Create([Bind("Id,Title,VendorCategory")] VendorType vendorType)
         {
             if (ModelState.IsValid)
             {
+                var catId = int.Parse(Request.Form["VendorCategory"]);
+                var cat = _context.VendorCategories.Find(catId);
+                vendorType.VendorCategory = cat;
                 _context.Add(vendorType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

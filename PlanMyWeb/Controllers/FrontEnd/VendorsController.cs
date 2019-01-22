@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 using PlanMyWeb.Models;
 
 namespace PlanMyWeb.Controllers.FrontEnd
@@ -13,14 +14,15 @@ namespace PlanMyWeb.Controllers.FrontEnd
     public class VendorsController : Controller
     {
         private readonly DbWebContext _context;
+        protected int PageSize = 20;
         public VendorsController(DbWebContext context)
         {
             _context = context;
         }
-        public IActionResult Index(int? CategoryId, int? CountryId, int[] TypeId)
+        public IActionResult Index(int? CategoryId, int? CountryId, int[] TypeId, int page = 1)
         {
             VendorsViewModel model = new VendorsViewModel();
-            var items = GetVendorItems(CategoryId, CountryId, TypeId);
+            var items = GetVendorItems(CategoryId, CountryId, TypeId, page);
             model.VendorCategories = GetCategories();
             model.VendorTypes = GetTypes(CategoryId);
             model.VendorItems = items;
@@ -33,7 +35,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
                 return NotFound();
             }
 
-            var vendorItem = await _context.VendorItems.Include(x=>x.Gallery).FirstOrDefaultAsync(m => m.Id == id);
+            var vendorItem = await _context.VendorItems.Include(x=>x.Gallery).Include(x=>x.VendorItemReviews).FirstOrDefaultAsync(m => m.Id == id);
             if (vendorItem == null)
             {
                 return NotFound();
@@ -50,26 +52,26 @@ namespace PlanMyWeb.Controllers.FrontEnd
             return _context.VendorCategories;
         }
 
-        public IEnumerable<VendorItem> GetVendorItems(int? CategoryId, int? CountryId, int[] TypeId)
+        public IPagedList<VendorItem> GetVendorItems(int? CategoryId, int? CountryId, int[] TypeId, int page)
         {
-            var items = new List<VendorItem>().AsEnumerable();
+            var items = new List<VendorItem>().ToPagedList();
             if (CategoryId != null)
             {
                 if (TypeId != null && TypeId.Length > 0)
-                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0 && x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0);
+                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0 && x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0).ToPagedList(page,PageSize);
                 else
-                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0);
+                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0).ToPagedList(page, PageSize);
             }
             else
             {
                 if (TypeId != null && TypeId.Length > 0)
-                    items = _context.VendorItems.Include(x=>x.VendorItemTypeValues).Where(x => x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0);
+                    items = _context.VendorItems.Include(x=>x.VendorItemTypeValues).Where(x => x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0).ToPagedList(page, PageSize);
                 else
-                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues);
+                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues).ToPagedList(page, PageSize);
             }
             if(CountryId!=null)
             {
-                items = items.Where(x => x.Country.Id == CountryId);
+                items = items.Where(x => x.Country.Id == CountryId).ToPagedList(page, PageSize);
             }
             return items;
         }

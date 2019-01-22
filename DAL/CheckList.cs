@@ -12,6 +12,12 @@ namespace DAL
         public VendorCategory VendorCategory { get; set; }
         public string Description { get; set; }
         public Users User { get; set; }
+        public CheckListStatus Status { get; set; }
 
+    }
+    public enum CheckListStatus
+    {
+        Done,
+        ToDo
     }
 }

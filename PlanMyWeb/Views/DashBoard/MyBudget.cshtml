@@ -20,12 +20,12 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="page-title">
-                                <h1 style="color:black;">My Budget&nbsp;&nbsp;&nbsp;<small>Create your wedding to do and start planning.</small></h1>
+                                <h1 style="color:black;">My Budget&nbsp;&nbsp;&nbsp;<small>Create your event budget and start planning.</small></h1>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="action-block">
-                                <a href="#" class="btn tp-btn-default" id="show">Add Category</a>
+                                <a onclick="$('#NewCategory').slideDown()" class="btn tp-btn-default" id="show">Add Category</a>
                             </div>
                         </div>
                     </div>
@@ -37,11 +37,11 @@
                 <div class="couple-board">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="bg-white pinside40 todo-form mb30">
+                            <div class="bg-white pinside40 todo-form mb30" id="NewCategory">
                                 <h2 class="form-title">Create New Category</h2>
                                 <form id="form-budget" method="post">
                                     <div class="status"></div>
-                                    <input type="hidden" id="security" name="security" value="3c2382f97d" /><input type="hidden" name="_wp_http_referer" value="/my-budget/" />                 <div class="close-sign"><a href="javascript:void(0);" id="hide"><i class="fa fa-close"></i></a></div>
+                                    <input type="hidden" id="action" name="action" value="addcategory" /><input type="hidden" name="_wp_http_referer" value="/my-budget/" />                 <div class="close-sign"><a onclick="$('#NewCategory').slideUp()" style="cursor:pointer" id="hide"><i class="fa fa-close"></i></a></div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <!-- Text input-->
@@ -53,7 +53,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="text-right">
-                                                    <button id="btn-budget-list" name="btn-budget-list" class="btn tp-btn-primary"> Add Category </button>
+                                                    <button id="btn-budget-list" type="submit" name="btn-budget-list" class="btn tp-btn-primary"> Add Category </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -62,6 +62,35 @@
                             </div>
 
                         </div>
+                        @if (Model.CategoryId != null)
+                        {
+                        <div class="col-md-12">
+
+                            <div class="bg-white pinside40 mb30">
+                                <h2 class="form-title">Edit Category</h2>
+                                <form id="form-edit-budget" method="post" action="/Dashboard/MyBudget">
+                                    <div class="status"></div>
+                                    <input type="hidden" id="action" name="action" value="editcategory" /><input type="hidden" name="item_category" value="@Model.CategoryId" />                   <div class="row">
+                                        <div class="col-md-6">
+                                            <!-- Text input-->
+                                            <div class="form-group">
+                                                <label class="control-label" for="budget_category">Category Name</label>
+                                                <div class="">
+                                                    <input id="budget_category" name="budget_category" type="text" placeholder="Category Name" class="form-control input-md" value="@Model.CategoryName" required="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="text-right">
+                                                    <button id="edit-budget-list" type="submit" name="edit-budget-list" class="btn tp-btn-primary">Edit Category</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        }
                     </div>
                 </div>
                 <div class="budget-board">
@@ -76,21 +105,34 @@
                                 <div class="col-md-2">Edit / Delete</div>
                             </div>
                         </div>
-                        @foreach (var row in Model.Budget)
+                        @foreach (var row in Model.BudgetCategories)
                         {
+                            decimal estimatedcost = 0;
+                            decimal actualcost = 0;
+                            decimal paidcost = 0;
+                            decimal duecost = 0;
+                            foreach(var budget in row.Budgets)
+                            {
+                                estimatedcost += budget.EstimatedCost;
+                                actualcost += budget.ActualCost;
+                                paidcost += budget.PaidCost;
 
+                            }
+                            duecost = actualcost - paidcost;
+                            var addrowId = row.Id + "_add_row";
+                            var collaspan = row.Id + "_collaspan";
                         <div class="list-group-item">
                             <div class="row">
-                                <div class="col-md-4"><a data-toggle="collapse" href="#" aria-expanded="false" aria-controls="40_collaspan">@row.BudgetCategory</a> </div>
-                                <div class="col-md-2">@row.EstimatedCost</div>
-                                <div class="col-md-2">@row.ActualCost</div>
-                                <div class="col-md-1">@row.PaidCost</div>
-                                <div class="col-md-1">$10999</div>
-                                <div class="col-md-2"><a href="#" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget(40)"><i class="fa fa-trash"></i></a></div>
+                                <div class="col-md-4"><a data-toggle="collapse" href="#" aria-expanded="false" onclick="$('@collaspan').slideToggle()">@row.Title</a> </div>
+                                <div class="col-md-2">@estimatedcost</div>
+                                <div class="col-md-2">@actualcost</div>
+                                <div class="col-md-1">@paidcost</div>
+                                <div class="col-md-1">@duecost</div>
+                                <div class="col-md-2"><a href="/Dashboard/MyBudget?edit=@row.Id" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget(@row.Id)"><i class="fa fa-trash"></i></a></div>
                                 <div class="collapse col-md-12 item-title" id="40_collaspan">
                                     <div class="row">
                                         <div class="table-responsive">
-                                            <table class="table 40_collaspan">
+                                            <table class="table @collaspan">
                                                 <thead>
                                                     <tr>
                                                         <th class="col-md-4">Ceremony Item</th>
@@ -101,27 +143,23 @@
                                                         <th class="col-md-2">Edit / Delete</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="40_add_row">
-                                                    <tr id="53_sub_add_row">
-                                                        <th scope="row" class="budget_name">haha</th>
-                                                        <td class="budget_estimate">1000</td>
-                                                        <td class="budget_cost">1500</td>
-                                                        <td class="budget_paid">500</td>
-                                                        <td>1000</td>
-                                                        <td class="action_perform"><a href="#" onclick="sub_budget_edit(53)" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget_list(53)"><i class="fa fa-trash"></i></a></td>
+                                                <tbody id="@addrowId">
+                                                    @foreach (var budget in row.Budgets)
+                                                    {
+                                                        decimal due = budget.ActualCost - budget.PaidCost;
+                                                        var subid = budget.Id + "_sub_add_row";
+                                                    <tr id="@subid">
+                                                        <th scope="row" class="budget_name">@budget.Description</th>
+                                                        <td class="budget_estimate">@budget.EstimatedCost</td>
+                                                        <td class="budget_cost">@budget.ActualCost</td>
+                                                        <td class="budget_paid">@budget.PaidCost</td>
+                                                        <td>@due</td>
+                                                        <td class="action_perform"><a onclick="sub_budget_edit(@budget.Id)" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget_list(@budget.Id)"><i class="fa fa-trash"></i></a></td>
                                                     </tr>
-                                                    <tr id="52_sub_add_row">
-                                                        <th scope="row" class="budget_name">venueee</th>
-                                                        <td class="budget_estimate">10000</td>
-                                                        <td class="budget_cost">20000</td>
-                                                        <td class="budget_paid">10001</td>
-                                                        <td>9999</td>
-                                                        <td class="action_perform"><a href="#" onclick="sub_budget_edit(52)" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget_list(52)"><i class="fa fa-trash"></i></a></td>
-                                                    </tr>
-
+                                                    }
                                                 </tbody>
                                             </table>
-                                            <a href="#" title="Add New" class="btn tp-btn-primary add-item" onclick="add_budget_list_row(40)">+ Add New</a>
+                                            <a  title="Add New" class="btn tp-btn-primary add-item" onclick="add_budget_list_row(@row.Id)">+ Add New</a>
                                             <input type="hidden" id="security" name="security" value="cbebc8856f" /><input type="hidden" name="_wp_http_referer" value="/my-budget/" />
                                         </div>
                                     </div>

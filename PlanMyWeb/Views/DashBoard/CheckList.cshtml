@@ -20,13 +20,13 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="page-title">
-                                <h1 style="color:black;">Checklist&nbsp;&nbsp;&nbsp;<small>Create your wedding to do and start planning.</small></h1>
+                                <h1 style="color:black;">Checklist&nbsp;&nbsp;&nbsp;<small>Create your event to do and start planning.</small></h1>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="action-block">
-                                <a href="javascript:void(0);" class="btn tp-btn-default" id="show">Add To Do</a>
+                                <a onclick="$('#AddToDo').slideDown()" class="btn tp-btn-default" id="show">Add To Do</a>
                             </div>
                         </div>
                     </div>
@@ -38,12 +38,12 @@
                 <div class="couple-board">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="bg-white pinside40 todo-form mb30">
+                            <div class="bg-white pinside40 todo-form mb30" id="AddToDo">
                                 <h2 class="form-title">Create New Task</h2>
                                 <form id="form-todolist" method="post">
                                     <div class="status"></div>
-                                    <input type="hidden" id="security" name="security" value="f32627dc7e" /><input type="hidden" name="_wp_http_referer" value="/checklist/" />
-                                    <div class="close-sign"><a href="javascript:void(0);" id="hide"><i class="fa fa-close"></i></a></div>
+                                    <input type="hidden" id="action" name="action" value="add" /><input type="hidden" name="_wp_http_referer" value="/checklist/" />
+                                    <div class="close-sign"><a onclick="$('#AddToDo').slideUp()" style="cursor:pointer" id="hide"><i class="fa fa-close"></i></a></div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <!-- Text input-->
@@ -56,7 +56,7 @@
                                             <div class="form-group">
                                                 <label class="control-label" for="taskdate">Task Date</label>
                                                 <div class="">
-                                                    <input id="tododate" name="tododate" type="text" placeholder="Task Date" class="form-control book_date check_book_date input-md" required="">
+                                                    <input id="tododate" name="tododate" type="datetime-local" placeholder="Task Date" class="form-control book_date check_book_date input-md" required="">
                                                     <span class="help-block"> </span>
                                                 </div>
                                             </div>
@@ -78,12 +78,51 @@
                                         </div>
                                     </div>
                                 </form>
-
                             </div>
-
+                            @{var editstatus = Model.TaskId != null ? "display:block !important" : ""; }
+                            <div class="bg-white pinside40 todo-form mb30" style="@editstatus" id="EditToDo">
+                                <h2 class="form-title">Edit Task</h2>
+                                <form id="form-todolist" method="post" action="/Dashboard/CheckList">
+                                    <div class="status"></div>
+                                    <input type="hidden" id="action" name="action" value="edittask" /><input type="hidden" name="todoId" value="@Model.TaskId" />
+                                    <div class="close-sign"></div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!-- Text input-->
+                                            <div class="form-group">
+                                                <label class="control-label" for="tasktitle">Task Title</label>
+                                                <div class="">
+                                                    <input id="todotitle" name="todotitle" type="text" placeholder="Task Title" value="@Model.TaskTitle" class="form-control input-md" required="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="taskdate">Task Date</label>
+                                                <div class="">
+                                                    <input id="tododate" name="tododate" type="date" value="@Model.TaskDate" placeholder="Task Date" class="form-control book_date check_book_date input-md" required="">
+                                                    <span class="help-block"> </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Text input-->
+                                        <div class="col-md-6">
+                                            <!-- Textarea -->
+                                            <div class="form-group">
+                                                <label class="control-label" for="taskdescriptions">Task Descriptions</label>
+                                                <div class="">
+                                                    <textarea class="form-control" id="tododetail" name="tododetail" rows="6">@Model.TaskDescription</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="text-right">
+                                                    <button id="btn-todolist" name="btn-todolist" class="btn tp-btn-primary">Save Task</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                   
 
                     <div class="row">
                         <div class="col-md-8">
@@ -91,59 +130,77 @@
                                 <!-- shortcode -->
                                 <div class="panel-group" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
+                                        @{
+                                            var groupeddata = Model.CheckList.GroupBy(x => x.Timing).Select(x => x.First());
+                                            }
+                                            @foreach (var data in groupeddata)
+                                            {
                                         <div class="panel-heading" role="tab" id="headingOne">
-                                            <h4 class="panel-title"> <a class="title" role="button" data-toggle="collapse" href="#" aria-expanded="true" aria-controls="10__2018"><i class="fa fa-angle-double-up sign"></i> October 2018</a> </h4>
+                                            <h4 class="panel-title"> <a class="title" role="button" data-toggle="collapse" href="#" aria-expanded="true" onclick="$('#@data.Timing.ToString("mm__yyyy")').slideToggle()"><i class="fa fa-angle-double-up sign"></i> @data.Timing.ToString("MMM yyyy")</a> </h4>
                                         </div>
-                                        <div id="10__2018" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                        <div id="@data.Timing.ToString("mm__yyyy")" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                             <div class="todo-list-group">
                                                 <!-- List group -->
                                                 <ul class="listnone">
-                                                    @foreach (var row in Model.CheckList)
+                                                    @foreach (var row in Model.CheckList.Where(x => x.Timing.Month == data.Timing.Month && x.Timing.Year == data.Timing.Year))
                                                     {
-                                                        <li class="todo-list-item">
-                                                            <div class="todo-list">
-                                                                <div class="row">
-                                                                    <div class="col-md-8">
-                                                                        <div class="todo-task">
-                                                                            <h3 class="todo-title"><a class="title" data-toggle="collapse" href="#youseftest410__2018" aria-expanded="false" aria-controls="collapseExample">@row.User</a> </h3>
-                                                                            <span class="todo-date">@row.Timing</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="todo-action">
-                                                                            <span id="todolist_56">
-                                                                                <a href="#" class="btn-circle read-todo" onclick="unread_todolist(56)"><i class="fa fa-circle"></i></a>
-                                                                            </span>
-                                                                            <a href="?edit=NTY=" class="btn-circle" title="Edit">
-                                                                            <i class="fa fa-edit"></i>
-                                                                            </a>
-                                                                            <a href="#" class="btn-circle" title="Delete" onclick="delete_todolist(56)">
-                                                                            <i class="fa fa-trash-o"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        var status = row.Status == DAL.CheckListStatus.Done ? "read-todo" : "unread-todo";
+                                                        var statusupdate = row.Status == DAL.CheckListStatus.Done ? "0" : "1";
+                                                    <li class="todo-list-item">
+                                                        <div class="todo-list">
                                                             <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="collapse" id="youseftest410__2018">
-                                                                        <div class="todo-notes pinside30">
-                                                                            <p>@row.Description</p>
-                                                                        </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="todo-task">
+                                                                        <h3 class="todo-title"><a class="title" data-toggle="collapse" href="#youseftest410__2018" aria-expanded="false" aria-controls="collapseExample">@row.Title</a> </h3>
+                                                                        <span class="todo-date">@row.Timing</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="todo-action">
+                                                                        <table style="padding:0px;border:0px">
+                                                                            <tr>
+                                                                                <td style="border-left:0px"><form method="post"><input type="hidden" id="action" name="action" value="updatestatus" /><input type="hidden" id="todoId" name="todoId" value="@row.Id" /><input type="hidden" id="status" name="status" value="@statusupdate" /><button type="submit" class="btn-circle @status" style="padding:12px"><i class="fa fa-circle"></i></button></form></td>
+                                                                                <td style="border-left:0px"><a href="/Dashboard/CheckList?edit=@row.Id" class="btn-circle" title="Edit"><i class="fa fa-edit"></i></a></td>
+                                                                                <td style="border-left:0px"><form method="post"><input type="hidden" id="action" name="action" value="delete" /><input type="hidden" id="todoId" name="todoId" value="@row.Id" /><button type="submit" class="btn-circle" style="padding:12px"><i class="fa fa-trash-o"></i></button></form></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </li>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="collapse" id="youseftest410__2018">
+                                                                    <div class="todo-notes pinside30">
+                                                                        <p>@row.Description</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
                                                     }
-
+                                                    
 
                                                 </ul>
                                             </div>
                                         </div>
+                                            }
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @{
+                            var prec = "0%";
+                            if (Model.CheckList.Count() > 0)
+                            {
+                                prec = (Model.CheckList.Where(x => x.Status == DAL.CheckListStatus.Done).Count() * 100 / Model.CheckList.Count()) + "%";
+                            }
+                        }
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-md-12">
@@ -152,13 +209,11 @@
                                         <div id="todo-percentage" class="todo-percentage" data-percent="100">
                                             <div style="width: 160px; height: 160px; margin: 0px auto;">
                                                 <div class="ab" style="position: relative; text-align: center; width: 160px; height: 160px; border-radius: 100%; background-color: rgb(239, 238, 232); background-image: linear-gradient(450deg, transparent 50%, rgb(0, 174, 175) 50%), linear-gradient(90deg, rgb(0, 174, 175) 50%, transparent 50%);">
-                                                    <div class="cir" style="position: relative; top: 10px; left: 10px; text-align: center; width: 140px; height: 140px; border-radius: 100%; background-color: rgb(255, 255, 255);">
-                                                        <span class="perc" style="display: block; width: 160px; height: 160px; line-height: 160px; vertical-align: middle; font-size: 45px; font-weight: 700; color: rgb(0, 174, 175);">100%</span>
-                                                    </div>
-                                                </div>
+                                                <div class="cir" style="position: relative; top: 10px; left: 10px; text-align: center; width: 140px; height: 140px; border-radius: 100%; background-color: rgb(255, 255, 255);">
+                                                    <span class="perc" style="display: block; width: 160px; height: 160px; line-height: 150px; vertical-align: middle; font-size: 45px; font-weight: 700; color: rgb(0, 174, 175);">@prec</span></div></div>
                                             </div>
                                         </div>
-                                        <div class="todo-value"> <span class="todo-done">@Model.CheckList.Count()</span> <span class="todo-pending">@Model.CheckList.Count()</span> </div>
+                                        <div class="todo-value"> <span class="todo-done">@Model.CheckList.Where(x=>x.Status==DAL.CheckListStatus.Done).Count() Done</span> <span class="todo-pending">@Model.CheckList.Where(x => x.Status == DAL.CheckListStatus.ToDo).Count() To Dos</span> </div>
                                     </div>
                                 </div>
                             </div>

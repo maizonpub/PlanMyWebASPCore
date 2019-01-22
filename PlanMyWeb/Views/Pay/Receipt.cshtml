@@ -1,0 +1,138 @@
+﻿@model IEnumerable<DAL.BasketItems>;
+@{
+    Layout = "~/Views/Shared/_PlanMy.cshtml";
+    decimal subtotal = 0;
+}
+
+
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="~/" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="404 current-item">404</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 error-block">
+                <h1 style="font-size:60px">@ViewData["PaymentTitle"]</h1>
+                <h2 style="color:black"><i class="fa fa-check-circle"></i>@ViewData["Response"]</h2>
+                <p>
+                    Please review your order below
+                </p>
+            </div>
+            <div class="col-md-12">
+
+                <div id="post-1322" class="post-1322 page type-page status-publish hentry">
+                    <div class="woocommerce">
+                        <div class="woocommerce-notices-wrapper"></div>
+                        <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail">&nbsp;</th>
+                                    <th class="product-name">Product</th>
+                                    <th class="product-price">Price</th>
+                                    <th class="product-quantity">Quantity</th>
+                                    <th class="product-subtotal">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in Model)
+                                {
+                                    subtotal += row.TotalPrice;
+                                    var soldby = "Plan My";
+                                    try
+                                    {
+                                        soldby = row.Offers.User != null ? row.Offers.User.FirstName + " " + row.Offers.User.LastName : "Plan My";
+                                    }
+                                    catch { }
+                                    <tr class="woocommerce-cart-form__cart-item cart_item">
+
+
+
+                                        <td class="product-thumbnail">
+                                            <a href="#"><img width="320" height="260" src="~/Media/@row.Offers.Image" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" srcset="# 320w, # 300w" sizes="(max-width: 320px) 100vw, 320px" /></a>
+                                        </td>
+
+                                        <td class="product-name" data-title="Product">
+                                            <a href="#">@row.Offers.Title</a><dl class="variation">
+                                                <dt class="variation-SoldBy">Sold By:</dt>
+                                                <dd class="variation-SoldBy">
+                                                    <p>@soldby</p>
+                                                </dd>
+                                            </dl>
+                                        </td>
+
+                                        <td class="product-price" data-title="Price">
+                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.Offers.Price</span>
+                                        </td>
+
+                                        <td class="product-quantity" data-title="Quantity">
+                                            <div class="quantity">
+                                                @row.Quantity
+
+                                            </div>
+                                        </td>
+
+                                        <td class="product-subtotal" data-title="Total">
+                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.TotalPrice</span>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <div class="cart-collaterals">
+                            <div class="cart_totals ">
+
+
+                                <h2>Cart totals</h2>
+
+                                <table cellspacing="0" class="shop_table shop_table_responsive">
+
+                                    <tr class="cart-subtotal">
+                                        <th>Subtotal</th>
+                                        <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@subtotal</span></td>
+                                    </tr>
+
+
+
+
+
+
+                                    <tr class="order-total">
+                                        <th>Total</th>
+                                        <td data-title="Total"><strong><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@subtotal</span></strong> </td>
+                                    </tr>
+
+
+                                </table>
+
+                                    
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+</div>
+

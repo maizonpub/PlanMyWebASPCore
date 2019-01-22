@@ -21,8 +21,10 @@ namespace ImportFromWordPress
         }
         static async Task LoadData()
         {
+            int perPage = 20;
             WordpressService service = new WordpressService();
-            
+            WoocommerceService woo = new WoocommerceService();
+            Console.ForegroundColor = ConsoleColor.Blue;
             try
             {
                 var context = new consoleDbContext();
@@ -146,282 +148,340 @@ namespace ImportFromWordPress
                             context.VendorTypes.Add(itemlocation);
                         else
                             itemlocation = context.VendorTypes.Where(x => x.Title == itemlocation.Title).FirstOrDefault();
-                        var items = await service.GetItemsByFilterAsync(dbcat.Id, null, null, null, null, null, null, null, null, null, null, null, null, null);
-                    foreach (var item in items)
+                    for (int page = 0; page < 10; page++)
                     {
-                        WebClient wc = new WebClient();
-                        var itemhref = wc.DownloadString("http://planmy.me/maizonpub-api/singleitem.php?itemId=" + item.Id);
-                        var i = Newtonsoft.Json.JsonConvert.DeserializeObject<SingleItem>(itemhref);
-                        string filename = "";
-                        string galleryfile = "";
-                        if (item.Embedded.WpFeaturedmedia != null && item.Embedded.WpFeaturedmedia.Count() > 0 && !string.IsNullOrEmpty(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl))
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine("Getting info from page " + page);
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        try
                         {
-                            filename = System.Guid.NewGuid() + ".jpg";
-                            galleryfile = System.Guid.NewGuid() + ".jpg";
-                            wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].MediaDetails.Sizes.FirstOrDefault().Value.SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + filename);
-                            wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + galleryfile);
-                        }
-                        string locator = item.ItemMeta.locators[0];
-                        
-                        var gallery = await service.GetItemMedia(item.Id);
+                            var items = await service.GetItemsByFilterAsync(dbcat.Id, null, null, null, null, null, null, null, null, null, null, null, null, null, page, perPage);
+                            foreach (var item in items)
+                            {
+                                WebClient wc = new WebClient();
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.WriteLine("Item ID: " + item.Id);
+                                Console.ForegroundColor = ConsoleColor.Blue;
 
-                        //var position = await Geolocator.CrossGeolocator.Current.GetPositionsForAddressAsync(locator);
-                        var dbuser = await service.GetAuthorByIDAsync(item.Author);
-                        string desc = System.Net.WebUtility.HtmlDecode(item.Content.Rendered);
-                        var user = new Users { Address = item.ItemMeta.item_address[0], UserType = UserType.Vendor, FirstName = !string.IsNullOrEmpty(dbuser.FirstName) ? dbuser.FirstName : dbuser.Name, LastName = !string.IsNullOrEmpty(dbuser.LastName) ? dbuser.LastName : dbuser.Name, PasswordHash = !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456", Gender = Gender.Male, UserName = dbuser.UserName, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Email = !string.IsNullOrEmpty(dbuser.Email) ? dbuser.Email : "" };
-                        await _userManager.AddToRoleAsync(user, "Vendor");
-                        VendorItem di = new VendorItem { Address = (item.ItemMeta.item_address != null && item.ItemMeta.item_address.Count() > 0) ? item.ItemMeta.item_address[0] : "", IsFeatured = false, Location = locator,Latitude = i.latitude, Longitude = i.longitude, HtmlDescription = desc, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Thumb = filename, Title = item.Title.Rendered, User = user, Email = dbuser.Email };
-                        VendorItemCategory catrel = new VendorItemCategory { VendorCategory = category, VendorItem = di };
-                        foreach (var img in gallery)
-                        {
-                            string file = System.Guid.NewGuid() + ".jpg";
-                            wc.DownloadFile(img.SourceUrl, @"D:\Work\Web\PlanMy\PlanMyWeb\wwwroot\Media\" + file);
-                            context.VendorItemGalleries.Add(new VendorItemGallery { Image = file, Item = di });
-                        }
-                        passwordhasher.HashPassword(user, !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456");
-                        var result = await _userManager.CreateAsync(user, !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456");
-                        context.VendorItems.Add(di);
-                        context.VendorItemGalleries.Add(new VendorItemGallery { Image = galleryfile, Item = di });
-                        context.VendorItemCategories.Add(catrel);
-                        foreach (var numb in item.itemtype)
-                        {
-                            var r = types.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = type };
-                                    var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
+                                SingleItem i = new SingleItem();
+                                try
                                 {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
+                                    var itemhref = wc.DownloadString("http://planmy.me/maizonpub-api/singleitem.php?itemId=" + item.Id);
+                                    i = Newtonsoft.Json.JsonConvert.DeserializeObject<SingleItem>(itemhref);
                                 }
-                                else
-                                        v = res.FirstOrDefault();
-                                    context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                            }
-                        }
-                        foreach (var numb in item.itemcity)
-                        {
-                            var r = cities.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null && city.VendorTypeValues!=null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = city };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
+                                catch
                                 {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
-                        }
-                        foreach (var numb in item.itemsetting)
-                        {
-                            var r = settings.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = setting };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
-                        }
-                        foreach (var numb in item.itemlocation)
-                        {
-                            var r = itemlocations.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = itemlocation };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
-                        }
 
-                        foreach (var numb in item.itemcateringservices)
-                        {
-                            var r = cateringservices.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = cateringservice };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
                                 }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
+                                string filename = "";
+                                string galleryfile = "";
+                                if (item.Embedded.WpFeaturedmedia != null && item.Embedded.WpFeaturedmedia.Count() > 0 && !string.IsNullOrEmpty(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl))
+                                {
+                                    filename = System.Guid.NewGuid() + ".jpg";
+                                    galleryfile = System.Guid.NewGuid() + ".jpg";
+                                    try
+                                    {
+                                        wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].MediaDetails.Sizes.FirstOrDefault().Value.SourceUrl, @"D:\DATA\www\PlanMyCore\wwwroot\Media\" + filename);
+                                    }
+                                    catch { }
+                                    try
+                                    {
+                                        wc.DownloadFile(item.Embedded.WpFeaturedmedia.ToList()[0].SourceUrl, @"D:\DATA\www\PlanMyCore\wwwroot\Media\" + galleryfile);
+                                    }
+                                    catch { }
+                                }
+                                string locator = item.ItemMeta.locators[0];
+
+                                var gallery = await service.GetItemMedia(item.Id);
+
+                                //var position = await Geolocator.CrossGeolocator.Current.GetPositionsForAddressAsync(locator);
+                                var dbuser = await service.GetAuthorByIDAsync(item.Author);
+                                string desc = System.Net.WebUtility.HtmlDecode(item.Content.Rendered);
+                                var user = new Users { Address = item.ItemMeta.item_address[0], UserType = UserType.Vendor, FirstName = !string.IsNullOrEmpty(dbuser.FirstName) ? dbuser.FirstName : dbuser.Name, LastName = !string.IsNullOrEmpty(dbuser.LastName) ? dbuser.LastName : dbuser.Name, PasswordHash = !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456", Gender = Gender.Male, UserName = dbuser.UserName, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Email = !string.IsNullOrEmpty(dbuser.Email) ? dbuser.Email : "" };
+                                await _userManager.AddToRoleAsync(user, "Vendor");
+                                VendorItem di = new VendorItem { Address = (item.ItemMeta.item_address != null && item.ItemMeta.item_address.Count() > 0) ? item.ItemMeta.item_address[0] : "", IsFeatured = false, Location = locator, Latitude = i.latitude != null ? i.latitude : new double?(), Longitude = i.longitude != null ? i.longitude : new double?(), HtmlDescription = desc, PhoneNumber = (item.ItemMeta.item_phone != null && item.ItemMeta.item_phone.Count() > 0) ? item.ItemMeta.item_phone[0] : "", Thumb = filename, Title = item.Title.Rendered, User = user, Email = dbuser.Email };
+                                VendorItemCategory catrel = new VendorItemCategory { VendorCategory = category, VendorItem = di };
+                                foreach (var img in gallery)
+                                {
+                                    string file = System.Guid.NewGuid() + ".jpg";
+                                    try
+                                    {
+                                        wc.DownloadFile(img.SourceUrl, @"D:\DATA\www\PlanMyCore\wwwroot\Media\" + file);
+                                    }
+                                    catch { }
+                                    context.VendorItemGalleries.Add(new VendorItemGallery { Image = file, Item = di });
+                                }
+                                passwordhasher.HashPassword(user, !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456");
+                                var result = await _userManager.CreateAsync(user, !string.IsNullOrEmpty(dbuser.Password) ? dbuser.Password : "123456");
+                                context.VendorItems.Add(di);
+                                context.VendorItemGalleries.Add(new VendorItemGallery { Image = galleryfile, Item = di });
+                                context.VendorItemCategories.Add(catrel);
+                                foreach (var numb in item.itemtype)
+                                {
+                                    var r = types.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = type };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+                                    }
+                                }
+                                foreach (var numb in item.itemcity)
+                                {
+                                    var r = cities.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null && city.VendorTypeValues != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = city };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+                                foreach (var numb in item.itemsetting)
+                                {
+                                    var r = settings.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = setting };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+                                foreach (var numb in item.itemlocation)
+                                {
+                                    var r = itemlocations.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = itemlocation };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+
+                                foreach (var numb in item.itemcateringservices)
+                                {
+                                    var r = cateringservices.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = cateringservice };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+
+                                foreach (var numb in item.itemtypeoffurniture)
+                                {
+                                    var r = typeoffurnitures.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = typeoffurniture };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+
+                                foreach (var numb in item.itemclientele)
+                                {
+                                    var r = itemclienteles.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = itemclientele };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+
+                                foreach (var numb in item.itemclothing)
+                                {
+                                    var r = itemclothings.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = itemclothing };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+
+                                foreach (var numb in item.itembeautyservices)
+                                {
+                                    var r = itembeautyservices.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = itembeautyservice };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+
+                                foreach (var numb in item.itemtypeofmusicians)
+                                {
+                                    var r = itemtypeofmusicians.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = itemtypeofmusician };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+
+                                foreach (var numb in item.honeymoonexperience)
+                                {
+                                    var r = honeymoonexperiences.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = honeymoonexperience };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+
+                                foreach (var numb in item.typeofservice)
+                                {
+                                    var r = typeofservices.Where(x => x.Id == numb).FirstOrDefault();
+                                    if (r != null)
+                                    {
+
+                                        var v = new VendorTypeValue { Title = r.Name, VendorType = typeofservice };
+                                        var res = typevalues.Where(x => x.Title == v.Title);
+                                        if (res.FirstOrDefault() == null)
+                                        {
+                                            context.VendorTypeValues.Add(v);
+                                            typevalues.Add(v);
+                                        }
+                                        else
+                                            v = res.FirstOrDefault();
+                                        context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
+
+                                    }
+                                }
+
+                            }
+
+                            Console.WriteLine("Saving Items for category " + category.Title);
+
+                            Console.WriteLine("Getting offers for category " + category.Title);
+                            var woocat = await woo.GetProductCategories(category.Title);
+                            if (woocat != null)
+                            {
+                                var wooproducts = await woo.GetProductsByCategory(woocat.id.ToString());
+                                WebClient wc = new WebClient();
+                                foreach (var product in wooproducts)
+                                {
+                                    string file = System.Guid.NewGuid() + ".jpg";
+                                    try
+                                    {
+                                        wc.DownloadFile(product.images[0].src, @"D:\DATA\www\PlanMyCore\wwwroot\Media\" + file);
+                                    }
+                                    catch { }
+                                    var offer = new Offers { Description = product.description, OffersType = OffersType.Bundles, Price = product.price, SalePrice = product.sale_price, Title = product.name, Validity = Validity.Valid, SaleFromDate = product.date_on_sale_from, SaleToDate = product.date_on_sale_to, Image = file };
+                                    context.Offers.Add(offer);
+                                    context.OffersCategories.Add(new OffersCategory { Offers = offer, VendorCategory = category });
+                                }
                             }
                         }
-
-                        foreach (var numb in item.itemtypeoffurniture)
-                        {
-                            var r = typeoffurnitures.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = typeoffurniture };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
+                        catch(Exception ex) {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine("Getting error on page " + page+" Details:\r\n" + ex.ToString());
+                            Console.ForegroundColor = ConsoleColor.Blue;
                         }
-
-                        foreach (var numb in item.itemclientele)
-                        {
-                            var r = itemclienteles.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = itemclientele };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
-                        }
-
-                        foreach (var numb in item.itemclothing)
-                        {
-                            var r = itemclothings.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = itemclothing };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
-                        }
-
-                        foreach (var numb in item.itembeautyservices)
-                        {
-                            var r = itembeautyservices.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = itembeautyservice };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
-                        }
-
-                        foreach (var numb in item.itemtypeofmusicians)
-                        {
-                            var r = itemtypeofmusicians.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = itemtypeofmusician };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
-                        }
-
-                        foreach (var numb in item.honeymoonexperience)
-                        {
-                            var r = honeymoonexperiences.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = honeymoonexperience };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
-                        }
-
-                        foreach (var numb in item.typeofservice)
-                        {
-                            var r = typeofservices.Where(x => x.Id == numb).FirstOrDefault();
-                            if (r != null)
-                            {
-                                
-                                    var v = new VendorTypeValue { Title = r.Name, VendorType = typeofservice };
-                                var res = typevalues.Where(x => x.Title == v.Title);
-                                if (res.FirstOrDefault() == null)
-                                {
-                                    context.VendorTypeValues.Add(v);
-                                    typevalues.Add(v);
-                                }
-                                else
-                                    v = res.FirstOrDefault();
-                                context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorItem = di, VendorTypeValueId = v.Id });
-                                
-                            }
-                        }
-
                     }
-                    
-                    Console.WriteLine("Saving Items for category " + category.Title);
                 }
                 context.SaveChanges(true);
             }
