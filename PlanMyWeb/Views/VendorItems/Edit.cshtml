@@ -1,4 +1,4 @@
-﻿@model DAL.VendorItem
+﻿@model VendorItemViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +10,7 @@
 <h4>VendorItem</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -30,18 +30,13 @@
                 <span asp-validation-for="Longitude" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HtmlDescription" class="control-label"></label>
-                <input asp-for="HtmlDescription" class="form-control" />
+                <textarea asp-for="HtmlDescription" class="form-control"></textarea>
                 <span asp-validation-for="HtmlDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -53,6 +48,24 @@
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categories" class="control-label"></label>
+
+                <select asp-for="Categories" class="form-control">
+                    @foreach (var category in Model.Categories)
+                    {
+                        if (category.Selected)
+                        {
+                            <option value="@category.Value" selected>@category.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@category.Value">@category.Text</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Categories" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="checkbox">
@@ -70,6 +83,30 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
+    </div>
+    <div class="col-md-6">
+        @foreach (var type in Model.Taxonomies)
+        {
+            <div class="col-md-6">
+                <table style="width:100%">
+                    <tr><td><h2>@type.Title</h2></td></tr>
+                    @foreach (var value in type.VendorTypeValues)
+                    {
+                        var id = type.Id + "_" + value.Id;
+                        bool selected = Model.values.Where(x=>x.VendorTypeValue.Id == value.Id).Count()>0;
+                        if (selected)
+                        {
+                            <tr><td><input type="checkbox" value="@value.Id" name="@id" id="@type.Id" checked /><label for="@id">@value.Title</label></td></tr>
+                        }
+                        else
+                        {
+                            <tr><td><input type="checkbox" value="@value.Id" name="@id" id="@type.Id"  /><label for="@id">@value.Title</label></td></tr>
+                        }
+                    }
+                </table>
+            </div>
+
+        }
     </div>
 </div>
 

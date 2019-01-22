@@ -64,10 +64,14 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + blogViewModel.Image.FileName;
-                UploadFile(blogViewModel.Image, filename);
-                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = blogViewModel.MediaType };
-                _context.Add(homeSlider);
+                string filename = "";
+                if (blogViewModel.Image != null)
+                {
+                    filename = Guid.NewGuid().ToString().Substring(4) + blogViewModel.Image.FileName;
+                    UploadFile(blogViewModel.Image, filename);
+                }
+                Blog blog = new Blog { Image = filename, MediaType = blogViewModel.MediaType, Title = blogViewModel.Title, HtmlDescription = blogViewModel.HtmlDescription, PostDate = blogViewModel.PostDate };
+                _context.Blogs.Add(blog);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -109,7 +113,7 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
+                var row = _context.Blogs.Where(x => x.Id == id).FirstOrDefault();
                 if (blogViewModel.Image != null)
                 {
                     string filename = Guid.NewGuid().ToString().Substring(4) + blogViewModel.Image.FileName;
@@ -117,8 +121,11 @@ namespace PlanMyWeb.Controllers.Admin
                     row.MediaType = blogViewModel.MediaType;
                 }
                 else
-                    row.Media = row.Media;
+                    row.Image = row.Image;
                     row.MediaType = blogViewModel.MediaType;
+                row.Title = blogViewModel.Title;
+                row.HtmlDescription = blogViewModel.HtmlDescription;
+                row.PostDate = blogViewModel.PostDate;
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }

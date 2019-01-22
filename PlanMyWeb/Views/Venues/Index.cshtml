@@ -1,4 +1,8 @@
-﻿@model VendorsViewModel
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Common
+
+@model VendorsViewModel
 @{
     ViewData["Title"] = "Venues";
 }
@@ -72,7 +76,7 @@
                                         <br /><h4>@row.Title</h4>
                                         @foreach (var record in row.VendorTypeValues)
                                         {
-                                            if (Context.Request.HasFormContentType && Context.Request.Form["TypeId"]!="" && Context.Request.Form["TypeId"].Contains(record.Id.ToString()))
+                                            if (Context.Request.HasFormContentType && Context.Request.Form["TypeId"] != "" && Context.Request.Form["TypeId"].Contains(record.Id.ToString()))
                                             {
                                                 <label class="aminities_box"><input type="checkbox" checked class="aminities" name="TypeId" id="TypeId" value="@record.Id" />@record.Title</label>
                                             }
@@ -105,23 +109,26 @@
                             </div>
                             @foreach (var row in Model.VendorItems)
                             {
-                            <div class="col-md-4 vendor-box">
-                                <div class="grid">
+                                <div class="col-md-4 vendor-box">
+                                    <div class="grid">
 
-                                    <figure class="effect-oscar">
-                                        <img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" />
+                                        <figure class="effect-oscar">
+                                            <img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" />
 
-                                        <figcaption>
-                                            <h2><a href="~/Vendors/Details/@row.Id">@row.Title</a></h2>
-                                            <p></p>
-                                            <a href="~/Vendors/Details/@row.Id">View more</a>
-                                        </figcaption>
-                                    </figure>
+                                            <figcaption>
+                                                <h2><a href="~/Vendors/Details/@row.Id">@row.Title</a></h2>
+                                                <p></p>
+                                                <a href="~/Vendors/Details/@row.Id">View more</a>
+                                            </figcaption>
+                                        </figure>
+                                    </div>
                                 </div>
-                            </div>
                             }
                         </div>
                     </div>
+                </div>
+                <div class="col-md-12">
+                    @Html.PagedListPager(Model.VendorItems, page => Url.Action("Index", new { page }))
                 </div>
             </div>
         </div>

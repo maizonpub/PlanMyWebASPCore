@@ -21,9 +21,6 @@
                             @Html.DisplayNameFor(model => model.Image)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.HtmlDescription)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.PostDate)
                         </th>
                         <th></th>
@@ -37,10 +34,7 @@
                                 @Html.DisplayFor(modelItem => item.Title)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Image)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.HtmlDescription)
+                                <img src="~/Media/@item.Image" style="height:100px"/>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.PostDate)

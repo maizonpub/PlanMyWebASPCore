@@ -65,5 +65,8 @@ namespace DAL
         public DbSet<DAL.VendorType> VendorTypes { get; set; }
         public DbSet<DAL.VendorTypeValue> VendorTypeValues { get; set; }
         public DbSet<DAL.VendorItemTypeValue> VendorItemTypeValues { get; set; }
+        public DbSet<DAL.PaymentSetting> PaymentSettings { get; set; }
+        public DbSet<DAL.UserPaymentToken> UserPaymentTokens { get; set; }
+        public DbSet<DAL.VendorItemReview> VendorItemReviews { get; set; }
     }
 }

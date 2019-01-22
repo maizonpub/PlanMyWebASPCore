@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace PlanMyWeb.Areas.Identity.Pages.Account
 {
@@ -21,9 +24,10 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-
+        private readonly IHostingEnvironment _hostingEnvironment;
         public RegisterModel(
             UserManager<Users> userManager,
+            IHostingEnvironment hostingEnvironment,
             RoleManager<IdentityRole> roleManager,
             SignInManager<Users> signInManager,
             ILogger<RegisterModel> logger,
@@ -34,7 +38,7 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [BindProperty]
@@ -59,8 +63,9 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
+            [Display(Name = "Profile Pic")]
+            public IFormFile UserImage { get; set; }
 
-            
 
             //[DataType(DataType.Password)]
             //[Display(Name = "Confirm password")]
@@ -79,7 +84,14 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new Users { UserName = Input.Username, Email = Input.Email };
+                string filename = "";
+                if (Input.UserImage.Length > 0)
+                {
+                    string ext = System.IO.Path.GetExtension(Input.UserImage.FileName);
+                    filename = Guid.NewGuid().ToString() + ext;
+                    UploadFile(Input.UserImage, filename);
+                }
+                var user = new Users { UserName = Input.Username, Email = Input.Email, CreationDate = DateTime.Now, Image = filename };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 
                 
@@ -109,6 +121,14 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
+        }
         private async Task createRolesandUsers()
         {
             bool x = await _roleManager.RoleExistsAsync("Admin");
@@ -123,8 +143,8 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
 
                
             }
-
-            // creating Creating Manager role     
+            
+            // creating Creating Planner role     
             x = await _roleManager.RoleExistsAsync("Planner");
             if (!x)
             {
@@ -133,7 +153,7 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
                 await _roleManager.CreateAsync(role);
             }
 
-            // creating Creating Employee role     
+            // creating Creating Vendor role     
             x = await _roleManager.RoleExistsAsync("Vendor");
             if (!x)
             {

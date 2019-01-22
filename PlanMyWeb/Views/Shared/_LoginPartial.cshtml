@@ -6,7 +6,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
 
-    <li id="menu-item-5576" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5576"><a href="#">Cart</a></li>
+    <li id="menu-item-5576" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5576"><a href="@Url.Action("Index", "Cart", new { area = "" })">Cart</a></li>
     <li><form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"><button type="submit" style="background-color:transparent;border:0px;height:5px;color:#000000;font-size: 12px;text-transform: uppercase;font-weight: 700;font-family: 'Montserrat', sans-serif;">Logout</button> </form></li>
 }
 else

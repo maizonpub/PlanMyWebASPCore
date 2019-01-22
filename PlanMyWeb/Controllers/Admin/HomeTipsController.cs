@@ -68,7 +68,7 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 string filename = Guid.NewGuid().ToString().Substring(4) + homeTipsViewModel.Image.FileName;
                 UploadFile(homeTipsViewModel.Image, filename);
-                HomeTips homeTips = new HomeTips { Media = filename, MediaType = homeTipsViewModel.MediaType };
+                HomeTips homeTips = new HomeTips { Media = filename, MediaType = homeTipsViewModel.MediaType, Description = homeTipsViewModel.Description, Title = homeTipsViewModel.Title, Image = filename };
                 _context.Add(homeTips);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -95,12 +95,12 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var homeTips = await _context.HomeTips.FindAsync(id);
-            homeTipsViewModel model = new homeTipsViewModel { Id = homeTips.Id, MediaType = homeTips.MediaType };
+            homeTipsViewModel model = new homeTipsViewModel { Id = homeTips.Id, MediaType = homeTips.MediaType, Title = homeTips.Title, Description = homeTips.Description };
             if (homeTips == null)
             {
                 return NotFound();
             }
-            return View(homeTips);
+            return View(model);
         }
 
         // POST: HomeTips/Edit/5

@@ -8,10 +8,11 @@ namespace DAL
     {
         public int Id { get; set; }
         public BudgetCategory BudgetCategory { get; set; }
+        public int BudgetCategoryId { get; set; }
         public string Description { get; set; }
-        public string EstimatedCost { get; set; }
-        public string ActualCost { get; set; }
-        public string PaidCost { get; set; }
+        public decimal EstimatedCost { get; set; }
+        public decimal ActualCost { get; set; }
+        public decimal PaidCost { get; set; }
         public string Notes { get; set; }
         public Users User { get; set; }
     }

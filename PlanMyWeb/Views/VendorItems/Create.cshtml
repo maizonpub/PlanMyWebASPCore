@@ -1,17 +1,15 @@
-﻿@model DAL.VendorItem
+﻿@model VendorItemViewModel
 
 @{
     ViewData["Title"] = "Create";
+    ViewData["Description"] = "Vendor Item";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>Create</h2>
-
-<h4>VendorItem</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+    <form asp-action="Create" enctype="multipart/form-data" class="col-md-12">
+        <div class="col-md-6">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -28,11 +26,7 @@
                 <input asp-for="Longitude" class="form-control" />
                 <span asp-validation-for="Longitude" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
@@ -40,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="HtmlDescription" class="control-label"></label>
-                <input asp-for="HtmlDescription" class="form-control" />
+                <textarea asp-for="HtmlDescription" class="form-control"></textarea>
                 <span asp-validation-for="HtmlDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -52,6 +46,11 @@
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categories" class="control-label"></label>
+                <select asp-for="Categories" asp-items="ViewBag.Categories" class="form-control"></select>
+                <span asp-validation-for="Categories" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="checkbox">
@@ -68,9 +67,26 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
-        </form>
-    </div>
-</div>
+
+        </div>
+        <div class="col-md-6">
+            @foreach (var type in Model.Taxonomies)
+            {
+                <div class="col-md-6">
+                    <table style="width:100%">
+                        <tr><td><h2>@type.Title</h2></td></tr>
+                        @foreach (var value in type.VendorTypeValues)
+                        {
+                            var id = type.Id + "_" + value.Id;
+                            <tr><td><input type="checkbox" value="@value.Id" name="@type.Id" id="@id" /><label for="@id">@value.Title</label></td></tr>
+                        }
+                    </table>
+                </div>
+
+            }
+        </div>
+    </form>
+        </div>
 
 <div>
     <a asp-action="Index">Back to List</a>

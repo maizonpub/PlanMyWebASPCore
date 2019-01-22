@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="action-block">
-                                <a href="#" class="btn tp-btn-default" id="guestlist_show">Add Guest</a>
+                                <a onclick="$('#AddGuest').slideDown()" class="btn tp-btn-default" id="guestlist_show">Add Guest</a>
                             </div>
                         </div>
                     </div>
@@ -37,11 +37,11 @@
                 <div class="couple-board">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="bg-white pinside40 guestlist-form mb30">
+                            <div class="bg-white pinside40 guestlist-form mb30" id="AddGuest">
                                 <h2 class="form-title">Create New Guest</h2>
                                 <form id="form-guestlist" method="post">
                                     <div class="status"></div>
-                                    <input type="hidden" id="security" name="security" value="4959823996" /><input type="hidden" name="_wp_http_referer" value="/guest-list-manager/" />                	<div class="close-sign"><a href="javascript:void(0);" id="guestlist_hide"><i class="fa fa-close"></i></a></div>
+                                    <input type="hidden" id="action" name="action" value="addguest" />                	<div class="close-sign"><a onclick="$('#AddGuest').slideUp()" style="cursor:pointer" id="guestlist_hide"><i class="fa fa-close"></i></a></div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <!-- Text input-->
@@ -76,21 +76,7 @@
                                             <div class="form-group">
                                                 <label class="control-label" for="side">Side</label>
                                                 <div class="">
-                                                    <select id="side" name="side" class="form-control">
-                                                        <option>Bridesmaids</option>
-                                                        <option>Brides Family</option>
-                                                        <option>Brides Friends</option>
-                                                        <option>Brides Family Friends</option>
-                                                        <option>Brides Coworkers</option>
-                                                        <option>Groomsmen</option>
-                                                        <option>Grooms Family</option>
-                                                        <option>Grooms Friends</option>
-                                                        <option>Grooms Family Friends</option>
-                                                        <option>Grooms Coworkers</option>
-                                                        <option>Bride and Groom Friends</option>
-                                                        <option>Partner 1</option>
-                                                        <option>Partner 2</option>
-                                                    </select>
+                                                    <select asp-for="Side" asp-items="Html.GetEnumSelectList<DAL.Side>()" class="form-control"></select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -108,17 +94,12 @@
                                             <div class="form-group">
                                                 <label class="control-label" for="RSVP">RSVP</label>
                                                 <div class="">
-                                                    <select id="RSVP" name="RSVP" class="form-control">
-                                                        <option>Not Invited</option>
-                                                        <option>No Response</option>
-                                                        <option>Accepted</option>
-                                                        <option>Declined</option>
-                                                    </select>
+                                                    <select asp-for="RSVP" asp-items="Html.GetEnumSelectList<DAL.GuestStatus>()" class="form-control"></select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="text-right">
-                                                    <button id="btn-guestlist" name="btn-guestlist" class="btn tp-btn-primary">Save Guest</button>
+                                                    <button id="btn-guestlist" type="submit" name="btn-guestlist" class="btn tp-btn-primary">Save Guest</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -129,6 +110,102 @@
                             </div>
 
                         </div>
+                        @if (Model.GuestId != null)
+                        {
+                            var sideItems = Html.GetEnumSelectList<DAL.Side>();
+                            foreach (var item in sideItems)
+                            {
+                                if (item.Text == Model.Guest.Side.ToString())
+                                {
+                                    item.Selected = true;
+                                }
+                                item.Text = item.Text.Replace('_', ' ');
+                            }
+                            var rsvpItems = Html.GetEnumSelectList<DAL.GuestStatus>();
+                            foreach (var item in rsvpItems)
+                            {
+                                if (item.Text == Model.Guest.GuestStatus.ToString())
+                                {
+                                    item.Selected = true;
+                                }
+                                item.Text = item.Text.Replace('_', ' ');
+                            }
+                                        <div class="col-md-12">
+                            <div class="bg-white pinside40 mb30" id="EditGuest">
+                                <h2 class="form-title" style="color:black">Edit Guest</h2>
+                                <form id="form-guestlist" method="post" action="/Dashboard/GuestList">
+                                    <div class="status"></div>
+                                    <input type="hidden" id="action" name="action" value="editguest" />
+                                    <input type="hidden" id="guestId" name="guestId" value="@Model.GuestId" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!-- Text input-->
+                                            <div class="form-group">
+                                                <label class="control-label" for="guest_name">Guest name</label>
+                                                <div class="">
+                                                    <input id="guest_name" name="guest_name" type="text" placeholder="Guest name" class="form-control input-md" required="" value="@Model.Guest.FullName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="Address">Address</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="Address" name="Address" value="@Model.Guest.Address" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="Countrh">Country</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="Country" name="Country" value="@Model.Guest.Country" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="Country">Email</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="Email" name="Email" value="@Model.Guest.Email" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Text input-->
+                                        <div class="col-md-6">
+                                            <!-- Textarea -->
+                                            <div class="form-group">
+                                                <label class="control-label" for="side">Side</label>
+                                                <div class="">
+                                                    <select id="Side" name="Side" asp-items="sideItems" class="form-control"></select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="City">City</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="City" name="City" asp-for="Guest.City" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="Phone">Phone</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="Phone" name="Phone" asp-for="Guest.Phone" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label" for="RSVP">RSVP</label>
+                                                <div class="">
+                                                    <select id="RSVP" name="RSVP" asp-items="rsvpItems" class="form-control"></select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="text-right">
+                                                    <button id="btn-guestlist" type="submit" name="btn-guestlist" class="btn tp-btn-primary">Save Guest</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end of it-->
+
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        }
                     </div>
                     <div class="row">
                         <div class="col-md-8">
@@ -142,33 +219,33 @@
                                                 <ul class="listnone">
                                                     @foreach (var row in Model.GuestList)
                                                     {
-                                                    <li class="todo-list-item">
-                                                        <div class="todo-list">
+                                                        <li class="todo-list-item">
+                                                            <div class="todo-list">
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <div class="todo-task">
+                                                                            <h3 class="todo-title"><a class="title" data-toggle="collapse" href="#mansour-dalla" aria-expanded="false" aria-controls="collapseExample">@row.FullName </a> </h3>
+                                                                            <span class="todo-date"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="todo-action">
+                                                                            <span id="guestlist_35">
+                                                                            </span>
+                                                                            <a href="?edit=@row.Id" class="btn-circle" title="Edit"><i class="fa fa-edit"></i></a>
+                                                                            <a class="btn-circle" title="Delete" onclick="delete_guestlist(@row.Id)"><i class="fa fa-trash-o"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             <div class="row">
-                                                                <div class="col-md-8">
-                                                                    <div class="todo-task">
-                                                                        <h3 class="todo-title"><a class="title" data-toggle="collapse" href="#mansour-dalla" aria-expanded="false" aria-controls="collapseExample">@row.User </a> </h3>
-                                                                        <span class="todo-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="todo-action">
-                                                                        <span id="guestlist_35">
-                                                                        </span>
-                                                                        <a href="?edit=MzU=" class="btn-circle" title="Edit"><i class="fa fa-edit"></i></a>
-                                                                        <a href="#" class="btn-circle" title="Delete" onclick="delete_guestlist(35)"><i class="fa fa-trash-o"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="collapse" id="mansour-dalla">
+                                                                <div class="col-md-12">
+                                                                    <div class="collapse" id="mansour-dalla">
 
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </li>
+                                                        </li>
                                                     }
 
                                                 </ul>
@@ -178,13 +255,21 @@
                                 </div>
                             </div>
                         </div>
+                        @{
+                            var prec = 0;
+                            if (Model.GuestList.Count() > 0)
+                            {
+                                prec = (Model.GuestList.Where(x => x.GuestStatus == DAL.GuestStatus.Accepted).Count() * 100 / @Model.GuestList.Count());
+                            }
+                            var precs = prec + "%";
+                        }
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="bg-white pinside30 widget-todo">
                                         <h3>Summary of Guests</h3>
-                                        <div id="todo-percentage" class="todo-percentage" data-percent="50"> </div>
-                                        <div class="todo-value"> <span class="todo-done">@Model.GuestList.Count() </span> <span class="todo-pending">@Model.GuestList.Count()</span> </div>
+                                        <div id="todo-percentage" class="todo-percentage" data-percent="@prec">@precs  </div>
+                                        <div class="todo-value"> <span class="todo-done">@Model.GuestList.Where(x=>x.GuestStatus == DAL.GuestStatus.Accepted).Count() Accepted</span> <span class="todo-pending">@Model.GuestList.Where(x => x.GuestStatus != DAL.GuestStatus.Accepted).Count() Uninvited or Pending</span> </div>
                                     </div>
                                 </div>
                             </div>

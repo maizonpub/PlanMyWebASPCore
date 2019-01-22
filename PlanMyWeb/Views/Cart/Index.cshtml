@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<DAL.BasketItems>
 @{
     ViewData["Title"] = "Index";
+    decimal subtotal = 0;
 }
 
 <style>
@@ -10,7 +11,21 @@
         font-weight: 400,400italic,700,700italic;
     }
 </style>
+<link rel='stylesheet' id='select2-css' href='/assets/css/select2.css?ver=3.5.1' type='text/css' media='all' />
+<link rel='stylesheet' id='woocommerce-layout-css' href='/assets/css/woocommerce-layout.css?ver=3.5.1' type='text/css' media='all' />
+<style id='woocommerce-layout-inline-css' type='text/css'>
 
+    .infinite-scroll .woocommerce-pagination {
+        display: none;
+    }
+</style>
+<link rel='stylesheet' id='woocommerce-smallscreen-css' href='/assets/css/woocommerce-smallscreen.css?ver=3.5.1' type='text/css' media='only screen and (max-width: 768px)' />
+<link rel='stylesheet' id='woocommerce-general-css' href='/assets/css/woocommerce.css?ver=3.5.1' type='text/css' media='all' />
+<style id='woocommerce-inline-inline-css' type='text/css'>
+    .woocommerce form .form-row .required {
+        visibility: visible;
+    }
+</style>
 <div class="tp-breadcrumb">
     <div class="container">
         <div class="row">
@@ -33,7 +48,7 @@
                 <div id="post-1322" class="post-1322 page type-page status-publish hentry">
                     <div class="woocommerce">
                         <div class="woocommerce-notices-wrapper"></div>
-                        <form class="woocommerce-cart-form" action="#" method="post">
+                        <form class="woocommerce-cart-form" action="/Cart/UpdateBasket" method="post">
 
                             <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
                                 <thead>
@@ -48,67 +63,74 @@
                                 </thead>
                                 <tbody>
                                     @foreach (var row in Model)
-                                    {
-                                    <tr class="woocommerce-cart-form__cart-item cart_item">
+                                        {
+                                        subtotal += row.TotalPrice; 
+                                            var soldby = "Plan My";
+                                            try
+                                            {
+                                                soldby = row.Offers.User != null ? row.Offers.User.FirstName + " " + row.Offers.User.LastName : "Plan My";
+                                            }
+                                            catch { }
+                                        <tr class="woocommerce-cart-form__cart-item cart_item">
 
-                                        <td class="product-remove">
-                                            <a href="#" class="remove" aria-label="Remove this item" data-product_id="4695" data-product_sku="">&times;</a>
-                                        </td>
+                                            <td class="product-remove">
+                                                <a href="/Cart/RemoveFromBasket?BasketId=@row.Id" class="remove" aria-label="Remove this item" data-product_id="4695" data-product_sku="">&times;</a>
+                                            </td>
 
-                                        <td class="product-thumbnail">
-                                            <a href="#"><img width="320" height="260" src="#" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" srcset="# 320w, # 300w" sizes="(max-width: 320px) 100vw, 320px" /></a>
-                                        </td>
+                                            <td class="product-thumbnail">
+                                                <a href="#"><img width="320" height="260" src="~/Media/@row.Offers.Image" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" srcset="# 320w, # 300w" sizes="(max-width: 320px) 100vw, 320px" /></a>
+                                            </td>
 
-                                        <td class="product-name" data-title="Product">
-                                            <a href="#">Your Dream Car for Less from Elma Wedding Cars</a><dl class="variation">
-                                                <dt class="variation-SoldBy">Sold By:</dt>
-                                                <dd class="variation-SoldBy">
-                                                    <p>Plan My</p>
-                                                </dd>
-                                            </dl>
-                                        </td>
+                                            <td class="product-name" data-title="Product">
+                                                <a href="#">@row.Offers.Title</a><dl class="variation">
+                                                    <dt class="variation-SoldBy">Sold By:</dt>
+                                                    <dd class="variation-SoldBy">
+                                                        <p>@soldby</p>
+                                                    </dd>
+                                                </dl>
+                                            </td>
 
-                                        <td class="product-price" data-title="Price">
-                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.Offers.Price</span>
-                                        </td>
+                                            <td class="product-price" data-title="Price">
+                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.Offers.Price</span>
+                                            </td>
 
-                                        <td class="product-quantity" data-title="Quantity">
-                                            <div class="quantity">
-                                                <label class="screen-reader-text" for="quantity_5bffb4353528a">@row.Quantity</label>
-                                                <input type="number"
-                                                       id="quantity_5bffb4353528a"
-                                                       class="input-text qty text"
-                                                       step="1"
-                                                       min="0"
-                                                       max=""
-                                                       name="cart[5034a5d62f91942d2a7aeaf527dfe111][qty]"
-                                                       value="1"
-                                                       title="Qty"
-                                                       size="4"
-                                                       pattern="[0-9]*"
-                                                       inputmode="numeric"
-                                                       aria-labelledby="Your Dream Car for Less from Elma Wedding Cars quantity" />
-                                            </div>
-                                        </td>
+                                            <td class="product-quantity" data-title="Quantity">
+                                                <div class="quantity">
+                                                    <label class="screen-reader-text" for="quantity_@row.Offers.Id">@row.Quantity</label>
+                                                    <input type="number"
+                                                           id="quantity_@row.Offers.Id"
+                                                           class="input-text qty text"
+                                                           step="1"
+                                                           min="0"
+                                                           max=""
+                                                           name="quantity_@row.Offers.Id"
+                                                           value="@row.Quantity"
+                                                           title="Qty"
+                                                           size="4"
+                                                           pattern="[0-9]*"
+                                                           inputmode="numeric"
+                                                           aria-labelledby="@row.Offers.Title" />
+                                                </div>
+                                            </td>
 
-                                        <td class="product-subtotal" data-title="Total">
-                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.TotalPrice</span>
-                                        </td>
-                                    </tr>
+                                            <td class="product-subtotal" data-title="Total">
+                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@row.TotalPrice</span>
+                                            </td>
+                                        </tr>
                                     }
-                                    
+
 
                                     <tr>
                                         <td colspan="6" class="actions">
 
-                                            <div class="coupon">
+                                            @*<div class="coupon">
                                                 <label for="coupon_code">Coupon:</label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="Coupon code" /> <button type="submit" class="button" name="apply_coupon" value="Apply coupon">Apply coupon</button>
-                                            </div>
+                                            </div>*@
 
                                             <button type="submit" class="button" name="update_cart" value="Update cart">Update cart</button>
 
 
-                                            <input type="hidden" id="woocommerce-cart-nonce" name="woocommerce-cart-nonce" value="917fd36b7e" /><input type="hidden" name="_wp_http_referer" value="/cart/" />
+                                            
                                         </td>
                                     </tr>
 
@@ -126,7 +148,7 @@
 
                                     <tr class="cart-subtotal">
                                         <th>Subtotal</th>
-                                        <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@Model.Count()</span></td>
+                                        <td data-title="Subtotal"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@subtotal</span></td>
                                     </tr>
 
 
@@ -136,7 +158,7 @@
 
                                     <tr class="order-total">
                                         <th>Total</th>
-                                        <td data-title="Total"><strong><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@Model.Count()</span></strong> </td>
+                                        <td data-title="Total"><strong><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#36;</span>@subtotal</span></strong> </td>
                                     </tr>
 
 
@@ -144,7 +166,7 @@
 
                                 <div class="wc-proceed-to-checkout">
 
-                                    <a href="#" class="checkout-button button alt wc-forward">
+                                    <a href="/pay" class="checkout-button button alt wc-forward">
                                         Proceed to checkout
                                     </a>
                                 </div>
@@ -154,10 +176,10 @@
                         </div>
 
                     </div>
-                    </div>
                 </div>
-</div>
+            </div>
         </div>
     </div>
+</div>
 
 
