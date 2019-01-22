@@ -1,4 +1,4 @@
-﻿@model DAL.BlogViewModel
+﻿@model BlogsViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -28,6 +28,24 @@
                 <label asp-for="HtmlDescription" class="control-label"></label>
                 <input asp-for="HtmlDescription" class="form-control" />
                 <span asp-validation-for="HtmlDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categories" class="control-label"></label>
+
+                <select asp-for="Categories" class="form-control">
+                    @foreach (var category in Model.Categories)
+                    {
+                        if (category.Selected)
+                        {
+                            <option value="@category.Value" selected>@category.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@category.Value">@category.Text</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Categories" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PostDate" class="control-label"></label>

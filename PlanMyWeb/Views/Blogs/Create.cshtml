@@ -1,7 +1,8 @@
-﻿@model DAL.BlogViewModel
+﻿@model BlogsViewModel
 
 @{
     ViewData["Title"] = "Create";
+    ViewData["Description"] = "Blog";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
@@ -27,6 +28,11 @@
                 <label asp-for="HtmlDescription" class="control-label"></label>
                 <input asp-for="HtmlDescription" class="form-control" />
                 <span asp-validation-for="HtmlDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categories" class="control-label"></label>
+                <select asp-for="Categories" asp-items="ViewBag.Categories" class="form-control"></select>
+                <span asp-validation-for="Categories" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PostDate" class="control-label"></label>
