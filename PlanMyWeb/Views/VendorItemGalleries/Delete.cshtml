@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
+    var parms = new Dictionary<string, string>
+    {
+        { "itemId", ViewBag.ItemId }
+    };
 }
 
 <h2>Delete</h2>
@@ -20,9 +24,9 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="Delete" asp-all-route-data="parms">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index" asp-all-route-data="parms">Back to List</a>
     </form>
 </div>

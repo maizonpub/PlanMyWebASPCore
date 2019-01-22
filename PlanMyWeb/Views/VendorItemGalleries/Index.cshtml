@@ -3,10 +3,14 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
+    var parms = new Dictionary<string, string>
+    {
+        { "itemId", ViewBag.ItemId }
+    };
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" asp-all-route-data="parms" class="btn btn-primary">Create New</a>
 </p>
 <div class="col-xs-12">
     <div class="box">

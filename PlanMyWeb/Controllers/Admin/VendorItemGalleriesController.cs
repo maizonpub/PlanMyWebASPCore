@@ -25,9 +25,9 @@ namespace PlanMyWeb.Controllers.Admin
         }
         [Route("Admin/VendorItemGalleries")]
         // GET: VendorItemGalleries
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int itemId)
         {
-            return View(await _context.VendorItemGalleries.ToListAsync());
+            return View(await _context.VendorItemGalleries.Where(x=>x.Item.Id == itemId).ToListAsync());
         }
         [Route("Admin/VendorItemGalleries/Details/{id?}")]
         // GET: VendorItemGalleries/Details/5
@@ -38,8 +38,9 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var vendorItemGallery = await _context.VendorItemGalleries
+            var vendorItemGallery = await _context.VendorItemGalleries.Include(x => x.Item)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.ItemId = vendorItemGallery.Item.Id.ToString();
             if (vendorItemGallery == null)
             {
                 return NotFound();
@@ -49,8 +50,9 @@ namespace PlanMyWeb.Controllers.Admin
         }
         [Route("Admin/VendorItemGalleries/Create")]
         // GET: VendorItemGalleries/Create
-        public IActionResult Create()
+        public IActionResult Create(string itemId)
         {
+            ViewBag.ItemId = itemId;
             return View();
         }
 
@@ -60,16 +62,22 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorItemGalleries/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Image")] VendorItemGalleryViewModel vendorItemGalleryViewModel)
+        public async Task<IActionResult> Create([Bind("Id,Image")] VendorItemGalleryViewModel vendorItemGalleryViewModel, int itemId)
         {
             if (ModelState.IsValid)
             {
                 string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
                 UploadFile(vendorItemGalleryViewModel.Image, filename);
-                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = vendorItemGalleryViewModel.MediaType };
+                var item = _context.VendorItems.Find(itemId);
+                VendorItemGallery homeSlider = new VendorItemGallery { Image = filename, MediaType = vendorItemGalleryViewModel.MediaType, Item = item };
                 _context.Add(homeSlider);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var parms = new Dictionary<string, string>
+    {
+        { "itemId", itemId.ToString() }
+    };
+                return RedirectToAction(nameof(Index), parms);
+            
             }
 
             return View(vendorItemGalleryViewModel);
@@ -92,12 +100,13 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var vendorItemGallery = await _context.VendorItemGalleries.FindAsync(id);
+            var vendorItemGallery = _context.VendorItemGalleries.Include(x => x.Item).Where(x=>x.Id == id).FirstOrDefault();
             VendorItemGalleryViewModel model = new VendorItemGalleryViewModel { Id = vendorItemGallery.Id, MediaType = vendorItemGallery.MediaType };
             if (vendorItemGallery == null)
             {
                 return NotFound();
             }
+            ViewBag.ItemId = vendorItemGallery.Item.Id.ToString();
             return View(vendorItemGallery);
         }
 
@@ -107,11 +116,16 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorItemGalleries/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Image")] VendorItemGalleryViewModel vendorItemGalleryViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Image")] VendorItemGalleryViewModel vendorItemGalleryViewModel, int itemId)
         {
             if (ModelState.IsValid)
             {
-                var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
+                var parms = new Dictionary<string, string>
+    {
+        { "itemId", itemId.ToString() }
+    };
+                var item = _context.VendorItems.Find(itemId);
+                var row = _context.VendorItemGalleries.Where(x => x.Id == id).FirstOrDefault();
                 if (vendorItemGalleryViewModel.Image != null)
                 {
                     string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
@@ -119,10 +133,11 @@ namespace PlanMyWeb.Controllers.Admin
                     row.MediaType = vendorItemGalleryViewModel.MediaType;
                 }
                 else
-                    row.Media = row.Media;
+                    row.Image = row.Image;
+                row.Item = item;
                 row.MediaType = vendorItemGalleryViewModel.MediaType;
                 await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index), parms);
             }
             return View(vendorItemGalleryViewModel);
         }
@@ -135,8 +150,9 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var vendorItemGallery = await _context.VendorItemGalleries
+            var vendorItemGallery = await _context.VendorItemGalleries.Include(x=>x.Item)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.ItemId = vendorItemGallery.Item.Id.ToString();
             if (vendorItemGallery == null)
             {
                 return NotFound();
@@ -151,10 +167,14 @@ namespace PlanMyWeb.Controllers.Admin
         [Route("Admin/VendorItemGalleries/Delete/{id?}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vendorItemGallery = await _context.VendorItemGalleries.FindAsync(id);
+            var vendorItemGallery = _context.VendorItemGalleries.Include(x => x.Item).Where(x=>x.Id == id).FirstOrDefault();
+            var parms = new Dictionary<string, string>
+    {
+        { "itemId", vendorItemGallery.Item.Id.ToString() }
+    };
             _context.VendorItemGalleries.Remove(vendorItemGallery);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), parms);
         }
 
         private bool VendorItemGalleryExists(int id)

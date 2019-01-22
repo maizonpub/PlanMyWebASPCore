@@ -1,4 +1,4 @@
-﻿@model DAL.Offers
+﻿@model AdminOffersViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -16,7 +16,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="OffersType" class="control-label"></label>
-                <select asp-for="OffersType" class="form-control"></select>
+                <select asp-for="OffersType" asp-items="Html.GetEnumSelectList<DAL.OffersType>()" class="form-control"></select>
                 <span asp-validation-for="OffersType" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Validity" class="control-label"></label>
-                <select asp-for="Validity" class="form-control"></select>
+                <select asp-for="Validity" asp-items="Html.GetEnumSelectList<DAL.Validity>()" class="form-control"></select>
                 <span asp-validation-for="Validity" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -68,6 +68,41 @@
                 <label asp-for="SaleToDate" class="control-label"></label>
                 <input asp-for="SaleToDate" class="form-control" />
                 <span asp-validation-for="SaleToDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categories" class="control-label"></label>
+                <select asp-for="Categories" class="form-control">
+                    @foreach (var category in Model.Categories)
+                    {
+                        if (category.Selected)
+                        {
+                            <option value="@category.Value" selected>@category.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@category.Value">@category.Text</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="Categories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User" class="control-label"></label>
+                <select id="User" name="User" class="form-control">
+                    <option value="">Please select</option>
+                    @foreach (var user in Model.User)
+                    {
+                        if (user.Selected)
+                        {
+                            <option value="@user.Value" selected>@user.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@user.Value">@user.Text</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="User" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

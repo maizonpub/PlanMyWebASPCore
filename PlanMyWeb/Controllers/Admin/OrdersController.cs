@@ -33,9 +33,11 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 return NotFound();
             }
-
-            var order = await _context.Orders
+            
+            var order = await _context.Orders.Include(x=>x.BasketItems)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            var basketitems = _context.BasketItems.Include(x => x.Offers).Where(x => x.Order == order).ToList();
+            order.BasketItems = basketitems;
             if (order == null)
             {
                 return NotFound();

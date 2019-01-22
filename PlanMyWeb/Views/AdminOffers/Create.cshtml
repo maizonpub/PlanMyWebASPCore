@@ -1,4 +1,4 @@
-﻿@model DAL.Offers
+﻿@model AdminOffersViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -15,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="OffersType" class="control-label"></label>
-                <select asp-for="OffersType" class="form-control"></select>
+                <select asp-for="OffersType" asp-items="Html.GetEnumSelectList<DAL.OffersType>()" class="form-control"></select>
                 <span asp-validation-for="OffersType" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Validity" class="control-label"></label>
-                <select asp-for="Validity" class="form-control"></select>
+                <select asp-for="Validity" asp-items="Html.GetEnumSelectList<DAL.Validity>()" class="form-control"></select>
                 <span asp-validation-for="Validity" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -67,6 +67,18 @@
                 <label asp-for="SaleToDate" class="control-label"></label>
                 <input asp-for="SaleToDate" class="form-control" />
                 <span asp-validation-for="SaleToDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categories" class="control-label"></label>
+                <select asp-for="Categories" asp-items="ViewBag.Categories" class="form-control"></select>
+                <span asp-validation-for="Categories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User" class="control-label"></label>
+                <select id="User" name="User" asp-items="ViewBag.Users" class="form-control">
+<option>Please select</option>
+</select>
+                <span asp-validation-for="User" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
