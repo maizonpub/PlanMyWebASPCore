@@ -103,23 +103,17 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var blogcategory = _context.BlogCategoryRelations.Include(x => x.Category).Include(x => x.Blog).Where(x => x.Id == id).FirstOrDefault();
-            var blogcategories = _context.BlogCategoryRelations.AsEnumerable();
+            var row = _context.Blogs.Include(x => x.BlogCategoryRelations).Where(x => x.Id == id).FirstOrDefault();
+            var blogcategories = _context.BlogCategories.AsEnumerable();
             var catslist = new SelectList(blogcategories, "Id", "Title");
             foreach (var item in catslist)
             {
-                foreach (var itemcategory in blogcategory.Blog.BlogCategoryRelations)
-                {
-                    if (item.Value == itemcategory.Blog.Id.ToString())
-                    {
-                        item.Selected = true;
-                    }
-                }
+                int itemValue = int.Parse(item.Value);
+                item.Selected = row.BlogCategoryRelations.Where(x => x.Category.Id == itemValue).Count() > 0;
             }
-            var blogcategoryrelation = _context.BlogCategoryRelations.Where(x => x.Blog == blogcategories).Include(x => x.Blog).ToList();
             //ViewBag.Categories = selectfield;
-            BlogsViewModel model = new BlogsViewModel { Id = blogcategory.Id, MediaType = blogcategory.Blog.MediaType, HtmlDescription = blogcategory.Blog.HtmlDescription, PostDate = blogcategory.Blog.PostDate, Title = blogcategory.Blog.Title, Categories = catslist, BlogCategoryRelations = blogcategoryrelation };
-            if (blogcategory == null)
+            BlogsViewModel model = new BlogsViewModel { Id = row.Id, MediaType = row.MediaType, HtmlDescription = row.HtmlDescription, PostDate = row.PostDate, Title = row.Title, Categories = catslist };
+            if (row == null)
             {
                 return NotFound();
             }
@@ -132,7 +126,7 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/Blogs/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Image,HtmlDescription,PostDate")] BlogViewModel blogViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Image,HtmlDescription,PostDate,Categories")] BlogViewModel blogViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -141,16 +135,22 @@ namespace PlanMyWeb.Controllers.Admin
                 {
                     string filename = Guid.NewGuid().ToString().Substring(4) + blogViewModel.Image.FileName;
                     UploadFile(blogViewModel.Image, filename);
-                    row.MediaType = blogViewModel.MediaType;
+                    row.Image = filename;
                 }
                 else
                     row.Image = row.Image;
-                    row.MediaType = blogViewModel.MediaType;
                 row.Title = blogViewModel.Title;
                 row.HtmlDescription = blogViewModel.HtmlDescription;
                 row.PostDate = blogViewModel.PostDate;
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                if(row.BlogCategoryRelations!=null)
+                    _context.BlogCategoryRelations.RemoveRange(row.BlogCategoryRelations);
+                string[] catIds = Request.Form["Categories"].ToString().Split(',');
+
+                var dbcats = _context.BlogCategories.Where(x => catIds.Contains(x.Id.ToString())).ToList();
+                foreach (var dbcat in dbcats)
+                    _context.BlogCategoryRelations.Add(new BlogCategoryRelation { Category = dbcat, Blog = row });
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
                 }
                 return View(blogViewModel);
         }

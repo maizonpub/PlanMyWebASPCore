@@ -64,10 +64,14 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + blogCategoryViewModel.Image.FileName;
-                UploadFile(blogCategoryViewModel.Image, filename);
-                HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = blogCategoryViewModel.MediaType };
-                _context.Add(homeSlider);
+                string filename = "";
+                if (blogCategoryViewModel.Image!=null)
+                {
+                    filename = Guid.NewGuid().ToString().Substring(4) + blogCategoryViewModel.Image.FileName;
+                    UploadFile(blogCategoryViewModel.Image, filename);
+                }
+                BlogCategory category = new BlogCategory { Image = filename, Title = blogCategoryViewModel.Title };
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -92,7 +96,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var blogCategory = await _context.BlogCategories.FindAsync(id);
-            BlogCategoryViewModel model = new BlogCategoryViewModel { Id = blogCategory.Id, MediaType = blogCategory.MediaType };
+            BlogCategoryViewModel model = new BlogCategoryViewModel { Id = blogCategory.Id, MediaType = blogCategory.MediaType, Title = blogCategory.Title };
             if (blogCategory == null)
             {
                 return NotFound();
@@ -115,11 +119,11 @@ namespace PlanMyWeb.Controllers.Admin
                 {
                     string filename = Guid.NewGuid().ToString().Substring(4) + blogCategoryViewModel.Image.FileName;
                     UploadFile(blogCategoryViewModel.Image, filename);
-                    row.MediaType = blogCategoryViewModel.MediaType;
+                    row.Image = filename;
                 }
                 else
-                row.Media = row.Media;
-                row.MediaType = blogCategoryViewModel.MediaType;
+                row.Image = row.Image;
+                row.Title = blogCategoryViewModel.Title;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
