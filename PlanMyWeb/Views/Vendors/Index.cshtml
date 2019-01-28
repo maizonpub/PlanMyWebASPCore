@@ -39,7 +39,7 @@
                         <div class="col-md-12">
                             <h2>Refine Your Search</h2>
                         </div>
-                        <form method="post">
+                        <form method="get">
                             <!--<div class="col-md-12">
                                 <div class="amount_box">$<span id="amount"></span></div>
                                 <div id="price-range" class="pricing_range"></div>
@@ -75,7 +75,7 @@
                                         <br /><h4>@row.Title</h4>
                                         @foreach (var record in row.VendorTypeValues)
                                         {
-                                            if (Context.Request.HasFormContentType && Context.Request.Form["TypeId"] != "" && Context.Request.Form["TypeId"].Contains(record.Id.ToString()))
+                                            if ((Context.Request.HasFormContentType && (Context.Request.Form["TypeId"] != "" && Context.Request.Form["TypeId"].Contains(record.Id.ToString()))) || (Context.Request.Query["TypeId"] != "" && Context.Request.Query["TypeId"].Contains(record.Id.ToString())))
                                             {
                                                 <label class="aminities_box"><input type="checkbox" checked class="aminities" name="TypeId" id="TypeId" value="@record.Id" />@record.Title</label>
                                             }
@@ -108,7 +108,7 @@
                             </div>
                             @foreach (var row in Model.VendorItems)
                             {
-                                <div class="col-md-4 vendor-box">
+                                <div class="col-md-3 vendor-box">
                                     <div class="grid">
 
                                         <figure class="effect-oscar">
@@ -127,7 +127,60 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    @Html.PagedListPager(Model.VendorItems, page => Url.Action("Index", new { page }))
+                    @if (Context.Request.HasFormContentType)
+                    {
+                        if (!string.IsNullOrEmpty(Context.Request.Form["TypeId"].ToString()))
+                        {
+                            @Html.PagedListPager(Model.VendorItems, page => Url.Action("Index", new { page, CategoryId = Context.Request.Query["CategoryId"], TypeId = Context.Request.Form["TypeId"] }), new PagedListRenderOptions
+                       {
+                           DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                           DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                           DisplayPageCountAndCurrentLocation = true,
+                           MaximumPageNumbersToDisplay = 0
+                       });
+                        }
+                        else
+                        {
+                            @Html.PagedListPager(Model.VendorItems, page => Url.Action("Index", new { page, CategoryId = Context.Request.Query["CategoryId"] }), new PagedListRenderOptions
+                            {
+                                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                                DisplayPageCountAndCurrentLocation = true,
+                                MaximumPageNumbersToDisplay = 0
+                            });
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(Context.Request.Query["TypeId"].ToString()))
+                        {
+                            @Html.PagedListPager(Model.VendorItems, page => Url.Action("Index", new { page, CategoryId = Context.Request.Query["CategoryId"], TypeId = Context.Request.Query["TypeId"] }), new PagedListRenderOptions
+                       {
+                           DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                           DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                           DisplayPageCountAndCurrentLocation = true,
+                           MaximumPageNumbersToDisplay = 0
+                       });
+                        }
+                        else
+                        {
+                            @Html.PagedListPager(Model.VendorItems, page => Url.Action("Index", new { page, CategoryId = Context.Request.Query["CategoryId"] }), new PagedListRenderOptions
+                            {
+                                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                                DisplayPageCountAndCurrentLocation = true,
+                                MaximumPageNumbersToDisplay = 0
+                            });
+                        }
+                    }
                 </div>
             </div>
         </div>

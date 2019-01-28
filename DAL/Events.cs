@@ -13,6 +13,8 @@ namespace DAL
         public DateTime Date { get; set; }
         public string Image { get; set; }
         public Users User { get; set; }
+        public string UserId { get; set; }
+        public bool IsPrivate { get; set; }
     }
     public class EventsViewModel
     {
@@ -22,5 +24,7 @@ namespace DAL
         public DateTime Date { get; set; }
         public IFormFile Image { get; set; }
         public Users User { get; set; }
+        public string UserId { get; set; }
+        public bool IsPrivate { get; set; }
     }
 }

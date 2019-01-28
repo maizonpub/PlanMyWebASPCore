@@ -12,4 +12,10 @@ namespace PlanMyWeb.Models
         public IEnumerable<VendorCategory> VendorCategories { get; set; }
         public IEnumerable<VendorType> VendorTypes { get; set; }
     }
+    public class SingleVendorViewModel
+    {
+        public VendorItem VendorItem { get; set; }
+        public IEnumerable<VendorItem> RelatedItems { get; set; }
+        public IEnumerable<Offers> RelatedOffers { get; set; }
+    }
 }
