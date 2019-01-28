@@ -22,9 +22,9 @@ namespace PlanMyWeb.Controllers.Api
 
         // GET: api/VendorTypes
         [HttpGet]
-        public async Task<IEnumerable<VendorType>> GetVendorTypes()
+        public IEnumerable<VendorType> GetVendorTypes()
         {
-            var types = await _context.VendorTypes.Include(x => x.VendorTypeValues).ToListAsync();
+            var types = _context.VendorTypes.Include(x => x.VendorTypeValues);
             return types;
         }
 
