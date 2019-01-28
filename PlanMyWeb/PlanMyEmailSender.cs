@@ -1,19 +1,27 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using DAL;
 using Microsoft.AspNetCore.Identity.UI.Services;
 namespace PlanMyWeb
 {
     internal class PlanMyEmailSender : IEmailSender
     {
+        DbWebContext _context;
+        public PlanMyEmailSender(DbWebContext context)
+        {
+            _context = context;
+        }
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             int Port = 587;
             bool isSSL = true;
-            string username = "info@maizonpub.com";
-            string password = "1nf0MPL3B@";
-            var fromAddress = new MailAddress("info@maizonpub.com");
+            var content = _context.WebContents.FirstOrDefault();
+            string username = content.AdminEmail;
+            string password = content.AdminEmailPassword;
+            var fromAddress = new MailAddress(content.AdminEmail);
             var toAddress = new MailAddress(email);
 
             var smtp = new SmtpClient

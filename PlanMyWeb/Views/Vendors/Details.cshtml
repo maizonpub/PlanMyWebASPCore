@@ -1,8 +1,8 @@
-﻿@model DAL.VendorItem
+﻿@model SingleVendorViewModel
 
 @{
     ViewData["Title"] = "Details";
-    var reviews = Model.VendorItemReviews.Where(x => x.Status == DAL.ReviewStatus.Approved);
+    var reviews = Model.VendorItem.VendorItemReviews.Where(x => x.Status == DAL.ReviewStatus.Approved);
 }
 <style>
     html body {
@@ -17,40 +17,18 @@
         margin: 0px;
         padding: 0px
     }
+    .item_title
+    {
+        color:black;
+    }
+    .venue-action {
+        text-align: left !important;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        padding-left: 0px !important;
+    }
 </style>
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        @for (int i = 0; i < Model.Gallery.Count(); i++)
-        {
-            string isactive = i == 0 ? "active" : "";
 
-            <li data-target="#myCarousel" data-slide-to="@i" class="@isactive"></li>
-
-        }
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        @for (int i = 0; i < Model.Gallery.Count(); i++)
-        {
-            string isactive = i == 0 ? "active" : "";
-            string filepath = Model.Gallery.ToList()[i].Image;
-            <div class="item @isactive">
-                <img src="~/Media/@filepath" class="img-responsive" />
-
-            </div>
-
-        }
-
-
-    </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
 
 
 <div class="tp-breadcrumb">
@@ -60,7 +38,7 @@
                 <ol class="breadcrumb listnone">
                     <li>
                         <!-- Breadcrumb NavXT 6.2.1 -->
-                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="~/" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-item current-item">@Model.Title</span>
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="~/" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-item current-item">@Model.VendorItem.Title</span>
                     </li>
                 </ol>
             </div>
@@ -70,31 +48,62 @@
 
 
 
-<div class="container venue-header">
-    <div class="row venue-head">
+<div class="container">
+    <div class="row">
         <div class="col-md-12 title">
-            @if (Model.Categories != null && Model.Categories.Count() > 0)
-            {
-                <a href="#" class="label-primary">@Model.Categories.FirstOrDefault().VendorCategory.Title</a>
-            }
-            <h1 class="item_title">@Model.Title</h1>
+            
+            <h1 class="item_title">@Model.VendorItem.Title</h1>
             <p class="location">
-                <i class="fa fa-map-marker"></i> @Model.Address     <br /><i class="fa fa-phone"></i>       <br /><i class="fa fa-envelope"></i> @Model.Email     <br />
+                <i class="fa fa-map-marker"></i> @Model.VendorItem.Address     <br /><i class="fa fa-phone"></i> @Model.VendorItem.PhoneNumber       <br /><i class="fa fa-envelope"></i> @Model.VendorItem.User.Email     <br />
             </p>
         </div>
 
-        <div class="col-md-12 venue-action"> <a href="#map-canvas" class="btn tp-btn-primary">VIEW MAP</a> <a href="#inquiry" class="btn tp-btn-default">Book Now</a> </div>
+        
     </div>
 </div>
 
 
-<div class="main-container">
+<div class="main-container" style="padding-top:0px">
     <div class="container">
         <div class="row">
             <div class="col-md-8 page-description">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+                    <ol class="carousel-indicators">
+                        @for (int i = 0; i < Model.VendorItem.Gallery.Count(); i++)
+                        {
+                            string isactive = i == 0 ? "active" : "";
+
+                            <li data-target="#myCarousel" data-slide-to="@i" class="@isactive"></li>
+
+                        }
+                    </ol>
+                    <div class="carousel-inner" role="listbox" style="height:400px;">
+                        @for (int i = 0; i < Model.VendorItem.Gallery.Count(); i++)
+                        {
+                            string isactive = i == 0 ? "active" : "";
+                            string filepath = Model.VendorItem.Gallery.ToList()[i].Image;
+                            <div class="item @isactive">
+                                <img src="~/Media/@filepath" class="img-responsive" style="transform: scale(2.6) translateY(10%);" />
+
+                            </div>
+
+                        }
+
+
+                    </div>
+                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <div class="col-md-12 venue-action"> <a href="#map-canvas" class="btn tp-btn-primary">VIEW MAP</a> <a href="#inquiry" class="btn tp-btn-default">Book Now</a> </div>
                 <div class="venue-details">
-                    <h2 style="color:black">@Model.Title</h2>
-                    <p>@Html.Raw(Model.HtmlDescription)</p>
+                    <h2 style="color:black">About</h2>
+                    <p>@Html.Raw(Model.VendorItem.HtmlDescription)</p>
 
                 </div>
                 <div class="row">
@@ -108,13 +117,13 @@
                     @if (reviews.Count() > 0)
                     {
                         <h2 class="comments-title">
-                            reviews.Count() thoughts on “<span>@Model.Title</span>”
+                            reviews.Count() thoughts on “<span>@Model.VendorItem.Title</span>”
                         </h2>
                         <ul class="comment-list listnone mb30">
                             @foreach (var review in reviews)
                             {
                                 string ratename = "";
-                                switch(review.rating)
+                                switch (review.rating)
                                 {
                                     case (int)DAL.ReviewRating.Terrible:
                                         ratename = "Terrible";
@@ -132,32 +141,32 @@
                                         ratename = "Exceptional";
                                         break;
                                 }
-                            <li class="comment even thread-even depth-1" id="comment-59">
-                                <div id="div-comment-59" class="comment-body review-list">
-                                    <div class="row">
-                                        <!-- row block start-->
-                                        <div class="col-md-2 col-sm-2 hidden-xs">
-                                            
-                                        </div>
-                                        <div class="col-md-10 col-sm-10">
-                                            <div class="panel panel-default arrow left">
-                                                <div class="panel-body">
-                                                    <div class="text-left">
-                                                        <h3>@review.author                    </h3>
-                                                        <div class="comment-date">
-                                                            <i class="fa fa-clock-o"></i> @review.DateIn.ToString("dd,MMM,yyyy")
-                                                        </div> <!-- meta -->
-                                                    </div>
-                                                    <div class="comment-box">
-                                                        <div class="review_rate" data-pixrating="@review.rating" title=""><i data-alt="1" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="2" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="3" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="4" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="5" class="star-on-png" title="gorgeous"></i><input name="pixrating" type="hidden" value="5" readonly=""></div>
-                                                        <p>@ratename</p>
-                                                    </div>
-                                                </div><!-- media-body -->
+                                <li class="comment even thread-even depth-1" id="comment-59">
+                                    <div id="div-comment-59" class="comment-body review-list">
+                                        <div class="row">
+                                            <!-- row block start-->
+                                            <div class="col-md-2 col-sm-2 hidden-xs">
+
                                             </div>
-                                        </div>
-                                    </div><!-- row block end-->
-                                </div>
-                            </li><!-- #comment-## -->
+                                            <div class="col-md-10 col-sm-10">
+                                                <div class="panel panel-default arrow left">
+                                                    <div class="panel-body">
+                                                        <div class="text-left">
+                                                            <h3>@review.author                    </h3>
+                                                            <div class="comment-date">
+                                                                <i class="fa fa-clock-o"></i> @review.DateIn.ToString("dd,MMM,yyyy")
+                                                            </div> <!-- meta -->
+                                                        </div>
+                                                        <div class="comment-box">
+                                                            <div class="review_rate" data-pixrating="@review.rating" title=""><i data-alt="1" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="2" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="3" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="4" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="5" class="star-on-png" title="gorgeous"></i><input name="pixrating" type="hidden" value="5" readonly=""></div>
+                                                            <p>@ratename</p>
+                                                        </div>
+                                                    </div><!-- media-body -->
+                                                </div>
+                                            </div>
+                                        </div><!-- row block end-->
+                                    </div>
+                                </li><!-- #comment-## -->
                             }
                             <!-- #comment-## -->
                         </ul>
@@ -173,7 +182,7 @@
                             <div>
                                 <label for="add_post_rating">Your overall rating of this listing:</label>
                                 <input type="hidden" name="ratinghidden" id="ratinghidden" />
-                                <input type="hidden" name="VendorItemId" id="VendorItemId" value="@Model.Id" />
+                                <input type="hidden" name="VendorItemId" id="VendorItemId" value="@Model.VendorItem.Id" />
                             </div>
                             <script language="javascript" type="text/javascript">
                                 $(function () {
@@ -296,7 +305,7 @@
                                     <input type="submit" name="book-now-on" id="book-now-on" value="Book Now" class="btn tp-btn-default tp-btn-lg btn-block" />
                                 </div>
                                 <div class="status"></div>
-                                <input type="hidden" name="item_title" value="@Model.Title" />
+                                <input type="hidden" name="item_title" value="@Model.VendorItem.Title" />
                             </form>
                         </div>
                     </div>
@@ -311,38 +320,42 @@
             </div>
 
         </div>
+        <div class="row">
+            <div class="col-md-12 tp-title">
+
+                @if (Model.RelatedOffers.Count() > 0)
+                {
+                    <h1 style="color:black;">Offers by&nbsp;@Model.VendorItem.Title</h1>
+                    foreach (var offer in Model.RelatedOffers)
+                    {
+                        <div class="col-md-4 vendor-box">
+                            <!-- venue box start-->
+                            <div class="vendor-image">
+                                <!-- venue pic -->
+                                <a href="#">
+                                    <img width="440" height="290" src="~/Media/@offer.Image" class="img-responsive wp-post-image" alt="" />
+                                </a>
+                            </div>
+                            <!-- /.venue pic -->
+                            <div class="vendor-detail">
+                                <!-- venue details -->
+                                <div class="caption">
+                                    <!-- caption -->
+                                    <h2><a href="#" class="title">@offer.Title</a></h2>
+                                    <p class="location"><i class="fa fa-map-marker"></i> @(offer.SalePrice != null && offer.SalePrice != 0 ? offer.SalePrice : offer.Price)</p>
+                                </div>
+                                <!-- /.caption -->
+                            </div>
+                            <!-- venue details -->
+                        </div>
+                    }
+                }
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="col-md-12 tp-title">
-    <h1 style="color:black;">Offers by&nbsp;@Model.Title</h1>
-    @if (Model.User != null && Model.User.Offers != null)
-    {
-        foreach (var offer in Model.User.Offers)
-        {
-            <div class="col-md-4 vendor-box">
-                <!-- venue box start-->
-                <div class="vendor-image">
-                    <!-- venue pic -->
-                    <a href="#">
-                        <img width="440" height="290" src="~/Media/@offer.Image" class="img-responsive wp-post-image" alt="" />
-                    </a>
-                </div>
-                <!-- /.venue pic -->
-                <div class="vendor-detail">
-                    <!-- venue details -->
-                    <div class="caption">
-                        <!-- caption -->
-                        <h2><a href="#" class="title">@offer.Title</a></h2>
-                        <p class="location"><i class="fa fa-map-marker"></i> @(offer.SalePrice != null && offer.SalePrice != 0 ? offer.SalePrice : offer.Price)</p>
-                    </div>
-                    <!-- /.caption -->
-                </div>
-                <!-- venue details -->
-            </div>
-        }
-    }
-</div>
+
 <div>
 
 
@@ -352,8 +365,8 @@
 
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyB5gJ-TdFei2HbcY4cg62x0MPCAEcmfKZ4"></script>
 <script type="text/javascript">
-    var stockholm = new google.maps.LatLng(@Model.Latitude, @Model.Longitude);
-    var parliament = new google.maps.LatLng(@Model.Latitude, @Model.Longitude);
+    var stockholm = new google.maps.LatLng(@Model.VendorItem.Latitude, @Model.VendorItem.Longitude);
+    var parliament = new google.maps.LatLng(@Model.VendorItem.Latitude, @Model.VendorItem.Longitude);
     var marker;
     var map;
     var directionsDisplay;
@@ -591,15 +604,15 @@
 <div class="spacer">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 tp-title">
-                <h1 style="color:black;">Recommended for&nbsp;@Model.Categories </h1>
-            </div>
-            @if (Model.Categories != null)
+            
+            @if (Model.RelatedItems != null)
             {
-                foreach (var row in Model.Categories)
+            <div class="col-md-12 tp-title">
+                <h1 style="color:black;">Recommended for&nbsp;@Model.VendorItem.Title </h1>
+            </div>
+                foreach (var row in Model.RelatedItems.ToList())
                 {
-                    foreach (var item in row.VendorCategory.Categories.Where(x => x.VendorItem.Id == Model.Id))
-                    {
+                    
 
 
                         <div class="col-md-4 vendor-box">
@@ -607,7 +620,7 @@
                             <div class="vendor-image">
                                 <!-- venue pic -->
                                 <a href="#">
-                                    <img width="440" height="290" src="~/Media/@item.VendorItem.Thumb" class="img-responsive wp-post-image" alt="" />
+                                    <img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" />
                                 </a>
                             </div>
                             <!-- /.venue pic -->
@@ -615,14 +628,14 @@
                                 <!-- venue details -->
                                 <div class="caption">
                                     <!-- caption -->
-                                    <h2><a href="/vendor/Details/@Model.Id" class="title">@Model.Title</a></h2>
-                                    <p class="location"><i class="fa fa-map-marker"></i> @Model.Address</p>
+                                    <h2><a href="/vendor/Details/@row.Id" class="title">@row.Title</a></h2>
+                                    <p class="location"><i class="fa fa-map-marker"></i> @row.Address</p>
                                 </div>
                                 <!-- /.caption -->
                             </div>
                             <!-- venue details -->
                         </div>
-                    }
+                    
                 }
             }
         </div>

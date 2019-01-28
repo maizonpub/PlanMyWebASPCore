@@ -34,13 +34,16 @@ namespace PlanMyWeb.Controllers.FrontEnd
             {
                 return NotFound();
             }
-
-            var vendorItem = await _context.VendorItems.Include(x=>x.Gallery).Include(x=>x.VendorItemReviews).FirstOrDefaultAsync(m => m.Id == id);
+            
+            var vendorItem = await _context.VendorItems.Include(x=>x.Gallery).Include(x=>x.VendorItemReviews).Include(x=>x.User).Include(x=>x.Categories).FirstOrDefaultAsync(m => m.Id == id);
             if (vendorItem == null)
             {
                 return NotFound();
             }
-            return View(vendorItem);
+            var relateditems = _context.VendorItems.Where(x => x.Categories.Where(y=>vendorItem.Categories.Where(z=>z.VendorCategory == y.VendorCategory).Count()>0 && y.VendorItem!=vendorItem).Count()>0).OrderBy(x=>Guid.NewGuid()).Take(3);
+            var relatedOffers = _context.Offers.Where(x => x.User.Id == vendorItem.User.Id);
+            SingleVendorViewModel single = new SingleVendorViewModel { VendorItem = vendorItem, RelatedItems = relateditems, RelatedOffers = relatedOffers };
+            return View(single);
         }
         private IEnumerable<VendorType> GetTypes(int? categoryId)
         {
