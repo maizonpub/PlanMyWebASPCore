@@ -122,6 +122,8 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 else
                     row.Media = row.Media;
+                row.Title = homeTipsViewModel.Title;
+                row.Description = homeTipsViewModel.Description;
                 row.MediaType = homeTipsViewModel.MediaType;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

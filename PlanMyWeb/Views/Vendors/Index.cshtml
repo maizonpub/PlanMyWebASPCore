@@ -108,20 +108,32 @@
                             </div>
                             @foreach (var row in Model.VendorItems)
                             {
-                                <div class="col-md-3 vendor-box">
-                                    <div class="grid">
+                            <div class="col-md-3 vendor-box">
+                                <div class="grid" style="width:100%;">
+                                    <a href="~/Vendors/Details/@row.Id">
+                                        <div class="container--6baf4">
 
-                                        <figure class="effect-oscar">
-                                            <img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" />
+                                            <figure class="effect-oscar" style="width:100%;border-top-left-radius: 4px;border-top-right-radius: 4px;">
+                                                <img src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" style="width:100%;height:auto" />
+                                                <div class="info-container--767e9" style="padding:10px 0 10px 0">
+                                                    <div class="vendor-name--51686 serif-med--4d231 lh-header--7eeba">
+                                                        @row.Title
+                                                    </div>
+                                                    <div class="secondary-info--d1097">@row.Address </div>
+                                                </div>
 
-                                            <figcaption>
-                                                <h2><a href="~/Vendors/Details/@row.Id">@row.Title</a></h2>
-                                                <p></p>
-                                                <a href="~/Vendors/Details/@row.Id">View more</a>
-                                            </figcaption>
-                                        </figure>
-                                    </div>
+                                                @*<figcaption>
+                    <h2><a href="~/Vendors/Details/@row.Id">@row.Title</a></h2>
+                    <p></p>
+                    <a href="~/Vendors/Details/@row.Id">View more</a>
+                </figcaption>*@
+
+                                            </figure>
+
+                                        </div>
+                                    </a>
                                 </div>
+                            </div>
                             }
                         </div>
                     </div>
