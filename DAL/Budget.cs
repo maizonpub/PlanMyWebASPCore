@@ -15,5 +15,6 @@ namespace DAL
         public decimal PaidCost { get; set; }
         public string Notes { get; set; }
         public Users User { get; set; }
+        public string UserId { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace PlanMyWeb.Controllers.Api
         [HttpGet]
         public IEnumerable<Offers> GetOffers()
         {
-            return _context.Offers;
+            return _context.Offers.Include(x=>x.OffersCategories);
         }
 
         // GET: api/Offers/5

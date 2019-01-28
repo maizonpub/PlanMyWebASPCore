@@ -22,9 +22,9 @@ namespace PlanMyWeb.Controllers.Api
 
         // GET: api/CheckLists
         [HttpGet]
-        public IEnumerable<CheckList> GetCheckLists()
+        public IEnumerable<CheckList> GetCheckLists(string UserId)
         {
-            return _context.CheckLists;
+            return _context.CheckLists.Where(x=>x.User.Id == UserId);
         }
 
         // GET: api/CheckLists/5

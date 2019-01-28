@@ -26,7 +26,15 @@ namespace PlanMyWeb.Controllers.Api
         {
             return _context.WishLists;
         }
-
+        [HttpGet("{ItemId}/{UserId}")]
+        public string GetWishLists(int ItemId, string UserId)
+        {
+            var rec = _context.WishLists.Where(x => x.VendorItemId == ItemId && x.UserId == UserId).FirstOrDefault();
+            if (rec != null)
+                return "1";
+            else
+                return "";
+        }
         // GET: api/WishLists/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetWishList([FromRoute] int id)

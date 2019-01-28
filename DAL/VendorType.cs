@@ -9,6 +9,7 @@ namespace DAL
         public int Id { get; set; }
         public string Title { get; set; }
         public VendorCategory VendorCategory { get; set; }
+        public int VendorCategoryId { get; set; }
         public IEnumerable<VendorTypeValue> VendorTypeValues { get; set; }
     }
 }

@@ -22,9 +22,12 @@ namespace PlanMyWeb.Controllers.Api
 
         // GET: api/BudgetCategories
         [HttpGet]
-        public IEnumerable<BudgetCategory> GetBudgetCategories()
+        public IEnumerable<BudgetCategory> GetBudgetCategories(string UserId)
         {
-            return _context.BudgetCategories;
+            if (!string.IsNullOrEmpty(UserId))
+                return _context.BudgetCategories.Where(x => x.UserId == UserId).Include(x=>x.Budgets);
+            else
+                return _context.BudgetCategories.Include(x => x.Budgets);
         }
 
         // GET: api/BudgetCategories/5

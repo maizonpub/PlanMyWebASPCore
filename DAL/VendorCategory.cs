@@ -22,5 +22,10 @@ namespace DAL
         public List<VendorItemCategory> Categories { get; set; }
         public MediaType MediaType { get; set; }
     }
+    public class VendorItemSearch
+    {
+        public int CategoryId { get; set; }
+        public List<VendorTypeValue> Values { get; set; } 
+    }
   
 }

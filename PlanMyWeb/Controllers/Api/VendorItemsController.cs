@@ -24,9 +24,28 @@ namespace PlanMyWeb.Controllers.Api
         [HttpGet]
         public IEnumerable<VendorItem> GetVendorItems()
         {
-            return _context.VendorItems.Include(x=>x.VendorItemReviews) ;
+            return _context.VendorItems.Include(x=>x.VendorItemReviews).Include(x => x.Gallery);
         }
-
+        [HttpGet("{CategoryId}")]
+        public IEnumerable<VendorItem> GetVendorItems([FromRoute] int CategoryId)
+        {
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x=> x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0);
+        }
+        [HttpGet("Featured/{CategoryId}")]
+        public IEnumerable<VendorItem> GetFeaturedVendorItems([FromRoute] int CategoryId)
+        {
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0 && x.IsFeatured == true);
+        }
+        [HttpGet("Favorites/{UserId}")]
+        public IEnumerable<VendorItem> GetFavoritesVendorItems([FromRoute] string UserId)
+        {
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x=>x.Gallery).Where(x => x.WishLists!=null && x.WishLists.Where(y=>y.UserId == UserId).Count()>0);
+        }
+        [HttpPost]
+        public IEnumerable<VendorItem> GetVendorItems(VendorItemSearch Search)
+        {
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Where(x=>x.Categories.Where(y=>y.VendorCategory.Id == Search.CategoryId).Count()>0 && x.VendorItemTypeValues.Where(y=>Search.Values.Contains(y.VendorTypeValue)).Count()>0);
+        }
         // GET: api/VendorItems/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVendorItem([FromRoute] int id)
