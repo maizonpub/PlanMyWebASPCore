@@ -2011,6 +2011,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Views\Cart\" />
   </ItemGroup>
 
   <ItemGroup>
