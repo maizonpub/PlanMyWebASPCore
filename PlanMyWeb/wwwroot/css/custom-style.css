@@ -2313,22 +2313,27 @@ padding space
     background-color: #ffffff;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(31,31,31,0.12);
-    display: inline-block;
+    /*display: inline-block;*/
     position: relative;
     width: 100%;
-    height:324px
+    height:270px;
 }
 
 .vendor-name--51686 {
-    font-family: proximanova,Arial, Helvetica, sans-serif;
+    font-family: union-serif,Georgia,Times New Roman,Times,serif;
     font-weight: 500;
     color: black;
     text-align: left;
-    padding-left:10px
+    padding-left: 10px
 }
 .secondary-info--d1097 {
     color: #787878;
     font-size: 0.70233em;
     text-align: left;
     padding-left: 10px
+}
+
+.vendor-name--51686 {
+    font-family: union-serif,Georgia,Times New Roman,Times,serif;
+        font-weight: 500;
 }
