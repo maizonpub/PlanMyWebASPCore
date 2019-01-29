@@ -14,7 +14,7 @@ namespace DAL
         public Users User { get; set; }
         public string UserId { get; set; }
         public CheckListStatus Status { get; set; }
-        public bool IsPriority { get; set; }
+        public bool IsPriority { get; set; } = false;
     }
     public enum CheckListStatus
     {

@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Net;
 using System.IO;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace PlanMyWeb
 {
@@ -39,8 +41,8 @@ namespace PlanMyWeb
                 
             });
 
-            
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options => { options.SerializerSettings.ContractResolver = new DefaultContractResolver(); options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
 
             services.AddDbContext<DbWebContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DbWebContext")));

@@ -28,14 +28,14 @@ namespace DAL.Migrations
             migrationBuilder.AlterColumn<int>(
                 name: "VendorCategoryId",
                 table: "VendorTypes",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(int),
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<int>(
                 name: "GuestListTablesId",
                 table: "GuestLists",
-                nullable: false,
+                nullable: true,
                 oldClrType: typeof(int),
                 oldNullable: true);
 

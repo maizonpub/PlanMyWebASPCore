@@ -25,9 +25,13 @@ namespace PlanMyWeb.Controllers.Api
 
         // GET: api/Events
         [HttpGet]
-        public IEnumerable<Events> GetEvents()
+        public IEnumerable<Events> GetEvents(string q)
         {
-            return _context.Events.Include(x=>x.User);
+            q = q.ToLower();
+            if (!string.IsNullOrEmpty(q))
+                return _context.Events.Include(x => x.User).Where(x => x.Title.ToLower().Contains(q) || x.Description.ToLower().Contains(q));
+            else
+                return _context.Events.Include(x => x.User);
         }
 
         // GET: api/Events/5
