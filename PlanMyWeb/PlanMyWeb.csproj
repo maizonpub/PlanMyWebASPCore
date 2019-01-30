@@ -61,8 +61,6 @@
     <Content Include="node_modules\async-limiter\coverage\lcov-report\prettify.css" />
     <Content Include="node_modules\async-limiter\coverage\lcov-report\sort-arrow-sprite.png" />
     <Content Include="node_modules\async-limiter\package.json" />
-    <Content Include="node_modules\sendbird\bower.json" />
-    <Content Include="node_modules\sendbird\package.json" />
     <Content Include="wwwroot\cms\bower_components\bootstrap-colorpicker\.bower.json" />
     <Content Include="wwwroot\cms\bower_components\bootstrap-colorpicker\bower.json" />
     <Content Include="wwwroot\cms\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
@@ -2076,11 +2074,6 @@
     <None Include="node_modules\async-limiter\index.js" />
     <None Include="node_modules\async-limiter\LICENSE" />
     <None Include="node_modules\async-limiter\readme.md" />
-    <None Include="node_modules\sendbird\.prettierignore" />
-    <None Include="node_modules\sendbird\CHANGELOG.md" />
-    <None Include="node_modules\sendbird\LICENSE.md" />
-    <None Include="node_modules\sendbird\README.md" />
-    <None Include="node_modules\sendbird\SendBird.min.js" />
     <None Include="wwwroot\cms\.github\ISSUE_TEMPLATE.md" />
     <None Include="wwwroot\cms\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css.map" />
     <None Include="wwwroot\cms\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css.map" />
@@ -6871,7 +6864,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="node_modules\sendbird\SendBird.d.ts" />
     <TypeScriptCompile Include="wwwroot\cms\bower_components\moment\moment.d.ts" />
   </ItemGroup>
 
