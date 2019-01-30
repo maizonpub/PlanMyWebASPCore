@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DAL;
 using Microsoft.AspNetCore.Identity;
+using PlanMyWeb.Models;
 
 namespace PlanMyWeb.Controllers.Api
 {
@@ -57,6 +58,17 @@ namespace PlanMyWeb.Controllers.Api
             {
                 return null;
             }
+        }
+        [HttpGet]
+        [Route("api/UserStats")]
+        public async Task<UserStats> UserStats(string UserId)
+        {
+
+            var guests = _context.GuestLists.Where(x => x.UserId == UserId).Count();
+            var checklists = _context.CheckLists.Where(x => x.UserId == UserId).Count();
+            var wishes = _context.WishLists.Where(x => x.UserId == UserId).Count();
+            UserStats stats = new UserStats { guestsCount = guests, todosCount = checklists, wishesCount = wishes };
+            return stats;
         }
         [HttpGet]
         [Route("api/AddPushToken")]

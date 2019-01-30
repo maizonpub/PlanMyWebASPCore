@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL;
+using System.Security.Cryptography;
 
 namespace PlanMyWeb.Controllers.Api
 {
@@ -22,9 +23,9 @@ namespace PlanMyWeb.Controllers.Api
 
         // GET: api/Orders
         [HttpGet]
-        public IEnumerable<Order> GetOrders()
+        public IEnumerable<Order> GetOrders(string UserId)
         {
-            return _context.Orders;
+            return _context.Orders.Where(x=>x.UserId == UserId).Include(x=>x.BasketItems);
         }
 
         // GET: api/Orders/5
@@ -83,19 +84,35 @@ namespace PlanMyWeb.Controllers.Api
 
         // POST: api/Orders
         [HttpPost]
-        public async Task<IActionResult> PostOrder([FromBody] Order order)
+        public async Task<Order> PostOrder([FromBody] Order order)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return null;
             }
-
+            order.TransactionDate = DateTime.Now;
+            order.ReferenceNumber = Get8Digits();
+            string requestId = Guid.NewGuid().ToString().Replace("-", "");
+            order.TransactionUUID = requestId;
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+            return order;
         }
+        public string Get8Digits()
+        {
 
+            var bytes = new byte[4];
+
+            var rng = RandomNumberGenerator.Create();
+
+            rng.GetBytes(bytes);
+
+            uint random = BitConverter.ToUInt32(bytes, 0) % 100000000;
+
+            return String.Format("{0:D8}", random);
+
+        }
         // DELETE: api/Orders/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder([FromRoute] int id)

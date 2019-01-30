@@ -36,6 +36,11 @@ namespace PlanMyWeb.Controllers.Api
         {
             return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0 && x.IsFeatured == true);
         }
+        [HttpGet("Featured")]
+        public IEnumerable<VendorItem> GetFeaturedVendorItems()
+        {
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x => x.IsFeatured == true);
+        }
         [HttpGet("Favorites/{UserId}")]
         public IEnumerable<VendorItem> GetFavoritesVendorItems([FromRoute] string UserId)
         {
