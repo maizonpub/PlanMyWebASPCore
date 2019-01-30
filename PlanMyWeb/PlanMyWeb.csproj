@@ -7,9 +7,37 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\Media\**" />
+    <Compile Remove="wwwroot\SendBird\react-native-redux-sample\**" />
+    <Compile Remove="wwwroot\SendBird\react-native-sample\**" />
+    <Compile Remove="wwwroot\SendBird\web-basic-sample-syncmanager\**" />
+    <Compile Remove="wwwroot\SendBird\web-basic-sample\**" />
+    <Compile Remove="wwwroot\SendBird\web-live-chat\**" />
+    <Compile Remove="wwwroot\SendBird\web-sample\**" />
+    <Compile Remove="wwwroot\SendBird\web-widget\**" />
     <Content Remove="wwwroot\Media\**" />
+    <Content Remove="wwwroot\SendBird\react-native-redux-sample\**" />
+    <Content Remove="wwwroot\SendBird\react-native-sample\**" />
+    <Content Remove="wwwroot\SendBird\web-basic-sample-syncmanager\**" />
+    <Content Remove="wwwroot\SendBird\web-basic-sample\**" />
+    <Content Remove="wwwroot\SendBird\web-live-chat\**" />
+    <Content Remove="wwwroot\SendBird\web-sample\**" />
+    <Content Remove="wwwroot\SendBird\web-widget\**" />
     <EmbeddedResource Remove="wwwroot\Media\**" />
+    <EmbeddedResource Remove="wwwroot\SendBird\react-native-redux-sample\**" />
+    <EmbeddedResource Remove="wwwroot\SendBird\react-native-sample\**" />
+    <EmbeddedResource Remove="wwwroot\SendBird\web-basic-sample-syncmanager\**" />
+    <EmbeddedResource Remove="wwwroot\SendBird\web-basic-sample\**" />
+    <EmbeddedResource Remove="wwwroot\SendBird\web-live-chat\**" />
+    <EmbeddedResource Remove="wwwroot\SendBird\web-sample\**" />
+    <EmbeddedResource Remove="wwwroot\SendBird\web-widget\**" />
     <None Remove="wwwroot\Media\**" />
+    <None Remove="wwwroot\SendBird\react-native-redux-sample\**" />
+    <None Remove="wwwroot\SendBird\react-native-sample\**" />
+    <None Remove="wwwroot\SendBird\web-basic-sample-syncmanager\**" />
+    <None Remove="wwwroot\SendBird\web-basic-sample\**" />
+    <None Remove="wwwroot\SendBird\web-live-chat\**" />
+    <None Remove="wwwroot\SendBird\web-sample\**" />
+    <None Remove="wwwroot\SendBird\web-widget\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +45,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove=".babelrc" />
+    <None Remove=".eslintrc.js" />
+    <None Remove="server.js" />
+    <None Remove="webpack.config.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="node_modules\agentkeepalive\package.json" />
+    <Content Include="node_modules\async-limiter\coverage\coverage.json" />
+    <Content Include="node_modules\async-limiter\coverage\lcov-report\async-throttle\index.html" />
+    <Content Include="node_modules\async-limiter\coverage\lcov-report\async-throttle\index.js.html" />
+    <Content Include="node_modules\async-limiter\coverage\lcov-report\base.css" />
+    <Content Include="node_modules\async-limiter\coverage\lcov-report\index.html" />
+    <Content Include="node_modules\async-limiter\coverage\lcov-report\prettify.css" />
+    <Content Include="node_modules\async-limiter\coverage\lcov-report\sort-arrow-sprite.png" />
+    <Content Include="node_modules\async-limiter\package.json" />
+    <Content Include="node_modules\sendbird\bower.json" />
+    <Content Include="node_modules\sendbird\package.json" />
     <Content Include="wwwroot\cms\bower_components\bootstrap-colorpicker\.bower.json" />
     <Content Include="wwwroot\cms\bower_components\bootstrap-colorpicker\bower.json" />
     <Content Include="wwwroot\cms\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
@@ -2015,6 +2061,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="node_modules\agentkeepalive\browser.js" />
+    <None Include="node_modules\agentkeepalive\History.md" />
+    <None Include="node_modules\agentkeepalive\index.js" />
+    <None Include="node_modules\agentkeepalive\lib\agent.js" />
+    <None Include="node_modules\agentkeepalive\lib\https_agent.js" />
+    <None Include="node_modules\agentkeepalive\lib\utils.js" />
+    <None Include="node_modules\agentkeepalive\lib\_http_agent.js" />
+    <None Include="node_modules\agentkeepalive\README.md" />
+    <None Include="node_modules\async-limiter\.travis.yml" />
+    <None Include="node_modules\async-limiter\coverage\lcov-report\prettify.js" />
+    <None Include="node_modules\async-limiter\coverage\lcov-report\sorter.js" />
+    <None Include="node_modules\async-limiter\coverage\lcov.info" />
+    <None Include="node_modules\async-limiter\index.js" />
+    <None Include="node_modules\async-limiter\LICENSE" />
+    <None Include="node_modules\async-limiter\readme.md" />
+    <None Include="node_modules\sendbird\.prettierignore" />
+    <None Include="node_modules\sendbird\CHANGELOG.md" />
+    <None Include="node_modules\sendbird\LICENSE.md" />
+    <None Include="node_modules\sendbird\README.md" />
+    <None Include="node_modules\sendbird\SendBird.min.js" />
     <None Include="wwwroot\cms\.github\ISSUE_TEMPLATE.md" />
     <None Include="wwwroot\cms\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css.map" />
     <None Include="wwwroot\cms\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css.map" />
@@ -6805,6 +6871,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="node_modules\sendbird\SendBird.d.ts" />
     <TypeScriptCompile Include="wwwroot\cms\bower_components\moment\moment.d.ts" />
   </ItemGroup>
 

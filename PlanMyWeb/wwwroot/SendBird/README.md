@@ -1,69 +1,133 @@
-[![npm](https://img.shields.io/npm/v/sendbird.svg?style=popout&colorB=red)](https://www.npmjs.com/package/sendbird)  
+# SendBird JavaScript Widget Sample
+This is a sample chat widget built using using the [SendBird SDK](https://github.com/smilefam/SendBird-SDK-JavaScript). It can be used to add a functional chat widget to any website.  
+
+
+## [Demo](https://sample.sendbird.com/widget/)
+
+You can try out a live demo from the link [here](https://sample.sendbird.com/widget/). Click on the button at the bottom-right corner of the webpage to try out the widget. Choose any 'User ID' and 'Nickname' to log in and participate in chats.
+
+
+## Setup
+1. The `body` must have a `div` element whose id is `sb_widget`.
   
-SendBird JavaScript SDK
-===========
-    
-[SendBird](https://sendbird.com) provides the chat API and SDK for your app enabling real-time communication among your users.  
+```html
+<body>
+  <div id="sb_widget"></div>
+</body>
+```
+
+2. Import the [`SendBird SDK`](https://github.com/smilefam/SendBird-SDK-JavaScript).  
+3. Import the `widget.SendBird.js` file.
+```javascript
+<script src="SendBird.min.js"></script>
+<script src="dist/widget.SendBird.js"></script>
+```
 
 
-# Getting Started  
+## Customizing the widget
+If you refresh your browser window, you need to reconnect to SendBird. To retain connection on browser refresh, you must implement an appropriate `event handler`. 
 
-[Bower](http://bower.io) package for [SendBird.com](https://sendbird.com) JavaScript SDK  
+If you wish to issue an `access_token` for your user, modify the `connect function` in `src/sendbird.js`.  
 
-      bower install sendbird  
+> Require that you have Node v8.x+ installed.
+1. Install npm
+```bash
+npm install
+```
+
+2. Modify files.
+```bash
+npm run start:dev
+```
+        
+3. Start sample.
+```bash
+npm start
+```
+
+## Advanced  
+### Connect other APP or Channel  
+If you want to connect other application, you need to change variable `appId` in `index.html`.
+
+```html
+...
+
+  <script src="SendBird.min.js"></script>
+  <script src="dist/widget.SendBird.js"></script>
+  <script>
+    var appId = '<APP_ID>';
+    sbWidget.start(appId);
+  </script>
+
+</html>
+```
+
+### Start with User connect  
+If you want to start this sample with user connect, you can using `startWithConnect()`.  
+
+```html
+...
+
+  <script src="SendBird.min.js"></script>
+  <script src="dist/widget.SendBird.js"></script>
+  <script>
+    var appId = '<APP_ID>';
+    var userId = '<USER_ID>';
+    var nickname = '<NICKNAME>';
+    sbWidget.startWithConnect(appId, userId, nickname, function() {
+      // do something...
+    });
+  </script>
+
+</html>
+```
+
+### Show Channel  
+If you want to open chat, you can using `showChannel()`.  
+
+```javascript
+...
+var channelUrl = '<CHANNEL_URL>';
+sbWidget.showChannel(channelUrl);
+...
+```
 
 
-[npm](https://www.npmjs.com/package/sendbird) module for [SendBird.com](https://sendbird.com) JavaScript SDK  
-
-      npm install sendbird --save  
-
-
-[download](https://github.com/smilefam/SendBird-SDK-JavaScript) for [SendBird.com](https://sendbird.com) JavaScript SDK  
-
-
-# TypeScript
-Install via NPM and import like below in your TypeScript file:   
-```javascript  
-import * as SendBird from 'sendbird';
-var sb = new SendBird({'appId': 'APP_ID'});
-// do something...
-```  
-If you have trouble importing `SendBird`, please check your `tsconfig.json` file and change the value of `"allowSyntheticDefaultImports"` to `true` in `compilerOptions`.  
-
-
-# [Sample](https://github.com/smilefam/SendBird-JavaScript)  
-
- * [Basic Sample](https://sample.sendbird.com/basic) using [Sendbird SDK](https://github.com/smilefam/SendBird-SDK-JavaScript). [download](https://github.com/smilefam/SendBird-JavaScript/tree/master/web-sample)    
- * [Widget Sample](https://sample.sendbird.com/widget) using [Sendbird SDK](https://github.com/smilefam/SendBird-SDK-JavaScript). [download](https://github.com/smilefam/SendBird-JavaScript/tree/master/web-widget)    
- * [LiveChat Sample](https://sample.sendbird.com/livechat) using [Sendbird SDK](https://github.com/smilefam/SendBird-SDK-JavaScript). [download](https://github.com/smilefam/SendBird-JavaScript/tree/master/web-live-chat)    
-    
-## SyncManager
-`SyncManager` is a support add-on for [SendBird SDK](https://github.com/smilefam/SendBird-SDK-JavaScript). Major benefits of `SyncManager` are,  
-  
- * Local cache integrated: store channel/message data in local storage for fast view loading.  
- * Event-driven data handling: subscribe channel/message event like `insert`, `update`, `remove` at a single spot in order to apply data event to view.  
-  
-Check out [Basic Sample with SyncManager](https://github.com/smilefam/SendBird-JavaScript/tree/master/web-basic-sample-localcache) which is same as [Basic Sample](https://sample.sendbird.com/basic) with `SyncManager` integrated.    
-For more information about `SyncManager`, please refer to [SyncManager README](https://github.com/smilefam/SendBird-JavaScript/blob/master/web-basic-sample-localcache/src/js/manager/README.md).  
-
-
-# [Documentation](https://docs.sendbird.com/javascript)
-
-## v3.0.93(JAN 17, 2019)
-If you want to check the record of other version, go to [Change Log](https://github.com/smilefam/SendBird-SDK-JavaScript/blob/master/CHANGELOG.md).
- * Add push trigger option to enable/disable remote push notification.
-   * Added `setPushTriggerOption(option, callback)` to `SendBird`. It determines whether the current user receives remote push notification in all group channels.
-   * Added `getPushTriggerOption(callback)` to `SendBird`. It returns the current push trigger option setting for all group channels.
-   * Added `setMyPushTriggerOption(option, callback)` to `GroupChannel`. It determines whether the current user receives remote push notification in the group channel.
-   * Added `getMyPushTriggerOption(callback)` to `GroupChannel`. It returns the current push trigger option setting for the group channel.
- * Snooze or stop snooze remote push notification in specific duration.
-   * Added `setSnoozePeriod(snoozeOn, startTs, endTs, callback)` into `SendBird`. It enables or disables snooze in the period.
-   * Added `getSnoozePeriod(callback)` into `SendBird`. It returns the current snooze setting for the current user.
-
-## [Change Log](https://github.com/smilefam/SendBird-SDK-JavaScript/blob/master/CHANGELOG.md)    
-
-
-## License
-[SendBird License](https://github.com/smilefam/SendBird-SDK-JavaScript/blob/master/LICENSE.md)  
-
-
+## File Structure
+```
+    |-- dist
+        |-- widget.SendBird.js              - SendBird Widget Bundle file
+    |-- node_modules
+        |-- ...                             - (node packages)
+    |-- src
+        |-- js
+            |-- elements  
+                |-- elements.js             - elements root class
+                |-- spinner.js              - spinner element
+                |-- widget-btn.js           - widget button element
+                |-- popup.js                - popup element
+                |-- list-board.js           - channel list element
+                |-- chat-section.js         - chat element
+            |-- consts.js                   - const variables
+            |-- utils.js                    - util functions
+            |-- sendbird.js                 - sendbird functions
+            |-- widget.js                   - widget functions
+        |-- scss
+            |-- mixins 
+                |-- _border-radius.scss     - border radius mixin  
+                |-- _box-shadow.scss        - box shadow mixin
+                |-- _state.scss             - element state mixin
+                |-- _transform.scss         - transform mixin
+                |-- _reset.scss             - clean css mixin
+            |-- _mixins.scss                - import mixin
+            |-- _variables.scss             - css variables
+            |-- _animation.scss             - animation
+            |-- _icons.scss                 - icon 
+            |-- widget.scss                 - main css  
+|-- .eslintrc.js                            - lint setting 
+|-- webpack.config.js                       - webpack setting 
+|-- package.json                            - npm package 
+|-- SendBird.min.js                         - SendBird SDK 
+|-- index.html                              - sample file
+|-- README.md
+```
