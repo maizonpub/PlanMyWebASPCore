@@ -53,6 +53,9 @@ namespace PlanMyWeb.Controllers.Admin
         public IActionResult Create()
         {
             var vendorcategoies = _context.VendorCategories.AsEnumerable();
+            var users = _context.Users.AsEnumerable();
+            var userselect = new SelectList(users, "Id", "FirstName");
+            ViewBag.Users = userselect;
             ViewBag.Categories = new SelectList(vendorcategoies, "Id", "Title");
             var taxonomies = _context.VendorTypes.Include(x => x.VendorTypeValues);
             var model = new VendorItemViewModel { Taxonomies = taxonomies };
@@ -75,7 +78,9 @@ namespace PlanMyWeb.Controllers.Admin
                     filename = Guid.NewGuid().ToString().Substring(4) + vendorItemViewModel.Thumb.FileName;
                     UploadFile(vendorItemViewModel.Thumb, filename);
                 }
-                VendorItem row = new VendorItem { Thumb = filename, MediaType = vendorItemViewModel.MediaType, Address = vendorItemViewModel.Address, Country = vendorItemViewModel.Country, Email = vendorItemViewModel.Email, HtmlDescription = vendorItemViewModel.HtmlDescription, IsFeatured = vendorItemViewModel.IsFeatured, Latitude = vendorItemViewModel.Latitude, Longitude = vendorItemViewModel.Longitude, Location = vendorItemViewModel.Location, PhoneNumber = vendorItemViewModel.PhoneNumber, Title = vendorItemViewModel.Title };
+                string userId = Request.Form["User"];
+                var user = _context.Users.Find(userId);
+                VendorItem row = new VendorItem { Thumb = filename, MediaType = vendorItemViewModel.MediaType, Address = vendorItemViewModel.Address, Country = vendorItemViewModel.Country, Email = vendorItemViewModel.Email, HtmlDescription = vendorItemViewModel.HtmlDescription, IsFeatured = vendorItemViewModel.IsFeatured, Latitude = vendorItemViewModel.Latitude, Longitude = vendorItemViewModel.Longitude, Location = vendorItemViewModel.Location, PhoneNumber = vendorItemViewModel.PhoneNumber, Title = vendorItemViewModel.Title, User = user };
                 string[] catIds = Request.Form["Categories"].ToString().Split(',');
                 
                     var dbcats = _context.VendorCategories.Where(x => catIds.Contains(x.Id.ToString())).ToList();
@@ -113,7 +118,8 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 return NotFound();
             }
-
+            var users = _context.Users.AsEnumerable();
+            var userselect = new SelectList(users, "Id", "FirstName");
             var vendorItem = _context.VendorItems.Include(x=>x.Categories).Include(x=>x.VendorItemTypeValues).Where(x=>x.Id == id).FirstOrDefault();
             var vendorcategoies = _context.VendorCategories.AsEnumerable();
             var catslist = new SelectList(vendorcategoies, "Id", "Title");
@@ -130,7 +136,7 @@ namespace PlanMyWeb.Controllers.Admin
             var taxonomies = _context.VendorTypes.Include(x => x.VendorTypeValues);
             var vendoritemtypevalues = _context.VendorItemTypeValues.Where(x => x.VendorItem == vendorItem).Include(x => x.VendorTypeValue).ToList();
             //ViewBag.Categories = selectfield;
-            VendorItemViewModel model = new VendorItemViewModel { Id = vendorItem.Id, MediaType = vendorItem.MediaType, Address = vendorItem.Address, Country = vendorItem.Country, Email = vendorItem.Email, ItemCategories = vendorItem.Categories, Gallery = vendorItem.Gallery, HtmlDescription = vendorItem.HtmlDescription, IsFeatured = vendorItem.IsFeatured, Latitude = vendorItem.Latitude, Longitude = vendorItem.Longitude, Location = vendorItem.Location, PhoneNumber = vendorItem.PhoneNumber, Title = vendorItem.Title, User = vendorItem.User, Categories = catslist, Taxonomies = taxonomies, values = vendoritemtypevalues };
+            VendorItemViewModel model = new VendorItemViewModel { Id = vendorItem.Id, MediaType = vendorItem.MediaType, Address = vendorItem.Address, Country = vendorItem.Country, Email = vendorItem.Email, ItemCategories = vendorItem.Categories, Gallery = vendorItem.Gallery, HtmlDescription = vendorItem.HtmlDescription, IsFeatured = vendorItem.IsFeatured, Latitude = vendorItem.Latitude, Longitude = vendorItem.Longitude, Location = vendorItem.Location, PhoneNumber = vendorItem.PhoneNumber, Title = vendorItem.Title, User = userselect, Categories = catslist, Taxonomies = taxonomies, values = vendoritemtypevalues };
             if (vendorItem == null)
             {
                 return NotFound();

@@ -80,6 +80,24 @@
                 <span asp-validation-for="Thumb" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="User" class="control-label"></label>
+                <select id="User" name="User" class="form-control">
+                    <option value="">Please select</option>
+                    @foreach (var user in Model.User)
+                    {
+                        if (user.Selected)
+                        {
+                            <option value="@user.Value" selected>@user.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@user.Value">@user.Text</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="User" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>

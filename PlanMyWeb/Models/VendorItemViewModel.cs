@@ -18,7 +18,7 @@ namespace PlanMyWeb.Models
         public string Location { get; set; }
         [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }
-        public Users User { get; set; }
+        public SelectList User { get; set; }
         [Display(Name = "Description")]
         public string HtmlDescription { get; set; }
         public string Address { get; set; }
