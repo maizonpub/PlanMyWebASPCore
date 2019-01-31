@@ -52,7 +52,18 @@ namespace PlanMyWeb.Controllers.Api
                     token.User = user;
                 }
                 _context.SaveChanges();
-                return Ok(user);
+                string Address = !string.IsNullOrEmpty(user.Address) ? user.Address : "";
+                string Age = !string.IsNullOrEmpty(user.Age) ? user.Age : "";
+                string City = !string.IsNullOrEmpty(user.City) ? user.City : "";
+                string Country = !string.IsNullOrEmpty(user.Country) ? user.Country : "";
+                DateTime CreationDate = user.CreationDate;
+                Gender VGender = user.Gender;
+                string Id = user.Id;
+                string Image = user.Image;
+                string PhoneNumber = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "";
+                UserType UserType = user.UserType;
+                ApiUsersViewModel api = new ApiUsersViewModel { Address = Address, Age = Age, City = City, Country = Country, CreationDate = CreationDate, Email = Email, FirstName = FirstName, Gender = VGender, Id = Id, Image = Image, LastName = LastName, PhoneNumber = PhoneNumber, UserName = Username, UserType = user.UserType };
+                return Ok(api);
             }
             else
             {
