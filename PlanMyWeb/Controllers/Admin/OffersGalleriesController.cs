@@ -10,24 +10,34 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Vendor")]
     public class OffersGalleriesController : Controller
     {
         private readonly DbWebContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public OffersGalleriesController(DbWebContext context, IHostingEnvironment hostingEnvironment)
+        private readonly UserManager<Users> _userManager;
+        public OffersGalleriesController(DbWebContext context, IHostingEnvironment hostingEnvironment, UserManager<Users> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _userManager = userManager;
         }
         [Route("Admin/OffersGalleries")]
         // GET: OffersGalleries
         public async Task<IActionResult> Index()
         {
-            return View(await _context.OffersGalleries.ToListAsync());
+            var offersGalleries = await _context.OffersGalleries.ToListAsync();
+            if (User.IsInRole("Vendor"))
+            {
+                var userId = _userManager.GetUserId(User);
+                offersGalleries = offersGalleries.Where(x => x.UserId == userId).ToList();
+            }
+            return View(offersGalleries);
+
         }
         [Route("Admin/OffersGalleries/Details/{id?}")]
         // GET: OffersGalleries/Details/5

@@ -11,24 +11,33 @@ using PlanMyWeb.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Vendor")]
     public class AdminOffersController : Controller
     {
         private readonly DbWebContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public AdminOffersController(DbWebContext context, IHostingEnvironment hostingEnvironment)
+        private readonly UserManager<Users> _userManager;
+        public AdminOffersController(DbWebContext context, IHostingEnvironment hostingEnvironment, UserManager<Users> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _userManager = userManager;
         }
         [Route("Admin/Offers")]
         // GET: AdminOffers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Offers.ToListAsync());
+            var offers = await _context.Offers.ToListAsync();
+            if (User.IsInRole("Vendor"))
+            {
+                var userId = _userManager.GetUserId(User);
+                offers = offers.Where(x => x.UserId == userId).ToList();
+            }
+            return View(offers);
         }
         [Route("Admin/Offers/Details/{id?}")]
         // GET: AdminOffers/Details/5
