@@ -56,7 +56,7 @@ namespace PlanMyWeb.Controllers.Api
             }
             else
             {
-                return null;
+                throw new Exception(result.Errors.FirstOrDefault().Description);
             }
         }
         [HttpGet]

@@ -25,7 +25,7 @@ namespace PlanMyWeb.Controllers.Api
         [HttpGet]
         public IEnumerable<Order> GetOrders(string UserId)
         {
-            return _context.Orders.Where(x=>x.UserId == UserId).Include(x=>x.BasketItems);
+            return _context.Orders.Where(x=>x.UsersId == UserId).Include(x=>x.BasketItems);
         }
 
         // GET: api/Orders/5

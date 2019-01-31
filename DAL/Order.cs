@@ -9,7 +9,7 @@ namespace DAL
     {
         public int Id { get; set; }
         public Users Users { get; set; }
-        public string UserId { get; set; }
+        public string UsersId { get; set; }
         public string Status { get; set; }
         [Display(Name="Reference nbr.")]
         public string ReferenceNumber { get; set; }
