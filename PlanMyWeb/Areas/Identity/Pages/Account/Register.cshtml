@@ -46,7 +46,7 @@
                                     <div class="register-form">
                                         <h2 style="color:black">Couple Registration</h2>
                                         <div asp-validation-summary="All" class="text-danger"></div>
-                                        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="coupleregister" class="ajax-auth">
+                                        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="coupleregister" class="ajax-auth" enctype="multipart/form-data">
                                             <input type="hidden" id="signonsecurity" name="signonsecurity" value="42f9cd4214" /><input type="hidden" name="_wp_http_referer" value="/couple-register/" />
                                             <p class="status"></p>
                                             <!-- Text input-->
