@@ -2115,7 +2115,20 @@
             </summary>
         </member>
         <member name="M:WordPressPCL.Models.ItemCategory.#ctor(System.String)">
-            <summry>
+            <summary>
+            Default constructor
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="T:WordPressPCL.Models.Links">
+            <summary>
+            Links helper class
+            </summary>
+        </member>
+        <member name="P:WordPressPCL.Models.Links.Self">
+            <summary>
+            Self link
+            </summary>
         </member>
         <member name="P:WordPressPCL.Models.Links.Collection">
             <summary>
@@ -2226,14 +2239,6 @@
         <member name="P:WordPressPCL.Models.MediaItem.Modified">
             <summary>
             The date the object was last modified, in the site’s timezone.
-            </summary>
-            <remarks>Context: view, edit</remarks>
-        </member>
-        <member name="P:WordPressPCL.Models.MediaItem.ModifiedGmt">
-            <summary>
-            The date the object was last modified, as GMT.
-            </summary>
-            <remarks>Context: view, edit</remarks>          The date the object was last modified, in the site’s timezone.
             </summary>
             <remarks>Context: view, edit</remarks>
         </member>
