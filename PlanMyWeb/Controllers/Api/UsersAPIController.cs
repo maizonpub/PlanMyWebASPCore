@@ -39,9 +39,9 @@ namespace PlanMyWeb.Controllers.Api
         }
         [HttpGet]
         [Route("api/Register")]
-        public async Task<Users> Register(string Username, string Email, string Password, string Token)
+        public async Task<IActionResult> Register(string Username, string Email, string Password, string Token, string FirstName, string LastName)
         {
-            var user = new Users { UserName = Username, Email = Email, CreationDate = DateTime.Now };
+            var user = new Users { UserName = Username, Email = Email, CreationDate = DateTime.Now, FirstName = FirstName, LastName = LastName };
             var result = await _userManager.CreateAsync(user, Password);
             if (result.Succeeded)
             {
@@ -52,11 +52,11 @@ namespace PlanMyWeb.Controllers.Api
                     token.User = user;
                 }
                 _context.SaveChanges();
-                return user;
+                return Ok(user);
             }
             else
             {
-                throw new Exception(result.Errors.FirstOrDefault().Description);
+                return Ok(result);
             }
         }
         [HttpGet]

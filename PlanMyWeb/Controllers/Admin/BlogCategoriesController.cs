@@ -101,7 +101,7 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 return NotFound();
             }
-            return View(blogCategory);
+            return View(model);
         }
 
         // POST: BlogCategories/Edit/5

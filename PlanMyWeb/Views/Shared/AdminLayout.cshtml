@@ -383,7 +383,7 @@
                                 </span>*@
                         </a>
                     </li>
-                    <li class="@if(ViewBag.Active=="Categories" || ViewBag.Active=="Topics" ){<text>active</text>} treeview">
+                    <li class="@if(ViewBag.Active=="BlogCategories" || ViewBag.Active=="Topics" ){<text>active</text>} treeview">
                         <a href="#">
                             <i class="fa fa-folder-open"></i>
                             <span>Blog</span>
@@ -392,7 +392,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li @if(ViewBag.Active == "Categories") {<text>class=active</text>}><a href="~/Admin/BlogCategories"><i class="fa fa-circle-o"></i> Categories</a></li>
+                            <li @if(ViewBag.Active == "BlogCategories") {<text>class=active</text>}><a href="~/Admin/BlogCategories"><i class="fa fa-circle-o"></i> Categories</a></li>
                             <li @if(ViewBag.Active == "Topics") {<text>class=active</text>}><a href="~/Admin/Blogs"><i class="fa fa-circle-o"></i> Topics</a></li>
 
                             @*<li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>*@
