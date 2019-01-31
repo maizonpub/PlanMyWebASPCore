@@ -32,7 +32,7 @@ namespace PlanMyWeb.Controllers.Admin
             var users = await _context.Users.ToListAsync();
             foreach(var user in users)
             {
-                model.Add(new UsersViewModel { Address = user.Address, Age = user.Age, FirstName = user.FirstName, LastName = user.LastName, Gender = user.Gender, City = user.City, Country = user.Country, UserType = user.UserType, CreationDate = user.CreationDate, ImageString = user.Image  });
+                model.Add(new UsersViewModel {  Id = user.Id, FirstName = user.FirstName, LastName = user.LastName, Gender = user.Gender,  UserType = user.UserType, PhoneNumber = user.PhoneNumber, Email = user.Email, Username = user.UserName });
             }
             return View(model);
         }
@@ -66,7 +66,7 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/Users/Create")]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Age,Gender,Address,City,Country,UserType,CreationDate,Image")] UsersViewModel users)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Age,Gender,Address,City,Country,UserType,CreationDate,Image,PhoneNumber,Email,Username")] UsersViewModel users)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace PlanMyWeb.Controllers.Admin
                     filename = Guid.NewGuid().ToString().Substring(4) + users.Image.FileName;
                     UploadFile(users.Image, filename);
                 }
-                Users user = new Users { FirstName = users.FirstName, LastName = users.LastName, Age = users.Age, Gender = users.Gender, Address = users.Address, City = users.City, Country = users.Country, UserType = users.UserType, Offers = users.Offers, VendorItems = users.VendorItems, UserPaymentTokens = users.UserPaymentTokens, CreationDate = users.CreationDate, Image = filename };
+                Users user = new Users { Id = users.Id, FirstName = users.FirstName, LastName = users.LastName, Age = users.Age, Gender = users.Gender, Address = users.Address, City = users.City, Country = users.Country, UserType = users.UserType, CreationDate = users.CreationDate, Image = filename, UserName = users.Username, PhoneNumber = users.PhoneNumber, Email = users.Email };
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -103,7 +103,7 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var users = await _context.Users.FindAsync(id);
-            UsersViewModel model = new UsersViewModel { Gender = users.Gender, UserType = users.UserType, Address = users.Address, Age = users.Age, City = users.City, Country = users.Country, CreationDate = users.CreationDate, FirstName = users.FirstName, LastName = users.LastName, ImageString = users.Image};
+            UsersViewModel model = new UsersViewModel { Id = users.Id, Gender = users.Gender, UserType = users.UserType, Address = users.Address, Age = users.Age, City = users.City, Country = users.Country, CreationDate = users.CreationDate, FirstName = users.FirstName, LastName = users.LastName, ImageString = users.Image, Username = users.UserName, Email = users.Email, PhoneNumber = users.PhoneNumber};
             if (users == null)
             {
                 return NotFound();
@@ -117,7 +117,7 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/Users/Edit/{id?}")]
-        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,Age,Gender,Address,City,Country,UserType,CreationDate,Image")] UsersViewModel users)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,FirstName,LastName,Age,Gender,Address,City,Country,UserType,CreationDate,Image,Username,Email,PhoneNumber")] UsersViewModel users)
         {
             if (ModelState.IsValid)
             {
@@ -130,9 +130,13 @@ namespace PlanMyWeb.Controllers.Admin
                     row.Image = filename;
                 }
                 else
+                    row.Id = row.Id;
                     row.Image = row.Image;
                 row.FirstName = users.FirstName;
                 row.LastName = users.LastName;
+                row.UserName = users.Username;
+                row.Email = users.Email;
+                row.PhoneNumber = users.PhoneNumber;
                 row.Age = users.Age;
                 row.Address = users.Address;
                 row.City = users.City;
