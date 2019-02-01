@@ -85,7 +85,13 @@ namespace PlanMyWeb.Controllers.Admin
                     filename = Guid.NewGuid().ToString().Substring(4) + offers.Image.FileName;
                     UploadFile(offers.Image, filename);
                 }
-                string userId = Request.Form["User"];
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
                 var user = _context.Users.Find(userId);
                 var Offer = new Offers { Description = offers.Description, EndDate = offers.EndDate, OffersType = offers.OffersType, Image = filename, Price = offers.Price, SaleFromDate = offers.SaleFromDate, SalePrice = offers.SalePrice, SaleToDate = offers.SaleToDate, StartDate = offers.SaleToDate, Title = offers.Title, Validity = offers.Validity, User = user };
                 _context.Offers.Add(Offer);
@@ -156,11 +162,17 @@ namespace PlanMyWeb.Controllers.Admin
         public async Task<IActionResult> Edit(int id, [Bind("Id,OffersType,Image,Title,Description,Validity,StartDate,EndDate,Price,SalePrice,SaleFromDate,SaleToDate,Categories")] AdminOffersViewModel offers)
         {
             var row = _context.Offers.Include(x => x.OffersCategories).Where(x => x.Id == id).FirstOrDefault();
-            string userId = Request.Form["User"];
             
-
             if (ModelState.IsValid)
             {
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
+                var user = _context.Users.Find(userId);
                 if (offers.Image != null)
                 {
                     string filename = Guid.NewGuid().ToString().Substring(4) + offers.Image.FileName;

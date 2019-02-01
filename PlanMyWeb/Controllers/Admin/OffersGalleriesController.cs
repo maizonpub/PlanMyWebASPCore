@@ -74,8 +74,20 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + offersGalleryViewModel.Image.FileName;
-                UploadFile(offersGalleryViewModel.Image, filename);
+                string filename = "";
+                if (offersGalleryViewModel.Image != null && offersGalleryViewModel.Image.Length > 0)
+                {
+                    filename = Guid.NewGuid().ToString().Substring(4) + offersGalleryViewModel.Image.FileName;
+                    UploadFile(offersGalleryViewModel.Image, filename);
+                }
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
+                var user = _context.Users.Find(userId);
                 HomeSlider homeSlider = new HomeSlider { Media = filename, MediaType = offersGalleryViewModel.MediaType };
                 _context.Add(homeSlider);
                 await _context.SaveChangesAsync();
@@ -120,6 +132,14 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
+                var user = _context.Users.Find(userId);
                 var row = _context.BlogCategories.Where(x => x.Id == id).FirstOrDefault();
                 if (offersGalleryViewModel.Image != null)
                 {

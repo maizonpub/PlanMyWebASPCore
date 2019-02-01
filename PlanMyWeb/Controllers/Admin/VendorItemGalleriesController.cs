@@ -77,8 +77,20 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
-                UploadFile(vendorItemGalleryViewModel.Image, filename);
+                string filename = "";
+                if (vendorItemGalleryViewModel.Image != null && vendorItemGalleryViewModel.Image.Length > 0)
+                {
+                    filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
+                    UploadFile(vendorItemGalleryViewModel.Image, filename);
+                }
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
+                var user = _context.Users.Find(userId);
                 var item = _context.VendorItems.Find(itemId);
                 VendorItemGallery homeSlider = new VendorItemGallery { Image = filename, MediaType = vendorItemGalleryViewModel.MediaType, Item = item };
                 _context.Add(homeSlider);
@@ -135,6 +147,14 @@ namespace PlanMyWeb.Controllers.Admin
     {
         { "itemId", itemId.ToString() }
     };
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
+                var user = _context.Users.Find(userId);
                 var item = _context.VendorItems.Find(itemId);
                 var row = _context.VendorItemGalleries.Where(x => x.Id == id).FirstOrDefault();
                 if (vendorItemGalleryViewModel.Image != null)

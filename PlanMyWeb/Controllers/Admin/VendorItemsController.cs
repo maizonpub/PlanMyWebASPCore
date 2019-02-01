@@ -29,7 +29,7 @@ namespace PlanMyWeb.Controllers.Admin
         }
         [Route("Admin/VendorItems")]
         // GET: VendorItems
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             var vendorItems = await _context.VendorItems.ToListAsync();
             if (User.IsInRole("Vendor"))
@@ -113,7 +113,7 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 _context.Add(row);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
             return View(vendorItemViewModel);
         }
@@ -204,7 +204,7 @@ namespace PlanMyWeb.Controllers.Admin
                         _context.VendorItemCategories.Add(new VendorItemCategory { VendorCategory = dbcat, VendorItem = row });
                 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
             return View(vendorItemViewModel);
         }
@@ -238,7 +238,7 @@ namespace PlanMyWeb.Controllers.Admin
             var vendorItem = await _context.VendorItems.FindAsync(id);
             _context.VendorItems.Remove(vendorItem);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(IndexAsync));
+            return RedirectToAction(nameof(Index));
         }
 
         private bool VendorItemExists(int id)
