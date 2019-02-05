@@ -854,7 +854,7 @@ position: relative; float: left; padding: 6px 12px; margin-left: -1px; line-heig
 .tp-page-head .page-header{ border: none; padding: 40px 0px;}
 .tp-page-head .page-header h1{color: #fff;}
 /*----- Breadcrumb --------*/
-.tp-breadcrumb {border-bottom: 1px solid #e9e6e0;}
+.tp-breadcrumb {border-bottom: 1px solid #e9e6e0; border-top:1px solid #e9e6e0; padding: 10px;}
 .tp-breadcrumb .breadcrumb{ background: transparent; font-size: 11px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 0px; padding: 5px 0px; font-weight: 500;margin-left:0;}
 .tp-breadcrumb .breadcrumb>.active { color: #9e9795;}
 /*-------- Filter Box ---------*/
