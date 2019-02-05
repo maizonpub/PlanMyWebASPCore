@@ -11,24 +11,33 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using PlanMyWeb.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Vendor")]
     public class VendorItemsController : Controller
     {
         private readonly DbWebContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public VendorItemsController(DbWebContext context, IHostingEnvironment hostingEnvironment)
+        private readonly UserManager<Users> _userManager;
+        public VendorItemsController(DbWebContext context, IHostingEnvironment hostingEnvironment, UserManager<Users> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _userManager = userManager;
         }
         [Route("Admin/VendorItems")]
         // GET: VendorItems
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_context.VendorItems);
+            var vendorItems = await _context.VendorItems.ToListAsync();
+            if (User.IsInRole("Vendor"))
+            {
+                var userId = _userManager.GetUserId(User);
+                vendorItems = vendorItems.Where(x => x.UserId == userId).ToList();
+            }
+            return View(vendorItems);
         }
         [Route("Admin/VendorItems/Details/{id?}")]
         // GET: VendorItems/Details/5
@@ -52,11 +61,11 @@ namespace PlanMyWeb.Controllers.Admin
         // GET: VendorItems/Create
         public IActionResult Create()
         {
-            var vendorcategoies = _context.VendorCategories.AsEnumerable();
+            var vendorcategories = _context.VendorCategories.AsEnumerable();
             var users = _context.Users.AsEnumerable();
             var userselect = new SelectList(users, "Id", "FirstName");
             ViewBag.Users = userselect;
-            ViewBag.Categories = new SelectList(vendorcategoies, "Id", "Title");
+            ViewBag.Categories = new SelectList(vendorcategories, "Id", "Title");
             var taxonomies = _context.VendorTypes.Include(x => x.VendorTypeValues);
             var model = new VendorItemViewModel { Taxonomies = taxonomies };
             return View(model);
@@ -78,7 +87,13 @@ namespace PlanMyWeb.Controllers.Admin
                     filename = Guid.NewGuid().ToString().Substring(4) + vendorItemViewModel.Thumb.FileName;
                     UploadFile(vendorItemViewModel.Thumb, filename);
                 }
-                string userId = Request.Form["User"];
+                string userId = "";
+                if(!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
                 var user = _context.Users.Find(userId);
                 VendorItem row = new VendorItem { Thumb = filename, MediaType = vendorItemViewModel.MediaType, Address = vendorItemViewModel.Address, Country = vendorItemViewModel.Country, Email = vendorItemViewModel.Email, HtmlDescription = vendorItemViewModel.HtmlDescription, IsFeatured = vendorItemViewModel.IsFeatured, Latitude = vendorItemViewModel.Latitude, Longitude = vendorItemViewModel.Longitude, Location = vendorItemViewModel.Location, PhoneNumber = vendorItemViewModel.PhoneNumber, Title = vendorItemViewModel.Title, User = user };
                 string[] catIds = Request.Form["Categories"].ToString().Split(',');
@@ -136,9 +151,11 @@ namespace PlanMyWeb.Controllers.Admin
             var taxonomies = _context.VendorTypes.Include(x => x.VendorTypeValues);
             var vendoritemtypevalues = _context.VendorItemTypeValues.Where(x => x.VendorItem == vendorItem).Include(x => x.VendorTypeValue).ToList();
             //ViewBag.Categories = selectfield;
+            
             VendorItemViewModel model = new VendorItemViewModel { Id = vendorItem.Id, MediaType = vendorItem.MediaType, Address = vendorItem.Address, Country = vendorItem.Country, Email = vendorItem.Email, ItemCategories = vendorItem.Categories, Gallery = vendorItem.Gallery, HtmlDescription = vendorItem.HtmlDescription, IsFeatured = vendorItem.IsFeatured, Latitude = vendorItem.Latitude, Longitude = vendorItem.Longitude, Location = vendorItem.Location, PhoneNumber = vendorItem.PhoneNumber, Title = vendorItem.Title, User = userselect, Categories = catslist, Taxonomies = taxonomies, values = vendoritemtypevalues };
             if (vendorItem == null)
             {
+                
                 return NotFound();
             }
             return View(model);
@@ -154,6 +171,14 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
+                var user = _context.Users.Find(userId);
                 var row = _context.VendorItems.Include(x=>x.Categories).Where(x => x.Id == id).FirstOrDefault();
                 if (vendorItemViewModel.Thumb != null)
                 {

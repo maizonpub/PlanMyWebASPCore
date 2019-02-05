@@ -11,24 +11,33 @@ using PlanMyWeb.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Vendor")]
     public class AdminOffersController : Controller
     {
         private readonly DbWebContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public AdminOffersController(DbWebContext context, IHostingEnvironment hostingEnvironment)
+        private readonly UserManager<Users> _userManager;
+        public AdminOffersController(DbWebContext context, IHostingEnvironment hostingEnvironment, UserManager<Users> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _userManager = userManager;
         }
         [Route("Admin/Offers")]
         // GET: AdminOffers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Offers.ToListAsync());
+            var offers = await _context.Offers.ToListAsync();
+            if (User.IsInRole("Vendor"))
+            {
+                var userId = _userManager.GetUserId(User);
+                offers = offers.Where(x => x.UserId == userId).ToList();
+            }
+            return View(offers);
         }
         [Route("Admin/Offers/Details/{id?}")]
         // GET: AdminOffers/Details/5
@@ -76,7 +85,13 @@ namespace PlanMyWeb.Controllers.Admin
                     filename = Guid.NewGuid().ToString().Substring(4) + offers.Image.FileName;
                     UploadFile(offers.Image, filename);
                 }
-                string userId = Request.Form["User"];
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
                 var user = _context.Users.Find(userId);
                 var Offer = new Offers { Description = offers.Description, EndDate = offers.EndDate, OffersType = offers.OffersType, Image = filename, Price = offers.Price, SaleFromDate = offers.SaleFromDate, SalePrice = offers.SalePrice, SaleToDate = offers.SaleToDate, StartDate = offers.SaleToDate, Title = offers.Title, Validity = offers.Validity, User = user };
                 _context.Offers.Add(Offer);
@@ -147,11 +162,17 @@ namespace PlanMyWeb.Controllers.Admin
         public async Task<IActionResult> Edit(int id, [Bind("Id,OffersType,Image,Title,Description,Validity,StartDate,EndDate,Price,SalePrice,SaleFromDate,SaleToDate,Categories")] AdminOffersViewModel offers)
         {
             var row = _context.Offers.Include(x => x.OffersCategories).Where(x => x.Id == id).FirstOrDefault();
-            string userId = Request.Form["User"];
             
-
             if (ModelState.IsValid)
             {
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
+                var user = _context.Users.Find(userId);
                 if (offers.Image != null)
                 {
                     string filename = Guid.NewGuid().ToString().Substring(4) + offers.Image.FileName;

@@ -340,18 +340,21 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="@if(ViewBag.Active=="HomeSliders" || ViewBag.Active=="HomeTips" ){<text>active</text>} treeview">
-                        <a href="#">
-                            <i class="fa fa-home"></i> <span>Home</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li @if (ViewBag.Active == "HomeSliders") { <text> class="active" </text> }><a href="~/Admin/HomeSliders"><i class="fa fa-circle-o"></i> Home Sliders</a></li>
-                            <li @if (ViewBag.Active == "HomeTips") { <text> class="active" </text> }><a href="~/Admin/HomeTips"><i class="fa fa-circle-o"></i> Home Tips </a></li>
-                        </ul>
-                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="@if(ViewBag.Active=="HomeSliders" || ViewBag.Active=="HomeTips" ){<text>active</text>} treeview">
+                            <a href="#">
+                                <i class="fa fa-home"></i> <span>Home</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li @if (ViewBag.Active == "HomeSliders") { <text> class="active" </text> }><a href="~/Admin/HomeSliders"><i class="fa fa-circle-o"></i> Home Sliders</a></li>
+                                <li @if (ViewBag.Active == "HomeTips") { <text> class="active" </text> }><a href="~/Admin/HomeTips"><i class="fa fa-circle-o"></i> Home Tips </a></li>
+                            </ul>
+                        </li>
+                    }
                     <li class=" @if(ViewBag.Active=="Categories" || ViewBag.Active=="Taxonomies" || ViewBag.Active=="Items" ){<text>active</text>} treeview">
                         <a href="#">
                             <i class="fa fa-address-card"></i>
@@ -361,43 +364,50 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li @if (ViewBag.Active == "Categories") { <text> class="active" </text> }><a href="~/Admin/VendorCategories"><i class="fa fa-circle-o"></i>Categories</a></li>
-                            <li @if (ViewBag.Active == "Taxonomies") { <text> class="active" </text> }><a href="~/Admin/VendorTypes"><i class="fa fa-circle-o"></i> Taxonomies</a></li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li @if (ViewBag.Active == "Categories") { <text> class="active" </text> }><a href="~/Admin/VendorCategories"><i class="fa fa-circle-o"></i>Categories</a></li>
+                                <li @if (ViewBag.Active == "Taxonomies") { <text> class="active" </text> }><a href="~/Admin/VendorTypes"><i class="fa fa-circle-o"></i> Taxonomies</a></li>
+                            }
                             <li @if (ViewBag.Active == "Items") { <text> class="active" </text> }><a href="~/Admin/VendorItems"><i class="fa fa-circle-o"></i> Items</a></li>
 
                         </ul>
                     </li>
-                    <li @if (ViewBag.Active == "WebContents") { <text> class="active" </text> }>
-                        <a href="~/Admin/WebContents">
-                            <i class="fa fa-th"></i> <span>Web Contents</span>
-                            @*<span class="pull-right-container">
-                    <small class="label pull-right bg-green">new</small>
-                </span>*@
-                        </a>
-                    </li>
-                    <li @if (ViewBag.Active == "SocialMedias") { <text> class="active" </text> }>
-                        <a href="~/Admin/SocialMedias">
-                            <i class="fa fa-scribd"></i> <span>Social Media</span>
-                            @*<span class="pull-right-container">
-                    <small class="label pull-right bg-green">new</small>
-                </span>*@
-                        </a>
-                    </li>
-                    <li class="@if(ViewBag.Active=="Categories" || ViewBag.Active=="Topics" ){<text>active</text>} treeview">
-                        <a href="#">
-                            <i class="fa fa-folder-open"></i>
-                            <span>Blog</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li @if (ViewBag.Active == "Categories") { <text> class=active </text> }><a href="~/Admin/BlogCategories"><i class="fa fa-circle-o"></i> Categories</a></li>
-                            <li @if (ViewBag.Active == "Topics") { <text> class=active </text> }><a href="~/Admin/Blogs"><i class="fa fa-circle-o"></i> Topics</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li @if (ViewBag.Active == "WebContents") { <text> class="active" </text> }>
+                            <a href="~/Admin/WebContents">
+                                <i class="fa fa-th"></i> <span>Web Contents</span>
+                                @*<span class="pull-right-container">
+                        <small class="label pull-right bg-green">new</small>
+                    </span>*@
+                            </a>
+                        </li>
+                        <li @if (ViewBag.Active == "SocialMedias") { <text> class="active" </text> }>
+                            <a href="~/Admin/SocialMedias">
+                                <i class="fa fa-scribd"></i> <span>Social Media</span>
+                                @*<span class="pull-right-container">
+                        <small class="label pull-right bg-green">new</small>
+                    </span>*@
+                            </a>
+                        </li>
+                        <li class="@if (ViewBag.Active == "BlogCategories" || ViewBag.Active == "Topics")
+                        {<text>active</text>} treeview">
+                            <a href="#">
+                                <i class="fa fa-folder-open"></i>
+                                <span>Blog</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li @if (ViewBag.Active == "BlogCategories") { <text> class=active </text> }><a href="~/Admin/BlogCategories"><i class="fa fa-circle-o"></i> Categories</a></li>
+                                <li @if (ViewBag.Active == "Topics") { <text> class=active </text> }><a href="~/Admin/Blogs"><i class="fa fa-circle-o"></i> Topics</a></li>
 
-                            @*<li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>*@
-                        </ul>
-                    </li>
+                                @*<li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>*@
+                            </ul>
+                        </li>
+                    }
                     <li @if (ViewBag.Active == "Offers") { <text> class="active" </text> }>
                         <a href="~/Admin/Offers">
                             <i class="fa fa-percent"></i>
@@ -408,111 +418,116 @@
                         </a>
 
                     </li>
-                    <li @if (ViewBag.Active == "Orders") { <text> class="active" </text> }>
-                        <a href="~/Admin/Orders">
-                            <i class="fa fa-edit"></i>
-                            <span>Orders</span>
-                            @*<span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>*@
-                        </a>
-                    </li>
-
-                    <li @if (ViewBag.Active == "Users") { <text> class="active" </text> }>
-                        <a href="~/Admin/Users">
-                            <i class="fa fa-user"></i>
-                            <span>Users</span>
-                            @*<span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>*@
-                        </a>
-                    </li>
-                    @*<li class="treeview">
-            <a href="#">
-                <i class="fa fa-table"></i> <span>Tables</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
-            </ul>
-        </li>*@
-                    @*<li>
-            <a href="pages/calendar.html">
-                <i class="fa fa-calendar"></i> <span>Calendar</span>
-                <span class="pull-right-container">
-                    <small class="label pull-right bg-red">3</small>
-                    <small class="label pull-right bg-blue">17</small>
-                </span>
-            </a>
-        </li>*@
-                    @*<li>
-            <a href="pages/mailbox/mailbox.html">
-                <i class="fa fa-envelope"></i> <span>Mailbox</span>
-                <span class="pull-right-container">
-                    <small class="label pull-right bg-yellow">12</small>
-                    <small class="label pull-right bg-green">16</small>
-                    <small class="label pull-right bg-red">5</small>
-                </span>
-            </a>
-        </li>*@
-                    @*<li class="treeview">
-            <a href="#">
-                <i class="fa fa-folder"></i> <span>Planning Tools</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="~/Admin/Budgets"><i class="fa fa-circle-o"></i> Budgets</a></li>
-                <li><a href="~/Admin/WishLists"><i class="fa fa-circle-o"></i> WishLists</a></li>
-
-                <li><a href="~/Admin/GuestLists"><i class="fa fa-circle-o"></i> GuestLists</a></li>
-            </ul>
-        </li>*@
-                    @*<li class="treeview">
-            <a href="#">
-                <i class="fa fa-share"></i> <span>Multilevel</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-circle-o"></i> Level One
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-circle-o"></i> Level Two
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li @if (ViewBag.Active == "Orders")
+                        { <text> class="active" </text> }>
+                            <a href="~/Admin/Orders">
+                                <i class="fa fa-edit"></i>
+                                <span>Orders</span>
+                                @*<span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>*@
                             </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                            </ul>
                         </li>
-                    </ul>
-                </li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-            </ul>
-        </li>*@
-                    @*<li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>*@
-                    @*<li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>*@
+
+                        <li @if (ViewBag.Active == "Users")
+                        { <text> class="active" </text> }>
+                            <a href="~/Admin/Users">
+                                <i class="fa fa-user"></i>
+                                <span>Users</span>
+                                @*<span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>*@
+                            </a>
+                        </li>
+                    }
+                        @*<li class="treeview">
+                <a href="#">
+                    <i class="fa fa-table"></i> <span>Tables</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
+                    <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
                 </ul>
+            </li>*@
+                        @*<li>
+                <a href="pages/calendar.html">
+                    <i class="fa fa-calendar"></i> <span>Calendar</span>
+                    <span class="pull-right-container">
+                        <small class="label pull-right bg-red">3</small>
+                        <small class="label pull-right bg-blue">17</small>
+                    </span>
+                </a>
+            </li>*@
+                        @*<li>
+                <a href="pages/mailbox/mailbox.html">
+                    <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                    <span class="pull-right-container">
+                        <small class="label pull-right bg-yellow">12</small>
+                        <small class="label pull-right bg-green">16</small>
+                        <small class="label pull-right bg-red">5</small>
+                    </span>
+                </a>
+            </li>*@
+                        @*<li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i> <span>Planning Tools</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="~/Admin/Budgets"><i class="fa fa-circle-o"></i> Budgets</a></li>
+                    <li><a href="~/Admin/WishLists"><i class="fa fa-circle-o"></i> WishLists</a></li>
+
+                    <li><a href="~/Admin/GuestLists"><i class="fa fa-circle-o"></i> GuestLists</a></li>
+                </ul>
+            </li>*@
+                        @*<li class="treeview">
+                <a href="#">
+                    <i class="fa fa-share"></i> <span>Multilevel</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-circle-o"></i> Level One
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-circle-o"></i> Level Two
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                </ul>
+            </li>*@
+                        @*<li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>*@
+                        @*<li class="header">LABELS</li>
+            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>*@
+                    </ul>
             </section>
             <!-- /.sidebar -->
         </aside>

@@ -10,24 +10,35 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace PlanMyWeb.Controllers.Admin
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Vendor")]
     public class VendorItemGalleriesController : Controller
     {
         private readonly DbWebContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public VendorItemGalleriesController(DbWebContext context, IHostingEnvironment hostingEnvironment)
+        private readonly UserManager<Users> _userManager;
+        public VendorItemGalleriesController(DbWebContext context, IHostingEnvironment hostingEnvironment, UserManager<Users> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _userManager = userManager;
         }
+    
         [Route("Admin/VendorItemGalleries")]
         // GET: VendorItemGalleries
         public async Task<IActionResult> Index(int itemId)
         {
-            return View(await _context.VendorItemGalleries.Where(x=>x.Item.Id == itemId).ToListAsync());
+            var vendorItemGalleries = await _context.VendorItemGalleries.ToListAsync();
+            if (User.IsInRole("Vendor"))
+            {
+                var userId = _userManager.GetUserId(User);
+                vendorItemGalleries = vendorItemGalleries.Where(x => x.UserId == userId).ToList();
+            }
+            return View(vendorItemGalleries);
+           
         }
         [Route("Admin/VendorItemGalleries/Details/{id?}")]
         // GET: VendorItemGalleries/Details/5
@@ -66,8 +77,20 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
-                UploadFile(vendorItemGalleryViewModel.Image, filename);
+                string filename = "";
+                if (vendorItemGalleryViewModel.Image != null && vendorItemGalleryViewModel.Image.Length > 0)
+                {
+                    filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
+                    UploadFile(vendorItemGalleryViewModel.Image, filename);
+                }
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
+                var user = _context.Users.Find(userId);
                 var item = _context.VendorItems.Find(itemId);
                 VendorItemGallery homeSlider = new VendorItemGallery { Image = filename, MediaType = vendorItemGalleryViewModel.MediaType, Item = item };
                 _context.Add(homeSlider);
@@ -124,6 +147,14 @@ namespace PlanMyWeb.Controllers.Admin
     {
         { "itemId", itemId.ToString() }
     };
+                string userId = "";
+                if (!string.IsNullOrEmpty(Request.Form["User"]))
+                    userId = Request.Form["User"];
+                else
+                {
+                    userId = _userManager.GetUserId(User);
+                }
+                var user = _context.Users.Find(userId);
                 var item = _context.VendorItems.Find(itemId);
                 var row = _context.VendorItemGalleries.Where(x => x.Id == id).FirstOrDefault();
                 if (vendorItemGalleryViewModel.Image != null)
