@@ -38,7 +38,6 @@ namespace PlanMyWeb
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-                
             });
 
 
@@ -60,7 +59,6 @@ namespace PlanMyWeb
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Error";
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +87,7 @@ namespace PlanMyWeb
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseCors();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

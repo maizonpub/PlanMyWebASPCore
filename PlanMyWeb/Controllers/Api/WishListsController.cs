@@ -106,7 +106,7 @@ namespace PlanMyWeb.Controllers.Api
 
         // DELETE: api/WishLists/5
         [HttpDelete("{itemId}/{UserId}")]
-        public async Task<IActionResult> DeleteWishList([FromRoute] int itemId, string UserId)
+        public async Task<IActionResult> DeleteWishList([FromRoute] int itemId, [FromRoute] string UserId)
         {
             if (!ModelState.IsValid)
             {

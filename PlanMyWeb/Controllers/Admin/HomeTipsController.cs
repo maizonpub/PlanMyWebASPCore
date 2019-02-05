@@ -119,9 +119,14 @@ namespace PlanMyWeb.Controllers.Admin
                     string filename = Guid.NewGuid().ToString().Substring(4) + homeTipsViewModel.Image.FileName;
                     UploadFile(homeTipsViewModel.Image, filename);
                     row.MediaType = homeTipsViewModel.MediaType;
+                    row.Image = filename;
+                    row.Media = filename;
                 }
                 else
+                {
+                    row.Image = row.Image;
                     row.Media = row.Media;
+                }
                 row.Title = homeTipsViewModel.Title;
                 row.Description = homeTipsViewModel.Description;
                 row.MediaType = homeTipsViewModel.MediaType;

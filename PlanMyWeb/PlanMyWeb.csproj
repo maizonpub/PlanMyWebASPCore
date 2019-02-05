@@ -52,15 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="node_modules\agentkeepalive\package.json" />
-    <Content Include="node_modules\async-limiter\coverage\coverage.json" />
-    <Content Include="node_modules\async-limiter\coverage\lcov-report\async-throttle\index.html" />
-    <Content Include="node_modules\async-limiter\coverage\lcov-report\async-throttle\index.js.html" />
-    <Content Include="node_modules\async-limiter\coverage\lcov-report\base.css" />
-    <Content Include="node_modules\async-limiter\coverage\lcov-report\index.html" />
-    <Content Include="node_modules\async-limiter\coverage\lcov-report\prettify.css" />
-    <Content Include="node_modules\async-limiter\coverage\lcov-report\sort-arrow-sprite.png" />
-    <Content Include="node_modules\async-limiter\package.json" />
     <Content Include="wwwroot\cms\bower_components\bootstrap-colorpicker\.bower.json" />
     <Content Include="wwwroot\cms\bower_components\bootstrap-colorpicker\bower.json" />
     <Content Include="wwwroot\cms\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
@@ -2059,21 +2050,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="node_modules\agentkeepalive\browser.js" />
-    <None Include="node_modules\agentkeepalive\History.md" />
-    <None Include="node_modules\agentkeepalive\index.js" />
-    <None Include="node_modules\agentkeepalive\lib\agent.js" />
-    <None Include="node_modules\agentkeepalive\lib\https_agent.js" />
-    <None Include="node_modules\agentkeepalive\lib\utils.js" />
-    <None Include="node_modules\agentkeepalive\lib\_http_agent.js" />
-    <None Include="node_modules\agentkeepalive\README.md" />
-    <None Include="node_modules\async-limiter\.travis.yml" />
-    <None Include="node_modules\async-limiter\coverage\lcov-report\prettify.js" />
-    <None Include="node_modules\async-limiter\coverage\lcov-report\sorter.js" />
-    <None Include="node_modules\async-limiter\coverage\lcov.info" />
-    <None Include="node_modules\async-limiter\index.js" />
-    <None Include="node_modules\async-limiter\LICENSE" />
-    <None Include="node_modules\async-limiter\readme.md" />
     <None Include="wwwroot\cms\.github\ISSUE_TEMPLATE.md" />
     <None Include="wwwroot\cms\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css.map" />
     <None Include="wwwroot\cms\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.min.css.map" />

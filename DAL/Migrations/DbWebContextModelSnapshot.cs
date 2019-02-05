@@ -147,6 +147,27 @@ namespace DAL.Migrations
                     b.ToTable("BudgetCategories");
                 });
 
+            modelBuilder.Entity("DAL.ChatChannel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ChannelUrl");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("VendorId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("ChatChannels");
+                });
+
             modelBuilder.Entity("DAL.CheckList", b =>
                 {
                     b.Property<int>("Id")
@@ -232,7 +253,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("FullName");
 
-                    b.Property<int>("GuestListTablesId");
+                    b.Property<int?>("GuestListTablesId");
 
                     b.Property<int>("GuestStatus");
 
@@ -655,7 +676,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<int>("VendorCategoryId");
+                    b.Property<int?>("VendorCategoryId");
 
                     b.HasKey("Id");
 
@@ -907,6 +928,8 @@ namespace DAL.Migrations
 
                     b.Property<DateTime>("CreationDate");
 
+                    b.Property<string>("FBToken");
+
                     b.Property<string>("FirstName");
 
                     b.Property<int>("Gender");
@@ -963,6 +986,17 @@ namespace DAL.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("DAL.ChatChannel", b =>
+                {
+                    b.HasOne("DAL.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("DAL.Users", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId");
+                });
+
             modelBuilder.Entity("DAL.CheckList", b =>
                 {
                     b.HasOne("DAL.Users", "User")
@@ -985,8 +1019,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.GuestListTables", "GuestListTables")
                         .WithMany()
-                        .HasForeignKey("GuestListTablesId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("GuestListTablesId");
 
                     b.HasOne("DAL.Users", "User")
                         .WithMany()
@@ -1103,8 +1136,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.VendorCategory", "VendorCategory")
                         .WithMany()
-                        .HasForeignKey("VendorCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("VendorCategoryId");
                 });
 
             modelBuilder.Entity("DAL.VendorTypeValue", b =>
@@ -1122,7 +1154,7 @@ namespace DAL.Migrations
                         .HasForeignKey("UserId");
 
                     b.HasOne("DAL.VendorItem", "VendorItem")
-                        .WithMany()
+                        .WithMany("WishLists")
                         .HasForeignKey("VendorItemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

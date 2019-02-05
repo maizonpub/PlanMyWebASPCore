@@ -14,6 +14,7 @@ namespace DAL
         public int rating { get; set; }
         public DateTime DateIn { get; set; }
         public VendorItem VendorItem { get; set; }
+        public int VendorItemId { get; set; }
         public ReviewStatus Status { get; set; }
     }
     public enum ReviewStatus

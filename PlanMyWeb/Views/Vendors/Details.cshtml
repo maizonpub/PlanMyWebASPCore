@@ -117,7 +117,7 @@
                     @if (reviews.Count() > 0)
                     {
                         <h2 class="comments-title">
-                            reviews.Count() thoughts on “<span>@Model.VendorItem.Title</span>”
+                            @reviews.Count() thoughts on “<span>@Model.VendorItem.Title</span>”
                         </h2>
                         <ul class="comment-list listnone mb30">
                             @foreach (var review in reviews)

@@ -160,6 +160,7 @@ namespace PlanMyWeb.Controllers.Admin
                     string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemViewModel.Thumb.FileName;
                     UploadFile(vendorItemViewModel.Thumb, filename);
                     row.MediaType = vendorItemViewModel.MediaType;
+                    row.Thumb = filename;
                 }
                 else
                     row.Thumb = row.Thumb;

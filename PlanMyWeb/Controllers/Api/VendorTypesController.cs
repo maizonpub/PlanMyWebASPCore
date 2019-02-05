@@ -21,8 +21,8 @@ namespace PlanMyWeb.Controllers.Api
         }
 
         // GET: api/VendorTypes
-        [HttpGet]
-        public IEnumerable<VendorType> GetVendorTypes(int? CategoryId)
+        [HttpGet("ByCat/{CategoryId}")]
+        public IEnumerable<VendorType> GetVendorTypes([FromRoute]int? CategoryId)
         {
             var types = _context.VendorTypes.Include(x => x.VendorTypeValues).Where(x=>x.VendorCategoryId == CategoryId || x.VendorCategoryId==null);
             return types;

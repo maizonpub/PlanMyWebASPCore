@@ -69,5 +69,6 @@ namespace DAL
         public DbSet<DAL.UserPaymentToken> UserPaymentTokens { get; set; }
         public DbSet<DAL.VendorItemReview> VendorItemReviews { get; set; }
         public DbSet<DAL.UserPushToken> UserPushToken { get; set; }
+        public DbSet<DAL.ChatChannel> ChatChannels { get; set; }
     }
 }

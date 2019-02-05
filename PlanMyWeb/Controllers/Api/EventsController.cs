@@ -64,35 +64,35 @@ namespace PlanMyWeb.Controllers.Api
 
         // POST: api/Events
         [HttpPost]
-        public async Task<IActionResult> PostEvents([FromBody] EventsViewModel events)
+        public async Task<IActionResult> PostEvents(string UTitle, string UDescription, DateTime UDate, string UUserId, bool UIsPrivate, IFormFile UImage)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             string filename = "";
-            if(events.Image!=null && events.Image.Length>0)
+            if(UImage!=null && UImage.Length>0)
             {
-                filename = events.Image.FileName;
-                UploadFile(events.Image, filename);
+                filename = UImage.FileName;
+                UploadFile(UImage, filename);
             }
-            var row = _context.Events.Where(x => x.UserId == events.UserId).FirstOrDefault();
+            var row = _context.Events.Where(x => x.UserId == Request.Form["UUserId"]).FirstOrDefault();
             if (row == null)
             {
-                row = new Events { Date = events.Date, Description = events.Description, Title = events.Title, UserId = events.UserId, Image = filename, IsPrivate = events.IsPrivate };
+                row = new Events { Date = DateTime.Parse(Request.Form["UDate"].ToString()), Description = Request.Form["UDescription"], Title = Request.Form["UTitle"], UserId = Request.Form["UUserId"], Image = filename, IsPrivate = bool.Parse(Request.Form["UIsPrivate"]) };
                 _context.Events.Add(row);
             }
             else
             {
-                row.Date = events.Date;
-                row.Description = events.Description;
-                row.Title = events.Title;
+                row.Date = DateTime.Parse(Request.Form["UDate"].ToString());
+                row.Description = Request.Form["UDescription"];
+                row.Title = Request.Form["UTitle"];
                 row.Image = filename;
-                row.IsPrivate = events.IsPrivate;
+                row.IsPrivate = bool.Parse(Request.Form["UIsPrivate"]);
             }
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEvents", new { id = events.Id }, events);
+            return CreatedAtAction("GetEvents", new { id = row.Id }, row);
         }
 
         

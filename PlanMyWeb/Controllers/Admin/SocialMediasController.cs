@@ -121,6 +121,7 @@ namespace PlanMyWeb.Controllers.Admin
                     string filename = Guid.NewGuid().ToString().Substring(4) + socialMediaViewModel.Image.FileName;
                     UploadFile(socialMediaViewModel.Image, filename);
                     row.MediaType = socialMediaViewModel.MediaType;
+                    row.Image = filename;
                 }
                 else
                     row.Image = row.Image;

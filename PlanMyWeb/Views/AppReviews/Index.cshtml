@@ -1,0 +1,433 @@
+﻿@model DAL.VendorItem
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <title>@Model.Title Reviews</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <link rel='stylesheet' id='weddingvendor-style-css' href='~/css/style.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='bootstrap-css' href='~/css/bootstrap.min.css?ver=3.3.5' type='text/css' media='all' />
+    <link rel='stylesheet' id='weddingvendor-custom-style-css' href='~/css/custom-style.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='weddingvendor-menumaker-css' href='~/css/menumaker.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='weddingvendor-animate-css' href='~/css/animate.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='flaticon-css' href='~/css/flaticon.css?ver=1.0.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='fontello-css' href='~/css/fontello.css?ver=1.0.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='weddingvendor-owl-carousel-css' href='~/css/owl.carousel.css?ver=4.8.7' type='text/css' media='all' />
+    <link rel='stylesheet' id='font-awesome-min-css' href='~/css/font-awesome.min.css?ver=4.5.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='jquery-style-css' href='//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css?ver=5.1.7' type='text/css' media='all' />
+
+    <script type='text/javascript' src='~/js/ajax-auth-script.js?ver=4.8.7'></script>
+    <script type='text/javascript' src='~/js/jquery.validate.js?ver=4.8.7'></script>
+    <script type='text/javascript' src='~/js/menumaker.js?ver=4.8.7'></script>
+    <link rel="canonical" href="~/" />
+    <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,400italic,700,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        html body {
+            background-color: #faf9f5;
+            font-family: Istok Web !important;
+            font-weight: 400,400italic,700,700italic;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: Proximanova, Arial, Helvetica, sans-serif;
+        }
+
+        h1 {
+            font-size: 30px;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 400;
+            color: #323634;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 400;
+            color: #323634;
+        }
+
+        p {
+            font-size: 16px;
+            font-family: proximanova, Arial, Helvetica, sans-serif;
+            font-weight: 400;
+            color: #706a68;
+        }
+
+        a {
+            color: #565656;
+            text-decoration: none;
+        }
+
+            a:hover {
+                color: #00aeaf;
+                text-decoration: none;
+            }
+
+        .top-bar {
+            background-color: #dddddd;
+        }
+
+        .tp-nav, .tp-nav .navbar-default {
+            background-color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .top-message p {
+            color: #000000;
+        }
+
+        .top-links li a {
+            color: #000000;
+        }
+
+            .top-links li a:hover {
+                color: #ffffff;
+            }
+
+        .tp-nav .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover, #cssmenu > ul > li > a {
+            background-color: transparent;
+            color: #000000;
+        }
+
+        #cssmenu ul ul li a {
+            background: #faf9f5;
+            color: #3c3634;
+        }
+
+            .tp-nav .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover, #cssmenu ul ul li:hover > a, #cssmenu ul ul li a:hover {
+                color: #00aeaf !important;
+                background-color: #ffffff;
+            }
+
+        .tp-nav .navbar-default .navbar-nav > li > a {
+            color: #000000;
+        }
+
+        .tp-nav .navbar-right .dropdown-menu {
+            background-color: #faf9f5;
+        }
+
+        .tp-nav .dropdown-menu > .active > a, .tp-navigation .dropdown-menu > .active > a:focus, .tp-navigation .dropdown-menu > .active > a:hover {
+            background-color: #faf9f5;
+        }
+
+        #cssmenu ul ul li.has-sub > a:before, #cssmenu ul ul li.has-sub > a:after {
+            background: #3c3634;
+        }
+
+        .top-nav-collapse {
+            background: #ffffff;
+        }
+
+        .tp-btn-default {
+            color: #ffffff;
+            background-color: #04d7d8;
+        }
+
+            .tp-btn-default:hover {
+                color: #ffffff;
+                background-color: #04cccd;
+            }
+
+        .tp-btn-primary {
+            color: #ffffff;
+            background-color: #f9a630;
+        }
+
+            .tp-btn-primary:hover {
+                color: #ffffff;
+                background-color: #ffb751;
+            }
+
+        .footer {
+            background-color: #322e2c;
+        }
+
+            .footer h2 {
+                color: #fff;
+            }
+
+            .footer p {
+                color: #706a68;
+            }
+
+            .footer .ft-link ul li a, .social-icon ul li a {
+                color: #706a68;
+            }
+
+                .footer .ft-link ul li a:hover, .social-icon ul li a:hover {
+                    color: #00aeaf;
+                }
+
+
+        .tiny-footer {
+            background-color: #292624;
+            color: #403d3b;
+        }
+
+            .tiny-footer p {
+                color: #403d3b;
+            }
+
+        .caption h1 {
+            color: #ffffff;
+        }
+
+        .caption p {
+            color: #ffffff;
+        }
+
+        .owl-theme .owl-controls .owl-page span {
+            background: #f9a630;
+        }
+
+        .owl-theme .owl-controls .owl-page.active span, .owl-theme .owl-controls.clickable .owl-page:hover span {
+            background-color: #00aeaf;
+        }
+
+        .tp-footer .ft-links ul li a:hover, .tp-tiny-footer .tp-social-icon ul li a:hover, .tp-tiny-footer .tp-social-icon ul li a:active {
+            color: #f9a630;
+        }
+    </style>
+
+
+
+    <!-- Jetpack Open Graph Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Plan My" />
+    <meta property="og:description" content="Start planing my..." />
+    <meta property="og:url" content="~/" />
+    <meta property="og:site_name" content="Plan My" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:text:title" content="Home" />
+    <meta name="twitter:card" content="summary" />
+
+
+
+
+
+
+</head>
+<body class="home page-template page-template-page-templates page-template-page-slider page-template-page-templatespage-slider-php page page-id-862 logged-in admin-bar no-customize-support">
+    <div class="main-container" style="padding-top:0px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 page-description">
+                    <div id="comments" class="comments-area post-comments single_item">
+                        @if (Model.VendorItemReviews.Count() > 0)
+                        {
+                            <h2 class="comments-title">
+                                @Model.VendorItemReviews.Count() thoughts on “<span>@Model.Title</span>”
+                            </h2>
+                            <ul class="comment-list listnone mb30">
+                                @foreach (var review in Model.VendorItemReviews)
+                                {
+                                    string ratename = "";
+                                    switch (review.rating)
+                                    {
+                                        case (int)DAL.ReviewRating.Terrible:
+                                            ratename = "Terrible";
+                                            break;
+                                        case (int)DAL.ReviewRating.Poor:
+                                            ratename = "Poor";
+                                            break;
+                                        case (int)DAL.ReviewRating.Average:
+                                            ratename = "Average";
+                                            break;
+                                        case (int)DAL.ReviewRating.Very_Good:
+                                            ratename = "Very Good";
+                                            break;
+                                        case (int)DAL.ReviewRating.Exceptional:
+                                            ratename = "Exceptional";
+                                            break;
+                                    }
+                                    <li class="comment even thread-even depth-1" id="comment-59">
+                                        <div id="div-comment-59" class="comment-body review-list">
+                                            <div class="row">
+                                                <!-- row block start-->
+                                                <div class="col-md-2 col-sm-2 hidden-xs">
+
+                                                </div>
+                                                <div class="col-md-10 col-sm-10">
+                                                    <div class="panel panel-default arrow left">
+                                                        <div class="panel-body">
+                                                            <div class="text-left">
+                                                                <h3>@review.author                    </h3>
+                                                                <div class="comment-date">
+                                                                    <i class="fa fa-clock-o"></i> @review.DateIn.ToString("dd,MMM,yyyy")
+                                                                </div> <!-- meta -->
+                                                            </div>
+                                                            <div class="comment-box">
+                                                                <div class="review_rate" data-pixrating="@review.rating" title=""><i data-alt="1" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="2" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="3" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="4" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="5" class="star-on-png" title="gorgeous"></i><input name="pixrating" type="hidden" value="5" readonly=""></div>
+                                                                <p>@ratename</p>
+                                                            </div>
+                                                        </div><!-- media-body -->
+                                                    </div>
+                                                </div>
+                                            </div><!-- row block end-->
+                                        </div>
+                                    </li><!-- #comment-## -->
+                                }
+                                <!-- #comment-## -->
+                            </ul>
+                        }
+                        <div id="respond" class="comment-respond">
+                            <h3 id="reply-title" class="comment-reply-title">User Review <small><a rel="nofollow" id="cancel-comment-reply-link" href="#" style="display:none;">Cancel reply</a></small></h3>
+                            <form action="/api/AddReview" method="post" id="commentform" class="leave-comments" novalidate>
+                                <p class="comment-form-comment"><label for="comment">Your Review</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required" placeholder="Tell about your experience or leave a tip for others" class="form-control" data-gramm="true" data-txt_gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" data-gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" spellcheck="false" data-gramm_editor="true" style="z-index: auto;position: relative;line-height: 20px;font-size: 14px;transition: none 0s ease 0s;border-radius:2px;border:1px solid #e9e6e0;"></textarea></p>
+                                <div class="form-group"><div class="col-md-12"><label for="author" class="control-label">Name</label><input id="author" name="author" type="text" value="" aria-required="true" class="form-control" /></div></div>
+                                <div class="form-group"><div class="col-md-12"><label for="email" class="control-label">Email</label><input class="form-control" id="email" name="email" type="text" value="" aria-required="true" /></div></div>
+                                <div class="form-group"><div class="col-md-12"><label for="subject" class="control-label">Subject</label><input class="form-control" id="subject" name="subject" type="text" value="" aria-required="true" /></div></div>
+
+                                <div>
+                                    <label for="add_post_rating">Your overall rating of this listing:</label>
+                                    <input type="hidden" name="ratinghidden" id="ratinghidden" />
+                                    <input type="hidden" name="VendorItemId" id="VendorItemId" value="@Model.Id" />
+                                </div>
+                                <script language="javascript" type="text/javascript">
+                                    $(function () {
+                                        //$(".StarRating").mouseover(function () {
+                                        //    giveRating($(this), "FilledStar.png");
+                                        //    $(this).css("cursor", "pointer");
+                                        //});
+                                        //$(".StarRating").mouseout(function () {
+                                        //    giveRating($(this), "EmptyStar.png");
+                                        //});
+                                        $(".StarRating").click(function () {
+                                            giveRating($(this), "FilledStar.png");
+                                            //$(".StarRating").unbind("mouseout mouseover click");
+
+                                        });
+                                    });
+
+
+                                    function giveRating(img, image) {
+                                        $(".StarRating").attr("src", "/images/EmptyStar.png");
+                                        img.attr("src", "/images/" + image)
+                                            .prevAll(".StarRating").attr("src", "/images/" + image);
+                                        $("#ratinghidden").val(img.attr("id"));
+                                    }
+
+                                </script>
+                                <p>
+                                    <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="1" style="width:50px;height:50px;" />
+                                    <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="2" style="width:50px;height:50px;" />
+                                    <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="3" style="width:50px;height:50px;" />
+                                    <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="4" style="width:50px;height:50px;" />
+                                    <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="5" style="width:50px;height:50px;" />
+                                </p>
+
+
+
+
+                                <p class="form-submit">
+                                    <input name="submit" type="submit" id="submit" class="btn tp-btn-primary tp-btn-lg" value="Submit Review" /> <input type='hidden' name='comment_post_ID' value='521' id='comment_post_ID' />
+                                    <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+                                </p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="46b205dd2f" /></p><p style="display: none"><input type="hidden" id="ak_js" name="ak_js" value="223" /></p>
+                            </form>
+                        </div><!-- #respond -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script type='text/javascript' src='~/js/owl.carousel.min.js'></script>
+    <script type='text/javascript' src='~/js/jquery.sticky.js'></script>
+    <script type='text/javascript' src='~/js/owl-script.js'></script>
+    <script type='text/javascript' src='~/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='~/js/skip-link-focus-fix.js?ver=20151215'></script>
+    
+    <script type='text/javascript'>
+        jQuery(document).ready(function (jQuery) { jQuery.datepicker.setDefaults({ "closeText": "Close", "currentText": "Today", "monthNames": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "monthNamesShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], "nextText": "Next", "prevText": "Previous", "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "dayNamesShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], "dayNamesMin": ["S", "M", "T", "W", "T", "F", "S"], "dateFormat": "MM d, yy", "firstDay": 1, "isRTL": false }); });
+    </script>
+    <script type='text/javascript' src='~/js/custom-script.js'></script>
+    <script type='text/javascript' src='https://planmy.me/wp-content/plugins/comments-ratings/js/jquery.raty.js?ver=1.1.5'></script>
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var pixreviews = { "hints": ["Terrible", "Poor", "Average", "Very Good", "Exceptional"] };
+        /* ]]> */
+    </script>
+    <script type='text/javascript' src='https://planmy.me/wp-content/plugins/comments-ratings/js/reviews.js?ver=1.1.5'></script>
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var wcfm_enquiry_manage_messages = { "no_name": "Name is required.", "no_email": "Email is required.", "no_enquiry": "Please insert your Inquiry before submit.", "no_reply": "Please insert your reply before submit.", "enquiry_saved": "Your inquiry successfully sent.", "enquiry_published": "Inquiry reply successfully published.", "enquiry_reply_saved": "Your reply successfully sent." };
+        /* ]]> */
+    </script>
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();
+        if ($('.owl-theme').hasClass('main-slider')) {
+            $(document).ready(function () {
+                $('.main-slider').owlCarousel({
+                    rtl: false,
+                    loop: true,
+                    dots: true,
+                    autoplayTimeout: '7000',
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 1
+                        },
+                        1000: {
+                            items: 1
+                        }
+                    },
+                    addClassActive: true,
+                    autoplay: true,
+                    animateIn: 'fadeIn', animateOut: 'fadeOut',
+                });
+            });
+        }
+    </script>
+    <!--[if lte IE 8]>
+        <script type="text/javascript">
+            document.body.className = document.body.className.replace( /(^|\s)(no-)?customize-support(?=\s|$)/, '' ) + ' no-customize-support';
+        </script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script type="text/javascript">
+        (function () {
+            var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?' + cs + '(\\s+|$)');
+
+            request = true;
+
+            b[c] = b[c].replace(rcs, ' ');
+            // The customizer requires postMessage and CORS (if the site is cross domain)
+            b[c] += (window.postMessage && request ? ' ' : ' no-') + cs;
+        }());
+    </script>
+</body>
+</html>
+

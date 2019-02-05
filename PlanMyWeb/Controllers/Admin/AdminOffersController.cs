@@ -156,6 +156,7 @@ namespace PlanMyWeb.Controllers.Admin
                 {
                     string filename = Guid.NewGuid().ToString().Substring(4) + offers.Image.FileName;
                     UploadFile(offers.Image, filename);
+                    row.Image = filename;
                 }
                 else
                     row.Image = row.Image;

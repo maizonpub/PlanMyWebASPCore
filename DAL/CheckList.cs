@@ -10,6 +10,7 @@ namespace DAL
         public string Title { get; set; }
         public DateTime Timing { get; set; }
         public VendorCategory VendorCategory { get; set; }
+        public int? VendorCategoryId { get; set; }
         public string Description { get; set; }
         public Users User { get; set; }
         public string UserId { get; set; }

@@ -116,9 +116,14 @@ namespace PlanMyWeb.Controllers.Admin
                     string filename = Guid.NewGuid().ToString().Substring(4) + offersGalleryViewModel.Image.FileName;
                     UploadFile(offersGalleryViewModel.Image, filename);
                     row.MediaType = offersGalleryViewModel.MediaType;
+                    row.Image = filename;
+                    row.Media = filename;
                 }
                 else
+                {
                     row.Media = row.Media;
+                    row.Image = row.Image;
+                }
                 row.MediaType = offersGalleryViewModel.MediaType;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

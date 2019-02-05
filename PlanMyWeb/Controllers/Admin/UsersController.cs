@@ -130,8 +130,8 @@ namespace PlanMyWeb.Controllers.Admin
                     row.Image = filename;
                 }
                 else
-                    row.Id = row.Id;
                     row.Image = row.Image;
+                    
                 row.FirstName = users.FirstName;
                 row.LastName = users.LastName;
                 row.UserName = users.Username;

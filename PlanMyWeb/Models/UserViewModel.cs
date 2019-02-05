@@ -50,5 +50,6 @@ namespace PlanMyWeb.Models
         public UserType UserType { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public string Image { get; set; }
+        public Events Events { get; set; }
     }
 }

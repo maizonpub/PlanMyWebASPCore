@@ -131,6 +131,7 @@ namespace PlanMyWeb.Controllers.Admin
                     string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
                     UploadFile(vendorItemGalleryViewModel.Image, filename);
                     row.MediaType = vendorItemGalleryViewModel.MediaType;
+                    row.Image = filename;
                 }
                 else
                     row.Image = row.Image;

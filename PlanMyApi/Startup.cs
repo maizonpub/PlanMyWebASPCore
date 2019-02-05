@@ -34,7 +34,6 @@ namespace PlanMyApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseMvc();
         }
     }

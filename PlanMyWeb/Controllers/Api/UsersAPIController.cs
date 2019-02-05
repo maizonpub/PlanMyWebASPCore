@@ -7,45 +7,109 @@ using Microsoft.AspNetCore.Mvc;
 using DAL;
 using Microsoft.AspNetCore.Identity;
 using PlanMyWeb.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Text.Encodings.Web;
 
 namespace PlanMyWeb.Controllers.Api
 {
+    [Route("api")]
     [ApiController]
-    public class UsersAPIController : ControllerBase
+    public class UsersController : ControllerBase
     {
         DbWebContext _context;
         private readonly SignInManager<Users> _signInManager;
         private readonly UserManager<Users> _userManager;
-        public UsersAPIController(DbWebContext context, SignInManager<Users> signInManager, UserManager<Users> userManager)
+        private readonly IEmailSender _emailSender;
+        public UsersController(DbWebContext context, SignInManager<Users> signInManager, UserManager<Users> userManager, IEmailSender emailSender)
         {
             _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
-        [HttpGet]
-        [Route("api/Login")]
-        public async Task<Users> Login(string Username, string Password, bool RememberMe)
+        [HttpGet("Login")]
+        public async Task<IActionResult> Login(string Username, string Password, bool RememberMe)
         {
             var result = await _signInManager.PasswordSignInAsync(Username, Password, RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                var user = await _signInManager.UserManager.GetUserAsync(User);
-                return user;
+                var user = _context.Users.Where(x => x.UserName == Username).FirstOrDefault();
+                if (user != null)
+                {
+                    string Address = !string.IsNullOrEmpty(user.Address) ? user.Address : "";
+                    string Age = !string.IsNullOrEmpty(user.Age) ? user.Age : "";
+                    string City = !string.IsNullOrEmpty(user.City) ? user.City : "";
+                    string Country = !string.IsNullOrEmpty(user.Country) ? user.Country : "";
+                    DateTime CreationDate = user.CreationDate;
+                    Gender VGender = user.Gender;
+                    string Id = user.Id;
+                    string Image = user.Image;
+                    string PhoneNumber = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "";
+                    UserType UserType = user.UserType;
+                    var events = _context.Events.Where(x => x.UserId == user.Id).FirstOrDefault();
+                    if(events!=null)
+                        if(!string.IsNullOrEmpty(events.Image))
+                            events.Image = "http://" + Request.Host + "/Media/" + events.Image;
+                    ApiUsersViewModel api = new ApiUsersViewModel { Address = Address, Age = Age, City = City, Country = Country, CreationDate = CreationDate, Email = user.Email, FirstName = user.FirstName, Gender = VGender, Id = Id, Image = Image, LastName = user.LastName, PhoneNumber = PhoneNumber, UserName = Username, UserType = user.UserType, Events = events };
+                    return Ok(api);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             else
             {
-                return null;
+                return Ok(result);
             }
         }
-        [HttpGet]
-        [Route("api/Register")]
-        public async Task<IActionResult> Register(string Username, string Email, string Password, string Token, string FirstName, string LastName)
+        [HttpGet("Register")]
+        public async Task<IActionResult> Register(string Username, string Email, string Password, string Token, string FirstName, string LastName, string FBToken)
         {
-            var user = new Users { UserName = Username, Email = Email, CreationDate = DateTime.Now, FirstName = FirstName, LastName = LastName };
-            var result = await _userManager.CreateAsync(user, Password);
-            if (result.Succeeded)
+            Users user = null;
+            if(!string.IsNullOrEmpty(FBToken))
             {
-                user = await _userManager.GetUserAsync(User);
+                user = _context.Users.Where(x => x.FBToken == FBToken).FirstOrDefault();
+            }
+            if (user == null)
+            {
+                user = new Users { UserName = Username, Email = Email, CreationDate = DateTime.Now, FirstName = FirstName, LastName = LastName, UserType = UserType.Planner, FBToken = FBToken };
+                var result = await _userManager.CreateAsync(user, Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Planner");
+
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    var token = _context.UserPushToken.Where(x => x.Token == Token).FirstOrDefault();
+                    if (token != null)
+                    {
+                        token.User = user;
+                    }
+                    _context.SaveChanges();
+                    string Address = !string.IsNullOrEmpty(user.Address) ? user.Address : "";
+                    string Age = !string.IsNullOrEmpty(user.Age) ? user.Age : "";
+                    string City = !string.IsNullOrEmpty(user.City) ? user.City : "";
+                    string Country = !string.IsNullOrEmpty(user.Country) ? user.Country : "";
+                    DateTime CreationDate = user.CreationDate;
+                    Gender VGender = user.Gender;
+                    string Id = user.Id;
+                    string Image = user.Image;
+                    string PhoneNumber = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "";
+                    UserType UserType = user.UserType;
+                    var events = _context.Events.Where(x => x.UserId == user.Id).FirstOrDefault();
+                    events.Image = "http://" + Request.Host + "/Media/" + events.Image;
+                    ApiUsersViewModel api = new ApiUsersViewModel { Address = Address, Age = Age, City = City, Country = Country, CreationDate = CreationDate, Email = Email, FirstName = FirstName, Gender = VGender, Id = Id, Image = Image, LastName = LastName, PhoneNumber = PhoneNumber, UserName = Username, UserType = user.UserType, Events = events };
+                    return Ok(api);
+                }
+                else
+                {
+                    return Ok(result);
+                }
+            }
+            else
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
                 var token = _context.UserPushToken.Where(x => x.Token == Token).FirstOrDefault();
                 if (token != null)
                 {
@@ -62,16 +126,13 @@ namespace PlanMyWeb.Controllers.Api
                 string Image = user.Image;
                 string PhoneNumber = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "";
                 UserType UserType = user.UserType;
-                ApiUsersViewModel api = new ApiUsersViewModel { Address = Address, Age = Age, City = City, Country = Country, CreationDate = CreationDate, Email = Email, FirstName = FirstName, Gender = VGender, Id = Id, Image = Image, LastName = LastName, PhoneNumber = PhoneNumber, UserName = Username, UserType = user.UserType };
+                var events = _context.Events.Where(x => x.UserId == user.Id).FirstOrDefault();
+                events.Image = "http://" + Request.Host + "/Media/" + events.Image;
+                ApiUsersViewModel api = new ApiUsersViewModel { Address = Address, Age = Age, City = City, Country = Country, CreationDate = CreationDate, Email = Email, FirstName = FirstName, Gender = VGender, Id = Id, Image = Image, LastName = LastName, PhoneNumber = PhoneNumber, UserName = Username, UserType = user.UserType, Events = events };
                 return Ok(api);
             }
-            else
-            {
-                return Ok(result);
-            }
         }
-        [HttpGet]
-        [Route("api/UserStats")]
+        [HttpGet("UserStats")]
         public async Task<UserStats> UserStats(string UserId)
         {
 
@@ -81,8 +142,7 @@ namespace PlanMyWeb.Controllers.Api
             UserStats stats = new UserStats { guestsCount = guests, todosCount = checklists, wishesCount = wishes };
             return stats;
         }
-        [HttpGet]
-        [Route("api/AddPushToken")]
+        [HttpGet("AddPushToken")]
         public bool AddPushToken(string UserId, string OldToken, string NewToken, PushDevice PushDevice)
         {
             var old = _context.UserPushToken.Where(x => x.Token == OldToken).FirstOrDefault();
@@ -93,8 +153,7 @@ namespace PlanMyWeb.Controllers.Api
             _context.SaveChanges();
             return true;
         }
-        [HttpGet]
-        [Route("api/UpdatePushToken")]
+        [HttpGet("UpdatePushToken")]
         public bool UpdatePushToken(string UserId, string Token)
         {
             var token = _context.UserPushToken.Where(x => x.Token == Token).FirstOrDefault();

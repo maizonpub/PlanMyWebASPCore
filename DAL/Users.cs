@@ -21,6 +21,7 @@ namespace DAL
         public List<UserPaymentToken> UserPaymentTokens { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;
         public string Image { get; set; }
+        public string FBToken { get; set; }
     }
         public enum Gender
     {
