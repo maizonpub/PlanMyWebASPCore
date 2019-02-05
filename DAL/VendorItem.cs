@@ -29,7 +29,6 @@ namespace DAL
         public MediaType MediaType { get; set; }
         public List<VendorItemReview> VendorItemReviews { get; set; }
         public List<WishList> WishLists { get; set; }
-        public string UserId { get; set; }
     }
     
 }
