@@ -124,7 +124,6 @@ namespace PlanMyWeb.Controllers.Admin
                     row.Image = filename;
                 }
                 else
-
                     row.Image = row.Image;
                 row.Title = vendorCategoryViewModel.Title;
                 await _context.SaveChangesAsync();
