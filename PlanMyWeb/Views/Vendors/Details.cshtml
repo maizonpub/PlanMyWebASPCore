@@ -6,7 +6,7 @@
 }
 <style>
     html body {
-        background-color: #faf9f5;
+        background-color: #ffffff;
         font-family: Istok Web !important;
         font-weight: 400,400italic,700,700italic;
     }
@@ -26,6 +26,12 @@
         margin-top: 10px !important;
         margin-bottom: 10px !important;
         padding-left: 0px !important;
+    }
+
+    a {
+        color: #5f5f9e;
+        text-decoration: none;
+        font-weight: 600;
     }
 </style>
 
@@ -48,20 +54,9 @@
 
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 title">
-            
-            <h1 class="item_title">@Model.VendorItem.Title</h1>
-            <p class="location">
-                <i class="fa fa-map-marker"></i> @Model.VendorItem.Address     <br /><i class="fa fa-phone"></i> @Model.VendorItem.PhoneNumber       <br /><i class="fa fa-envelope"></i> @Model.VendorItem.User.Email     <br />
-            </p>
-        </div>
 
-        
-    </div>
-</div>
-
+<br/>
+<br/>
 
 <div class="main-container" style="padding-top:0px">
     <div class="container">
@@ -101,6 +96,19 @@
                     </a>
                 </div>
                 <div class="col-md-12 venue-action"> <a href="#map-canvas" class="btn tp-btn-primary">VIEW MAP</a> <a href="#inquiry" class="btn tp-btn-default">Book Now</a> </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 title">
+
+                            <h1 class="item_title">@Model.VendorItem.Title</h1>
+                            <p class="location">
+                                <i class="fa fa-map-marker"></i> @Model.VendorItem.Address     <br /><i class="fa fa-phone"></i> @Model.VendorItem.PhoneNumber       <br /><i class="fa fa-envelope"></i> @Model.VendorItem.User.Email     <br />
+                            </p>
+                        </div>
+
+
+                    </div>
+                </div>
                 <div class="venue-details">
                     <h2 style="color:black">About</h2>
                     <p>@Html.Raw(Model.VendorItem.HtmlDescription)</p>
@@ -173,17 +181,26 @@
                     }
                     <div id="respond" class="comment-respond">
                         <h3 id="reply-title" class="comment-reply-title">User Review <small><a rel="nofollow" id="cancel-comment-reply-link" href="#" style="display:none;">Cancel reply</a></small></h3>
+                        
                         <form action="/api/AddReview" method="post" id="commentform" class="leave-comments" novalidate>
-                            <p class="comment-form-comment"><label for="comment">Your Review</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required" placeholder="Tell about your experience or leave a tip for others" class="form-control" data-gramm="true" data-txt_gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" data-gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" spellcheck="false" data-gramm_editor="true" style="z-index: auto;position: relative;line-height: 20px;font-size: 14px;transition: none 0s ease 0s;border-radius:2px;border:1px solid #e9e6e0;"></textarea></p>
-                            <div class="form-group"><div class="col-md-12"><label for="author" class="control-label">Name</label><input id="author" name="author" type="text" value="" aria-required="true" class="form-control" /></div></div>
-                            <div class="form-group"><div class="col-md-12"><label for="email" class="control-label">Email</label><input class="form-control" id="email" name="email" type="text" value="" aria-required="true" /></div></div>
-                            <div class="form-group"><div class="col-md-12"><label for="subject" class="control-label">Subject</label><input class="form-control" id="subject" name="subject" type="text" value="" aria-required="true" /></div></div>
-
                             <div>
                                 <label for="add_post_rating">Your overall rating of this listing:</label>
                                 <input type="hidden" name="ratinghidden" id="ratinghidden" />
                                 <input type="hidden" name="VendorItemId" id="VendorItemId" value="@Model.VendorItem.Id" />
                             </div>
+                            <p>
+                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="1" style="width:50px;height:50px;" />
+                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="2" style="width:50px;height:50px;" />
+                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="3" style="width:50px;height:50px;" />
+                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="4" style="width:50px;height:50px;" />
+                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="5" style="width:50px;height:50px;" />
+                            </p>
+                            <p class="comment-form-comment"><label for="comment">Your Review</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required" placeholder="Tell about your experience or leave a tip for others" class="form-control" data-gramm="true" data-txt_gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" data-gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" spellcheck="false" data-gramm_editor="true" style="z-index: auto;position: relative;line-height: 20px;font-size: 14px;transition: none 0s ease 0s;border-radius:2px;border:1px solid #e9e6e0;"></textarea></p>
+                            <div class="form-group"><div class="col-md-12"><label for="author" class="control-label">Name</label><input id="author" name="author" type="text" value="" aria-required="true" class="form-control" /></div></div>
+                            <div class="form-group"><div class="col-md-12"><label for="email" class="control-label">Email</label><input class="form-control" id="email" name="email" type="text" value="" aria-required="true" /></div></div>
+                            <div class="form-group"><div class="col-md-12"><label for="subject" class="control-label">Subject</label><input class="form-control" id="subject" name="subject" type="text" value="" aria-required="true" /></div></div>
+
+
                             <script language="javascript" type="text/javascript">
                                 $(function () {
                                     //$(".StarRating").mouseover(function () {
@@ -209,13 +226,7 @@
                                 }
 
                             </script>
-                            <p>
-                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="1" style="width:50px;height:50px;" />
-                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="2" style="width:50px;height:50px;" />
-                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="3" style="width:50px;height:50px;" />
-                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="4" style="width:50px;height:50px;" />
-                                <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="5" style="width:50px;height:50px;" />
-                            </p>
+
 
 
 

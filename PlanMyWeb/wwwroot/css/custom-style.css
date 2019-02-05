@@ -823,7 +823,11 @@ p.wp-caption-text { margin-bottom: 0; color: #353535; font-size: 11px;}
 /*------ Pagination---------*/
 .tp-pagination{text-align: center;}
 .tp-pagination .pagination{}
-.tp-pagination .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{background-color: #f9a630; border-color: #f9a630; color: #fff; }
+    .tp-pagination .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+        background-color: #00aeaf;
+        border-color: #00aeaf;
+        color: #fff;
+    }
 .tp-pagination .pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover{background-color: #e9e6e0; border-color: #; color: #fff;}
 .tp-pagination .pagination>li>a, .pagination>li>span { position: relative; float: left; padding: 6px 12px; margin-left: -1px; line-height: 1.42857143; color: #706a68; text-decoration: none; border: 1px solid #e9e6e0; margin-right: 5px; text-transform: uppercase; font-size: 12px; font-weight: 700;}
 .tp-pagination .pagination>li:first-child>a, .pagination>li:first-child>span{ margin-left: 0; border-top-left-radius: 0px; border-bottom-left-radius: 0px; }
@@ -854,8 +858,8 @@ position: relative; float: left; padding: 6px 12px; margin-left: -1px; line-heig
 .tp-page-head .page-header{ border: none; padding: 40px 0px;}
 .tp-page-head .page-header h1{color: #fff;}
 /*----- Breadcrumb --------*/
-.tp-breadcrumb {border-bottom: 1px solid #e9e6e0;}
-.tp-breadcrumb .breadcrumb{ background: transparent; font-size: 11px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 0px; padding: 5px 0px; font-weight: 500;margin-left:0;}
+.tp-breadcrumb {border-bottom: 1px solid #e9e6e0; border-top:1px solid #e9e6e0; padding: 10px;}
+.tp-breadcrumb .breadcrumb{ background: transparent; font-size: 11px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; margin-bottom: 0px; padding: 5px 0px; font-weight: 600;margin-left:14px;color:darkgrey;}
 .tp-breadcrumb .breadcrumb>.active { color: #9e9795;}
 /*-------- Filter Box ---------*/
 .filter-box{z-index: 99;}
