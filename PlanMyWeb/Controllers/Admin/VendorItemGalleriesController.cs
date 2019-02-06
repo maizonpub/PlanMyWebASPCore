@@ -130,7 +130,7 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
             ViewBag.ItemId = vendorItemGallery.Item.Id.ToString();
-            return View(vendorItemGallery);
+            return View(model);
         }
 
         // POST: VendorItemGalleries/Edit/5

@@ -33,11 +33,11 @@
 
                             <div class="entry-content">
                                 <p>
-                                    @if (row.HtmlDescription.Length > 200)
+                                    @if (row.HtmlDescription!=null && row.HtmlDescription.Length > 200)
                                     {
                                         @row.HtmlDescription.Substring(0, 200)<text>[&hellip;]</text>
                                     }
-                                    else
+                                    else if(row.HtmlDescription!=null)
                                     {
                                         @row.HtmlDescription
                                     }

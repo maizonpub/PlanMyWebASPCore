@@ -63,6 +63,28 @@ namespace PlanMyWeb.Controllers.Api
                 return Ok(result);
             }
         }
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromForm] string Username)
+        {
+            var user = _context.Users.Where(x => x.UserName == Username || x.Email == Username).FirstOrDefault();
+            if (user != null)
+            {
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Page(
+                    "/Account/ResetPassword",
+                    pageHandler: null,
+                    values: new { code },
+                    protocol: Request.Scheme);
+                await _emailSender.SendEmailAsync(
+                    user.Email,
+                    "Reset Password",
+                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                return Ok("We sent you a message on your email to reset your password. ");
+            }
+            else
+                return Ok("Sorry, this Username was not found in our database");
+
+        }
         [HttpGet("Register")]
         public async Task<IActionResult> Register(string Username, string Email, string Password, string Token, string FirstName, string LastName, string FBToken)
         {
