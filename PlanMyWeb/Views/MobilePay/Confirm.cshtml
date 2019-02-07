@@ -1,0 +1,68 @@
+﻿@model DAL.PaymentSetting;
+@{
+    ViewData["Title"] = "Confirm";
+    Layout = "~/Views/Shared/Mobile.cshtml";
+}
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+<link rel='stylesheet' id='select2-css' href='/assets/css/select2.css?ver=3.5.1' type='text/css' media='all' />
+<link rel='stylesheet' id='woocommerce-layout-css' href='/assets/css/woocommerce-layout.css?ver=3.5.1' type='text/css' media='all' />
+<style id='woocommerce-layout-inline-css' type='text/css'>
+
+    .infinite-scroll .woocommerce-pagination {
+        display: none;
+    }
+</style>
+<link rel='stylesheet' id='woocommerce-smallscreen-css' href='/assets/css/woocommerce-smallscreen.css?ver=3.5.1' type='text/css' media='only screen and (max-width: 768px)' />
+<link rel='stylesheet' id='woocommerce-general-css' href='/assets/css/woocommerce.css?ver=3.5.1' type='text/css' media='all' />
+<style id='woocommerce-inline-inline-css' type='text/css'>
+    .woocommerce form .form-row .required {
+        visibility: visible;
+    }
+</style>
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="/" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Checkout</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div style="padding-top:100px;padding-bottom:100px;margin:auto;width:252px">
+                <img src="~/images/AjaxLoader.gif" />&nbsp;&nbsp;Processing, please wait...
+            </div>
+
+        </div>
+    </div>
+</div>
+<form action="https://secureacceptance.cybersource.com/pay" method="post" id="paymentForm">
+    @{
+        IDictionary<string, string>
+            parameters = new Dictionary<string, string>
+                ();
+        foreach (var key in Context.Request.Form.Keys)
+        {
+            <input type="hidden" id="@key" name="@key" value="@Context.Request.Form[key]" />
+            parameters.Add(key, Context.Request.Form[key]);
+        }
+        <input type="hidden" id="signature" name="signature" value="@DAL.Security.sign(parameters,Model.SecuritySign)" />;
+    }
+</form>
+<script>
+        document.getElementById("paymentForm").submit();
+</script>
+
