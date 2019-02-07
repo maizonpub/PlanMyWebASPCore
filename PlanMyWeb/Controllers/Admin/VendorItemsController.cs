@@ -77,7 +77,7 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorItems/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb,Categories")] VendorItemViewModel vendorItemViewModel)
+        public async Task<IActionResult> Create([Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb,Categories,Website,Facebook,Instagram")] VendorItemViewModel vendorItemViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace PlanMyWeb.Controllers.Admin
                     userId = _userManager.GetUserId(User);
                 }
                 var user = _context.Users.Find(userId);
-                VendorItem row = new VendorItem { Thumb = filename, MediaType = vendorItemViewModel.MediaType, Address = vendorItemViewModel.Address, Country = vendorItemViewModel.Country, Email = vendorItemViewModel.Email, HtmlDescription = vendorItemViewModel.HtmlDescription, IsFeatured = vendorItemViewModel.IsFeatured, Latitude = vendorItemViewModel.Latitude, Longitude = vendorItemViewModel.Longitude, Location = vendorItemViewModel.Location, PhoneNumber = vendorItemViewModel.PhoneNumber, Title = vendorItemViewModel.Title, User = user };
+                VendorItem row = new VendorItem { Thumb = filename, MediaType = vendorItemViewModel.MediaType, Address = vendorItemViewModel.Address, Country = vendorItemViewModel.Country, Email = vendorItemViewModel.Email, HtmlDescription = vendorItemViewModel.HtmlDescription, IsFeatured = vendorItemViewModel.IsFeatured, Latitude = vendorItemViewModel.Latitude, Longitude = vendorItemViewModel.Longitude, Location = vendorItemViewModel.Location, PhoneNumber = vendorItemViewModel.PhoneNumber, Title = vendorItemViewModel.Title, User = user, Website = vendorItemViewModel.Website, Facebook = vendorItemViewModel.Facebook, Instagram = vendorItemViewModel.Instagram };
                 string[] catIds = Request.Form["Categories"].ToString().Split(',');
                 
                     var dbcats = _context.VendorCategories.Where(x => catIds.Contains(x.Id.ToString())).ToList();
@@ -152,7 +152,7 @@ namespace PlanMyWeb.Controllers.Admin
             var vendoritemtypevalues = _context.VendorItemTypeValues.Where(x => x.VendorItem == vendorItem).Include(x => x.VendorTypeValue).ToList();
             //ViewBag.Categories = selectfield;
             
-            VendorItemViewModel model = new VendorItemViewModel { Id = vendorItem.Id, MediaType = vendorItem.MediaType, Address = vendorItem.Address, Country = vendorItem.Country, Email = vendorItem.Email, ItemCategories = vendorItem.Categories, Gallery = vendorItem.Gallery, HtmlDescription = vendorItem.HtmlDescription, IsFeatured = vendorItem.IsFeatured, Latitude = vendorItem.Latitude, Longitude = vendorItem.Longitude, Location = vendorItem.Location, PhoneNumber = vendorItem.PhoneNumber, Title = vendorItem.Title, User = userselect, Categories = catslist, Taxonomies = taxonomies, values = vendoritemtypevalues };
+            VendorItemViewModel model = new VendorItemViewModel { Id = vendorItem.Id, MediaType = vendorItem.MediaType, Address = vendorItem.Address, Country = vendorItem.Country, Email = vendorItem.Email, ItemCategories = vendorItem.Categories, Gallery = vendorItem.Gallery, HtmlDescription = vendorItem.HtmlDescription, IsFeatured = vendorItem.IsFeatured, Latitude = vendorItem.Latitude, Longitude = vendorItem.Longitude, Location = vendorItem.Location, PhoneNumber = vendorItem.PhoneNumber, Title = vendorItem.Title, User = userselect, Categories = catslist, Taxonomies = taxonomies, values = vendoritemtypevalues, Website = vendorItem.Website, Facebook = vendorItem.Facebook, Instagram = vendorItem.Instagram};
             if (vendorItem == null)
             {
                 
@@ -167,7 +167,7 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorItems/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb,Categories")] VendorItemViewModel vendorItemViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Latitude,Longitude,Location,PhoneNumber,HtmlDescription,Address,Email,IsFeatured,Thumb,Categories,Facebook, Instagram,Website")] VendorItemViewModel vendorItemViewModel)
         {
             if (ModelState.IsValid)
             {

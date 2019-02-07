@@ -3,8 +3,13 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
+    var parms = new Dictionary<string, string>
+    {
+        { "itemId", ViewBag.ItemId }
+    };
 }
 
+<h2>Details</h2>
 
 <div>
     <h4>VendorItemReview</h4>
@@ -47,6 +52,12 @@
             @Html.DisplayFor(model => model.DateIn)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.VendorItem)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VendorItem.Id)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd>
@@ -55,6 +66,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id" asp-all-route-data="parms">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

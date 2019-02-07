@@ -20,6 +20,9 @@ namespace DAL
         public string HtmlDescription { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
+        public string Website { get; set; }
+        public string Facebook { get; set; }
+        public string Instagram { get; set; }
         public bool IsFeatured { get; set; }
         public string Thumb { get; set; }
         public Country Country { get; set; }

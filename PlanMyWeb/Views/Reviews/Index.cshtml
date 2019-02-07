@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<DAL.VendorItemReview>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Vendors";
+    ViewData["Description"] = "Reviews";
+    ViewBag.Active = "Reviews";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
-
-<h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
