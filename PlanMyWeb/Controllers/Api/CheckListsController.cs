@@ -78,7 +78,7 @@ namespace PlanMyWeb.Controllers.Api
                 }
             }
 
-            return NoContent();
+            return Ok(checkList);
         }
 
         // POST: api/CheckLists

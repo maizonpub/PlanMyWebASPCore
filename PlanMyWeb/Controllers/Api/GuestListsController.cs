@@ -27,7 +27,7 @@ namespace PlanMyWeb.Controllers.Api
             var results = _context.GuestLists.AsQueryable();
             if (!string.IsNullOrEmpty(UserId))
             {
-                results =  results.Where(x => x.User.Id == UserId && x.GuestStatus == GuestStatus.Accepted);
+                results =  results.Where(x => x.User.Id == UserId);
                 if (tableId != null)
                     results = results.Where(x => x.GuestListTablesId == tableId);
             }
