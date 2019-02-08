@@ -32,6 +32,11 @@ namespace PlanMyWeb.Controllers.Api
         {
             return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x=> x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0).ToPagedList(page, PageSize);
         }
+        [HttpGet("Random/{CategoryId}")]
+        public IEnumerable<VendorItem> GetRandomVendorItems([FromRoute] int CategoryId)
+        {
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0).OrderBy(x=>Guid.NewGuid()).Take(10);
+        }
         [HttpGet("Featured/{CategoryId}")]
         public IEnumerable<VendorItem> GetFeaturedVendorItems([FromRoute] int CategoryId)
         {
