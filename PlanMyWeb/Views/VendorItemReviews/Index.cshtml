@@ -1,0 +1,85 @@
+﻿@model IEnumerable<DAL.VendorItemReview>
+
+    @{
+    ViewData["Title"] = "Vendors";
+    ViewData["Description"] = "Vendor Item Reviews";
+    ViewBag.Active = "Items";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    
+    }
+
+    <h2>Index</h2>
+
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.comment)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.author)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.subject)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.rating)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DateIn)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VendorItem)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.comment)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.author)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.subject)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.rating)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateIn)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VendorItem.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
