@@ -1,0 +1,52 @@
+﻿@model DAL.VendorBranches
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    var parms = new Dictionary<string, string>
+    {
+        { "itemId", ViewBag.ItemId }
+    };
+}
+
+
+<div>
+    <h4>VendorBranches</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Latitude)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Longitude)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" asp-all-route-data="parms">Edit</a> |
+    <a asp-action="Index" asp-all-route-data="parms">Back to List</a>
+</div>

@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DbWebContext))]
-    partial class DbWebContextModelSnapshot : ModelSnapshot
+    [Migration("20190208160309_m")]
+    partial class m
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -590,9 +592,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<string>("UserId");
-
-                    b.Property<int>("VendorItemId");
+                    b.Property<int?>("VendorItemId");
 
                     b.HasKey("Id");
 
@@ -1188,8 +1188,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.VendorItem", "VendorItem")
                         .WithMany("VendorBranches")
-                        .HasForeignKey("VendorItemId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("VendorItemId");
                 });
 
             modelBuilder.Entity("DAL.VendorItem", b =>

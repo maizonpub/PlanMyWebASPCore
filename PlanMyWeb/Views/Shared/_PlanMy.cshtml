@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@inject DAL.DbWebContext context
+@{ 
+    var pages = context.Pages;
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -314,32 +318,40 @@
         <!-- Footer -->
         <div class="container">
             <div class="row">
-                <div class="col-md-5 ft-aboutus">
-                    <div id="text-6" class="widget widget_text">
-                        <h2>Plan my</h2>			<div class="textwidget">
-                            <p style="font-size:16px;">
-                                From the smallest last minute forgotten detail, to creating your whole event, Plan my is your go to App
-                            </p>
-                            <p><a class="btn tp-btn-default tp-btn-lg" href="#">Start browsing!</a></p>
-                        </div>
-                    </div>
-                </div>
+                @*<div class="col-md-5 ft-aboutus">
+        <div id="text-6" class="widget widget_text">
+            <h2>Plan my</h2>			<div class="textwidget">
+                <p style="font-size:16px;">
+                    We provide the largest network of local event vendors. We simplify the pricing, booking, availability and help you get answers you need from venues and vendors in every town.
+                    </p>
+            <p style="font-size:16px;">
+                We also provide free, easy-to-use event planning tools like customizable checklists to keep your tasks in order, a budget calculator and a guest list monitor.
+            </p>
+            <p style="font-size:16px;">
+                Stay on top of all the details while on-the-go with Planmy app, which features a customized profile and a countdown to your big day.
+            </p>
+                <p><a class="btn tp-btn-default tp-btn-lg" href="#">Start browsing!</a></p>
+            </div>
+        </div>
+            </div>*@
                 <div class="col-md-3 ft-link">
                     <div id="text-7" class="widget widget_text">
-                        <h2>Useful links</h2>			<div class="textwidget">
+                        <h2>Useful links</h2>
+                        <div class="textwidget">
                             <ul class="listnone">
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Inspirations</a></li>
-                                <li><a href="#">Career</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms of Use</a></li>
+                                @foreach (var row in pages)
+                                {
+                                    <li><a href="/pages/@row.Title">@row.Title</a></li>
+                                }
+
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 newsletter">
                     <div id="text-8" class="widget widget_text">
-                        <h2>Be Social &#038; Stay Connected</h2>			<div class="textwidget">
+                        <h2>Be Social &#038; Stay Connected</h2>
+                        <div class="textwidget">
                             <div class="social-icon">
                                 <ul class="listnone">
                                     <li><a href="https://www.facebook.com/planmy.me/" target="_blank"><i class="fa fa-facebook-square"></i></a></li>

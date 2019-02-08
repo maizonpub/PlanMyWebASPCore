@@ -8,6 +8,6 @@ namespace DAL
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string HtmlText { get; set; }
+        public string HtmlDescription { get; set; }
     }
 }

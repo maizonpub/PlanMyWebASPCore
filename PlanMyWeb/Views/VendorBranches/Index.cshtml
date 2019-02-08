@@ -1,16 +1,17 @@
-﻿@model IEnumerable<DAL.VendorItem>
+﻿@model IEnumerable<DAL.VendorBranches>
 
 @{
-    ViewData["Title"] = "Vendors";
-    ViewData["Description"] = "Vendor Items";
-    ViewBag.Active = "Items";
+    ViewData["Title"] = "Index";    
     Layout = "~/Views/Shared/AdminLayout.cshtml";
+    var parms = new Dictionary<string, string>
+    {
+        { "itemId", ViewBag.ItemId }
+    };
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" asp-all-route-data="parms" class="btn btn-primary">Create New</a>
 </p>
-
 <div class="col-xs-12">
     <div class="box">
         <div class="box-body">
@@ -21,13 +22,16 @@
                             @Html.DisplayNameFor(model => model.Title)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Email)
+                            @Html.DisplayNameFor(model => model.Address)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.IsFeatured)
+                            @Html.DisplayNameFor(model => model.PhoneNumber)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Thumb)
+                            @Html.DisplayNameFor(model => model.Latitude)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Longitude)
                         </th>
                         <th></th>
                     </tr>
@@ -39,31 +43,27 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Title)
                             </td>
-                            
                             <td>
-                                @Html.DisplayFor(modelItem => item.Email)
+                                @Html.DisplayFor(modelItem => item.Address)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.IsFeatured)
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
                             </td>
                             <td>
-                                <img src="~/Media/@item.Thumb" style="height:100px;" />
+                                @Html.DisplayFor(modelItem => item.Latitude)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Longitude)
                             </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                                <a href="/Admin/VendorItemGalleries?itemId=@item.Id">Gallery</a> |
-                                <a href="/Admin/VendorItemReviews?itemId=@item.Id">Reviews</a>  |
-                                <a href="/Admin/VendorBranches?itemId=@item.Id">Branches</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
-        </div>
-    </div>
+            </div>
 </div>
-
-
-
+</div>

@@ -15,5 +15,6 @@ namespace DAL
         public string ContactPhone { get; set; }
         public string AdminEmail { get; set; }
         public string AdminEmailPassword { get; set; }
+        public string CareerDescription { get; set; }
     }
 }

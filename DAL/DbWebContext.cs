@@ -68,7 +68,11 @@ namespace DAL
         public DbSet<DAL.PaymentSetting> PaymentSettings { get; set; }
         public DbSet<DAL.UserPaymentToken> UserPaymentTokens { get; set; }
         public DbSet<DAL.VendorItemReview> VendorItemReviews { get; set; }
+        public DbSet<DAL.Career> Careers { get; set; }
+        public DbSet<DAL.CareerApplies> CareerApplies { get; set; }
         public DbSet<DAL.UserPushToken> UserPushToken { get; set; }
         public DbSet<DAL.ChatChannel> ChatChannels { get; set; }
+        public DbSet<DAL.VendorBranches> VendorBranches { get; set; }
+
     }
 }

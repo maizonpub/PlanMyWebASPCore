@@ -43,7 +43,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
 
         public IPagedList<VendorItem> GetVenues(int[] TypeId, int page)
         {
-            var items = _context.VendorItems.Include(x=>x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Title.ToLower().Contains("venu")).Count() > 0).ToPagedList(page,PageSize);
+            var items = _context.VendorItems.Include(x=>x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Title.ToLower().Contains("venu")).Count() > 0).OrderBy(x => x.Title).ToPagedList(page,PageSize);
             if(TypeId.Length>0)
             {
                 items = items.Where(x => x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0).ToPagedList(page, PageSize);
