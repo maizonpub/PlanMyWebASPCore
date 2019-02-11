@@ -189,7 +189,6 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 else
                     row.Thumb = row.Thumb;
-                row.MediaType = vendorItemViewModel.MediaType;
                 row.Latitude = vendorItemViewModel.Latitude;
                 row.Longitude = vendorItemViewModel.Latitude;
                 row.PhoneNumber = vendorItemViewModel.PhoneNumber;
@@ -203,7 +202,17 @@ namespace PlanMyWeb.Controllers.Admin
                     var dbcats = _context.VendorCategories.Where(x => catIds.Contains(x.Id.ToString())).ToList();
                     foreach(var dbcat in dbcats)
                         _context.VendorItemCategories.Add(new VendorItemCategory { VendorCategory = dbcat, VendorItem = row });
-                
+                _context.VendorItemTypeValues.RemoveRange(_context.VendorItemTypeValues.Where(x => x.VendorItemId == row.Id));
+            var taxonomies = _context.VendorTypes.Include(x => x.VendorTypeValues);
+                foreach (var tax in taxonomies)
+                {
+                    string[] valueIds = Request.Form[tax.Id.ToString()].ToString().Split(',');
+
+                    var dbvalues = _context.VendorTypeValues.Where(x => valueIds.Contains(x.Id.ToString())).ToList();
+                    foreach (var dbcat in dbvalues)
+                        _context.VendorItemTypeValues.Add(new VendorItemTypeValue { VendorTypeValue = dbcat, VendorItem = row });
+
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

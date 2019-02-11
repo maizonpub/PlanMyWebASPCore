@@ -58,17 +58,18 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorTypes/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Title,VendorCategory")] VendorType vendorType)
+        public async Task<IActionResult> Create([Bind("Id,Title,VendorCategoryId")] VendorType vendorType)
         {
             if (ModelState.IsValid)
             {
-                var catId = int.Parse(Request.Form["VendorCategory"]);
+                var catId = int.Parse(Request.Form["VendorCategoryId"]);
                 var cat = _context.VendorCategories.Find(catId);
                 vendorType.VendorCategory = cat;
                 _context.Add(vendorType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Categories = new SelectList(_context.VendorCategories, "Id", "Title");
             return View(vendorType);
         }
         [Route("Admin/VendorTypes/Edit/{id?}")]
@@ -85,6 +86,14 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 return NotFound();
             }
+            ViewBag.Categories = new SelectList(_context.VendorCategories, "Id", "Title");
+            foreach (var item in ViewBag.Categories)
+            {
+                if (item.Value == vendorType.VendorCategoryId.ToString())
+                {
+                    item.Selected = true;
+                }
+            }
             return View(vendorType);
         }
 
@@ -94,7 +103,7 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/VendorTypes/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,CategoryId,VendorCategory")] VendorType vendorType)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,VendorCategoryId")] VendorType vendorType)
         {
             if (id != vendorType.Id)
             {
@@ -120,6 +129,14 @@ namespace PlanMyWeb.Controllers.Admin
                     }
                 }
                 return RedirectToAction(nameof(Index));
+            }
+            ViewBag.Categories = new SelectList(_context.VendorCategories, "Id", "Title");
+            foreach (var item in ViewBag.Categories)
+            {
+                    if (item.Value == vendorType.VendorCategoryId.ToString())
+                    {
+                        item.Selected = true;
+                    }
             }
             return View(vendorType);
         }

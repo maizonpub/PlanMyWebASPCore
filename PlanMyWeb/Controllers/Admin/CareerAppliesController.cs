@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PlanMyWeb.Models;
 
 namespace PlanMyWeb.Controllers.Admin
 {
@@ -13,9 +18,10 @@ namespace PlanMyWeb.Controllers.Admin
     public class CareerAppliesController : Controller
     {
         private readonly DbWebContext _context;
-
-        public CareerAppliesController(DbWebContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public CareerAppliesController(DbWebContext context, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
         }
         [Route("Admin/CareerApplies")]
@@ -46,6 +52,8 @@ namespace PlanMyWeb.Controllers.Admin
         // GET: CareerApplies/Create
         public IActionResult Create()
         {
+            var pages = _context.Pages.ToList();
+            ViewBag.Pages = new SelectList(pages, "Id", "Title");
             return View();
         }
 
@@ -55,16 +63,41 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/CareerApplies/Create")]
-        public async Task<IActionResult> Create([Bind("Id,Career,CV,Name,Phone,Email")] CareerApplies careerapplies)
+        public async Task<IActionResult> Create([Bind("Id,Career,CV,Name,Phone,Email")] CareerAppliesViewModel careerapplies)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(careerapplies);
+                string filename = "";
+                if (careerapplies.CV != null)
+                {
+                    filename = Guid.NewGuid().ToString().Substring(4) + careerapplies.CV.FileName;
+                    UploadFile(careerapplies.CV, filename);
+                }
+                
+                CareerApplies careerApplies = new CareerApplies { Id = careerapplies.Id, Career = careerapplies.Career, CV = filename, Name = careerapplies.Name, Email = careerapplies.Email, Phone = careerapplies.Phone};
+                _context.CareerApplies.Add(careerApplies);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            var pages = _context.Pages.ToList();
+            ViewBag.Pages = new SelectList(pages, "Id", "Title");
             return View(careerapplies);
         }
+
+        private void UploadFile(string cV, string filename)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async void UploadFile(IFormFile media, string FileName)
+        {
+            string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await media.CopyToAsync(stream);
+            }
+        }
+
         [Route("Admin/CareerApplies/Edit/{id?}")]
         // GET: CareerApplies/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -74,12 +107,15 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var careerapplies = await _context.CareerApplies.FindAsync(id);
+            var careerapplies = _context.CareerApplies.Include(x => x.Career.Pages).Where(x => x.Id == id).FirstOrDefault();
+            CareerAppliesViewModel model = new CareerAppliesViewModel { Id = careerapplies.Id, Career = careerapplies.Career, Name = careerapplies.Name, Phone = careerapplies.Phone, Email = careerapplies.Email };
             if (careerapplies == null)
             {
                 return NotFound();
             }
-            return View(careerapplies);
+            var pages = _context.Pages.ToList();
+            ViewBag.Pages = new SelectList(pages, "Id", "Title");
+            return View(model);
         }
 
         // POST: CareerApplies/Edit/5
@@ -88,39 +124,31 @@ namespace PlanMyWeb.Controllers.Admin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Admin/CareerApplies/Edit/{id?}")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Career,CV,Name,Phone,Email")] CareerApplies careerapplies)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Career,CV,Name,Phone,Email")] CareerAppliesViewModel careerapplies)
         {
-            if (id != careerapplies.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                var row = _context.CareerApplies.Where(x => x.Id == id).FirstOrDefault();
+                if (careerapplies.CV != null)
                 {
-                    _context.Update(careerapplies);
-                    await _context.SaveChangesAsync();
+
+                    string filename = Guid.NewGuid().ToString().Substring(4) + careerapplies.CV.FileName;
+                    UploadFile(careerapplies.CV, filename);
+                    row.CV = filename;
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CareerAppliesExists(careerapplies.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                else
+                    row.CV = row.CV;
+                
+
+                row.Id = careerapplies.Id;
+                row.Career = careerapplies.Career;
+                row.Name = careerapplies.Name;
+                row.Phone = careerapplies.Phone;
+                row.Email = careerapplies.Email;
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(careerapplies);
-        }
-
-        private bool CareerAppliesExists(int id)
-        {
-            throw new NotImplementedException();
         }
 
         [Route("Admin/CareerApplies/Delete/{id?}")]

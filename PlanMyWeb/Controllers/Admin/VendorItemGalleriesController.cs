@@ -31,12 +31,13 @@ namespace PlanMyWeb.Controllers.Admin
         // GET: VendorItemGalleries
         public async Task<IActionResult> Index(int itemId)
         {
-            var vendorItemGalleries = await _context.VendorItemGalleries.ToListAsync();
+            var vendorItemGalleries = await _context.VendorItemGalleries.Where(x=>x.Item.Id == itemId).ToListAsync();
             if (User.IsInRole("Vendor"))
             {
                 var userId = _userManager.GetUserId(User);
                 vendorItemGalleries = vendorItemGalleries.Where(x => x.UserId == userId).ToList();
             }
+            ViewBag.ItemId = itemId.ToString();
             return View(vendorItemGalleries);
            
         }

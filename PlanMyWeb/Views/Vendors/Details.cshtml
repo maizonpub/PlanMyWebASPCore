@@ -2,7 +2,20 @@
 
 @{
     ViewData["Title"] = "Details";
+    string facebook = "", instagram = "", website = "";
     var reviews = Model.VendorItem.VendorItemReviews.Where(x => x.Status == DAL.ReviewStatus.Approved);
+    if (!string.IsNullOrEmpty(Model.VendorItem.Facebook))
+    {
+        facebook = Model.VendorItem.Facebook.Contains("http") ? Model.VendorItem.Facebook : "https://" + Model.VendorItem.Facebook;
+    }
+    if (!string.IsNullOrEmpty(Model.VendorItem.Instagram))
+    {
+        instagram = Model.VendorItem.Instagram.Contains("http") ? Model.VendorItem.Instagram : "https://" + Model.VendorItem.Instagram;
+    }
+    if (!string.IsNullOrEmpty(Model.VendorItem.Website))
+    {
+        website = Model.VendorItem.Website.Contains("http") ? Model.VendorItem.Website : "https://" + Model.VendorItem.Website;
+    }
 }
 <style>
     html body {
@@ -102,7 +115,13 @@
 
                             <h1 class="item_title">@Model.VendorItem.Title</h1>
                             <p class="location">
-                                <i class="fa fa-map-marker"></i> @Model.VendorItem.Address     <br /><i class="fa fa-phone"></i> @Model.VendorItem.PhoneNumber       <br /><i class="fa fa-envelope"></i> @Model.VendorItem.User.Email     <br /> <i class="fa fa-globe"></i>@Model.VendorItem.Website <br/> <i class="fa fa-facebook-official"></i>@Model.VendorItem.Facebook <br/> <i class="fa fa-instagram"></i>@Model.VendorItem.Instagram<br/>
+                                <i class="fa fa-map-marker"></i>  @Model.VendorItem.Address     @if (!string.IsNullOrEmpty(Model.VendorItem.PhoneNumber))
+                                {<br /><i class="fa fa-phone"></i>  <a href="tel:@Model.VendorItem.PhoneNumber">@Model.VendorItem.PhoneNumber </a>}      @if (!string.IsNullOrEmpty(Model.VendorItem.Email))
+                                {<br /><i class="fa fa-envelope"><a href="mailto:@Model.VendorItem.Email">@Model.VendorItem.Email  </a></i>} @if (!string.IsNullOrEmpty(website))
+                                {<br /> <i class="fa fa-globe"><a href="@website" target="_blank">@Model.VendorItem.Website</a></i>} <br /> @if (!string.IsNullOrEmpty(facebook))
+                                {<a href="@facebook" target="_blank"> <i class="fa fa-facebook-official" style="font-size:25px !important"></i></a>} @if (!string.IsNullOrEmpty(instagram))
+                                {
+                                    <a href="@instagram" target="_blank"><i class="fa fa-instagram" style="font-size:25px !important"> </i></a>} <br />
                             </p>
                         </div>
 
@@ -251,7 +270,7 @@
 
                     <div class="col-md-12">
                         <div class="well-box" id="inquiry">
-                            <h2>Send Enquiry to Vendor</h2>
+                            <h2 style="color:black;">Send Enquiry to Vendor</h2>
                             <p>Fill in your details and a Venue Specialist will get back to you shortly.</p>
                             <form class="ajax-auth" id="offersinquiry" method="post" action="/api/VendorsInquiries">
 

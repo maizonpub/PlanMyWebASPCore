@@ -8,8 +8,9 @@
 <h4>VendorItem</h4>
 <hr />
 <div class="row">
-    <div class="col-md-6">
-        <form asp-action="Edit">
+    <form asp-action="Edit" enctype="multipart/form-data" class="col-md-12">
+        <div class="col-md-6">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -116,32 +117,33 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
-        </form>
-    </div>
-    <div class="col-md-6">
-        @foreach (var type in Model.Taxonomies)
-        {
-            <div class="col-md-6">
-                <table style="width:100%">
-                    <tr><td><h2>@type.Title</h2></td></tr>
-                    @foreach (var value in type.VendorTypeValues)
-                    {
-                        var id = type.Id + "_" + value.Id;
-                        bool selected = Model.values.Where(x=>x.VendorTypeValue.Id == value.Id).Count()>0;
-                        if (selected)
-                        {
-                            <tr><td><input type="checkbox" value="@value.Id" name="@id" id="@type.Id" checked /><label for="@id">@value.Title</label></td></tr>
-                        }
-                        else
-                        {
-                            <tr><td><input type="checkbox" value="@value.Id" name="@id" id="@type.Id"  /><label for="@id">@value.Title</label></td></tr>
-                        }
-                    }
-                </table>
-            </div>
 
-        }
-    </div>
+        </div>
+        <div class="col-md-6">
+            @foreach (var type in Model.Taxonomies)
+            {
+                <div class="col-md-6">
+                    <table style="width:100%">
+                        <tr><td><h2>@type.Title</h2></td></tr>
+                        @foreach (var value in type.VendorTypeValues)
+                        {
+                            var id = type.Id + "_" + value.Id;
+                            bool selected = Model.values.Where(x => x.VendorTypeValue.Id == value.Id).Count() > 0;
+                            if (selected)
+                            {
+                                <tr><td><input type="checkbox" value="@value.Id" name="@type.Id" id="@id" checked /><label for="@id">@value.Title</label></td></tr>
+                            }
+                            else
+                            {
+                                <tr><td><input type="checkbox" value="@value.Id" name="@type.Id" id="@id" /><label for="@id">@value.Title</label></td></tr>
+                            }
+                        }
+                    </table>
+                </div>
+
+            }
+        </div>
+        </form>
 </div>
 
 <div>

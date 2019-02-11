@@ -28,14 +28,15 @@ namespace PlanMyWeb.Controllers.Admin
         
         [Route("Admin/VendorBranches")]
         // GET: VendorBranches
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int itemId)
         {
-            var vendorBranches = await _context.VendorBranches.ToListAsync();
+            var vendorBranches = await _context.VendorBranches.Where(x => x.VendorItemId == itemId).ToListAsync();
             if (User.IsInRole("Vendor"))
             {
                 var userId = _userManager.GetUserId(User);
                 vendorBranches = vendorBranches.Where(x => x.UserId == userId).ToList();
             }
+            ViewBag.ItemId = itemId.ToString();
             return View(vendorBranches);
         }
 
@@ -84,6 +85,8 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 var user = _context.Users.Find(userId);
                 var item = _context.VendorItems.Find(itemId);
+                VendorBranches vendorbranches = new VendorBranches { Title = vendorBranches.Title, Address = vendorBranches.Address, PhoneNumber = vendorBranches.PhoneNumber, Latitude = vendorBranches.Latitude, Longitude = vendorBranches.Longitude, VendorItemId = item.Id };
+                _context.VendorBranches.Add(vendorbranches);
                 await _context.SaveChangesAsync();
                 var parms = new Dictionary<string, string>
     {
@@ -137,8 +140,11 @@ namespace PlanMyWeb.Controllers.Admin
                 var user = _context.Users.Find(userId);
                 var item = _context.VendorItems.Find(itemId);
                 var row = _context.VendorItemGalleries.Where(x => x.Id == id).FirstOrDefault();
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index), parms);
             }
-                return View(vendorBranches);
+            ViewBag.ItemId = itemId.ToString();
+            return View(vendorBranches);
         }
         [Route("Admin/VendorBranches/Delete/{id?}")]
         // GET: VendorBranches/Delete/5

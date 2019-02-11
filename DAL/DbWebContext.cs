@@ -73,6 +73,6 @@ namespace DAL
         public DbSet<DAL.UserPushToken> UserPushToken { get; set; }
         public DbSet<DAL.ChatChannel> ChatChannels { get; set; }
         public DbSet<DAL.VendorBranches> VendorBranches { get; set; }
-
+        public object Career { get; set; }
     }
 }
