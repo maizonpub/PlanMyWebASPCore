@@ -17,15 +17,7 @@ namespace DAL.Migrations
                 oldClrType: typeof(int),
                 oldNullable: true);
 
-            migrationBuilder.AddColumn<string>(
-                name: "UserId",
-                table: "VendorItemGalleries",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "UserId",
-                table: "OffersGalleries",
-                nullable: true);
+           
 
             migrationBuilder.AddForeignKey(
                 name: "FK_VendorItemReviews_VendorItems_VendorItemId",

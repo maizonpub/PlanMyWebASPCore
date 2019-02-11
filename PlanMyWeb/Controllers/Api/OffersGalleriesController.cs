@@ -22,9 +22,12 @@ namespace PlanMyWeb.Controllers.Api
 
         // GET: api/OffersGalleries
         [HttpGet]
-        public IEnumerable<OffersGallery> GetOffersGalleries()
+        public List<OffersGallery> GetOffersGalleries(int? offerId)
         {
-            return _context.OffersGalleries;
+            var gallery = _context.OffersGalleries.ToList();
+            if (offerId != null)
+                gallery = gallery.Where(x => x.Offers.Id == offerId).ToList();
+            return gallery;
         }
 
         // GET: api/OffersGalleries/5

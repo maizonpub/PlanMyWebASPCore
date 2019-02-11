@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PlanMyWeb.Controllers.Api
 {
@@ -15,10 +18,13 @@ namespace PlanMyWeb.Controllers.Api
     public class OrdersController : ControllerBase
     {
         private readonly DbWebContext _context;
-
-        public OrdersController(DbWebContext context)
+        private readonly IEmailSender _emailSender;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public OrdersController(DbWebContext context, IEmailSender emailSender, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _emailSender = emailSender;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: api/Orders
@@ -96,7 +102,35 @@ namespace PlanMyWeb.Controllers.Api
             order.TransactionUUID = requestId;
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-
+            StreamReader sr = new StreamReader(_hostingEnvironment.WebRootPath + "/emailtemplate/OrderConfirmed.html");
+            string temp = sr.ReadToEnd();
+            var basketitems = _context.BasketItems.Where(x => x.Order.Id == order.Id).Include(x => x.Offers).Include(x=>x.Offers.User).ToList();
+            string ordertable = "";
+            foreach (var item in basketitems)
+            {
+                ordertable += @"<tr class=""m_-5965336264313205829order_item"">
+                                                                                                        <td class=""m_-5965336264313205829td"" style=""color:#636363;border:1px solid #e5e5e5;vertical-align:middle;padding:12px;text-align:left;font-family:'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif;word-wrap:break-word"">
+                                                                                                            $productname$<ul class=""m_-5965336264313205829wc-item-meta"" style=""font-size:small;margin:1em 0 0;padding:0;list-style:none"">
+                                                                                                                <li style=""margin:0.5em 0 0;padding:0"">
+                                                                                                                    <strong class=""m_-5965336264313205829wc-item-meta-label"" style=""float:left;margin-right:.25em;clear:both"">Sold By:</strong>"+item.Offers.User.UserName+@"</p>
+                                                                                                                </li>
+                                                                                                            </ul>
+                                                                                                        </td>
+                                                                                                        <td class=""m_-5965336264313205829td"" style=""color:#636363;border:1px solid #e5e5e5;vertical-align:middle;padding:12px;text-align:left;font-family:'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif"">
+                                                                                                            "+item.Quantity+@"
+                                                                                                        </td>
+                                                                                                        <td class=""m_-5965336264313205829td"" style=""color:#636363;border:1px solid #e5e5e5;vertical-align:middle;padding:12px;text-align:left;font-family:'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif"">
+                                                                                                            <span class=""m_-5965336264313205829woocommerce-Price-amount m_-5965336264313205829amount""><span class=""m_-5965336264313205829woocommerce-Price-currencySymbol"">$</span>"+item.TotalPrice+@"</span>
+                                                                                                        </td>
+                                                                                                    </tr>";
+            }
+            
+            temp = temp.Replace("$username$", order.Users.UserName).Replace("$referencenumber$", order.ReferenceNumber).Replace("$date$", order.TransactionDate.ToString()).Replace("$order$", ordertable).Replace("$subtotal$", order.Total.ToString()).Replace("$total$", order.Total.ToString());
+            sr.Close();
+            await _emailSender.SendEmailAsync(
+                order.Users.Email,
+                "Order confirmed from planmy",
+                temp);
             return order;
         }
         public string Get8Digits()
