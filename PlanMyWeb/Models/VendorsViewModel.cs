@@ -17,5 +17,6 @@ namespace PlanMyWeb.Models
         public VendorItem VendorItem { get; set; }
         public IEnumerable<VendorItem> RelatedItems { get; set; }
         public IEnumerable<Offers> RelatedOffers { get; set; }
+        public IEnumerable<VendorBranches> Branches { get; set; }
     }
 }

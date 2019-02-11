@@ -1,0 +1,55 @@
+﻿@model CareerViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<h4>Career</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Thumb" class="control-label"></label>
+                <input asp-for="Thumb" asp-items="Html.GetEnumSelectList<DAL.IFormFile>()" class="form-control" />
+                <span asp-validation-for="Thumb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WideImage" class="control-label"></label>
+                <input asp-for="WideImage" asp-items="Html.GetEnumSelectList<DAL.IFormFile>()" class="form-control" />
+                <span asp-validation-for="WideImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HtmlDescription" class="control-label"></label>
+                <textarea asp-for="HtmlDescription" class="form-control"></textarea>
+                <span asp-validation-for="HtmlDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pages" class="control-label"></label>
+                <select id="Pages" name="Pages" asp-items="ViewBag.Pages" class="form-control"></select>
+                <span asp-validation-for="Pages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobStatus" class="control-label"></label>
+                <select asp-for="JobStatus" asp-items="Html.GetEnumSelectList<DAL.JobStatus>()" class="form-control"></select>
+                <span asp-validation-for="JobStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

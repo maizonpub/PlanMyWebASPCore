@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DbWebContext))]
-    partial class DbWebContextModelSnapshot : ModelSnapshot
+    [Migration("20190207133737_updatepages")]
+    partial class updatepages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,11 +161,7 @@ namespace DAL.Migrations
 
                     b.Property<int?>("PagesId");
 
-                    b.Property<string>("Thumb");
-
                     b.Property<string>("Title");
-
-                    b.Property<string>("WideImage");
 
                     b.HasKey("Id");
 
@@ -572,33 +570,6 @@ namespace DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserPushToken");
-                });
-
-            modelBuilder.Entity("DAL.VendorBranches", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address");
-
-                    b.Property<double?>("Latitude");
-
-                    b.Property<double?>("Longitude");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("Title");
-
-                    b.Property<string>("UserId");
-
-                    b.Property<int>("VendorItemId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VendorItemId");
-
-                    b.ToTable("VendorBranches");
                 });
 
             modelBuilder.Entity("DAL.VendorCategory", b =>
@@ -1182,14 +1153,6 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Users", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("DAL.VendorBranches", b =>
-                {
-                    b.HasOne("DAL.VendorItem", "VendorItem")
-                        .WithMany("VendorBranches")
-                        .HasForeignKey("VendorItemId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.VendorItem", b =>

@@ -35,14 +35,15 @@ namespace PlanMyWeb.Controllers.FrontEnd
                 return NotFound();
             }
             
-            var vendorItem = await _context.VendorItems.Include(x=>x.Gallery).Include(x=>x.VendorItemReviews).Include(x=>x.User).Include(x=>x.Categories).FirstOrDefaultAsync(m => m.Id == id);
+            var vendorItem = await _context.VendorItems.Include(x=>x.Gallery).Include(x=>x.VendorItemReviews).Include(x=>x.User).Include(x=>x.Categories).Include(x=>x.VendorBranches).FirstOrDefaultAsync(m => m.Id == id);
             if (vendorItem == null)
             {
                 return NotFound();
             }
             var relateditems = _context.VendorItems.Where(x => x.Categories.Where(y=>vendorItem.Categories.Where(z=>z.VendorCategory == y.VendorCategory).Count()>0 && y.VendorItem!=vendorItem).Count()>0).OrderBy(x=>Guid.NewGuid()).Take(3);
             var relatedOffers = _context.Offers.Where(x => x.User.Id == vendorItem.User.Id);
-            SingleVendorViewModel single = new SingleVendorViewModel { VendorItem = vendorItem, RelatedItems = relateditems, RelatedOffers = relatedOffers };
+            var branches = _context.VendorBranches.Where(x => x.VendorItemId == vendorItem.Id).AsEnumerable();
+            SingleVendorViewModel single = new SingleVendorViewModel { VendorItem = vendorItem, RelatedItems = relateditems, RelatedOffers = relatedOffers, Branches = branches };
             return View(single);
         }
         private IEnumerable<VendorType> GetTypes(int? categoryId)
@@ -61,7 +62,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
             if (CategoryId != null)
             {
                 if (TypeId != null && TypeId.Length > 0)
-                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0 && x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0).ToPagedList(page,PageSize);
+                    items = _context.VendorItems.Include(x => x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0 && x.VendorItemTypeValues.Where(y => TypeId.Contains(y.VendorTypeValue.Id)).Count() > 0).OrderBy(x=>x.Title).ToPagedList(page,PageSize);
                 else
                     items = _context.VendorItems.Include(x => x.VendorItemTypeValues).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0).ToPagedList(page, PageSize);
             }

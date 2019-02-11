@@ -31,6 +31,7 @@ namespace DAL
         public List<VendorItemTypeValue> VendorItemTypeValues { get; set; }
         public MediaType MediaType { get; set; }
         public List<VendorItemReview> VendorItemReviews { get; set; }
+        public List<VendorBranches> VendorBranches { get; set; }
         public List<WishList> WishLists { get; set; }
         
     }

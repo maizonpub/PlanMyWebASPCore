@@ -1,0 +1,82 @@
+﻿@model PagesViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    html body {
+        background-color: #ffffff;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+
+    a {
+        color: #5f5f9e;
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="~/" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">Useful Links</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-9 content-right">
+    <div id="aboutus">
+
+            <h1>@Model.Pages.Title</h1>
+           
+
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="left-sidebar">
+                <div class="filter-box collapse in" id="searchform">
+                    <div class="row filter-form" style="border:0px solid #e9e6e0">
+                        <div class="col-md-12">
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-9 content-left">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="item_results">
+                        <div class="row">
+                            <div class="col-md-12 vendor-listing">
+                                <h2 style="color:#000000;">@Model.Pages.Title</h2>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                @Html.Raw(Model.Pages.HtmlDescription)
+                @if (Model.Careers.Count() > 0)
+                {
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
