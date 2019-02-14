@@ -136,8 +136,8 @@ namespace PlanMyWeb.Controllers.Admin
             var users = _context.Users.AsEnumerable();
             var userselect = new SelectList(users, "Id", "FirstName");
             var vendorItem = _context.VendorItems.Include(x=>x.Categories).Include(x=>x.VendorItemTypeValues).Where(x=>x.Id == id).FirstOrDefault();
-            var vendorcategoies = _context.VendorCategories.AsEnumerable();
-            var catslist = new SelectList(vendorcategoies, "Id", "Title");
+            var vendorcategories = _context.VendorCategories.AsEnumerable();
+            var catslist = new SelectList(vendorcategories, "Id", "Title");
             foreach (var item in catslist)
             {
                 foreach (var itemcategory in vendorItem.Categories)
@@ -195,6 +195,10 @@ namespace PlanMyWeb.Controllers.Admin
                 row.Title = vendorItemViewModel.Title;
                 row.HtmlDescription = vendorItemViewModel.HtmlDescription;
                 row.Address = vendorItemViewModel.Address;
+                row.Email = vendorItemViewModel.Email;
+                row.Website = vendorItemViewModel.Website;
+                row.Facebook = vendorItemViewModel.Facebook;
+                row.Instagram = vendorItemViewModel.Instagram;
                 row.IsFeatured = vendorItemViewModel.IsFeatured;
                 _context.VendorItemCategories.RemoveRange(row.Categories);
                 string[] catIds = Request.Form["Categories"].ToString().Split(',');

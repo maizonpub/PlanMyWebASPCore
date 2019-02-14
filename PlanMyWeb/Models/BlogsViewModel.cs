@@ -19,5 +19,6 @@ namespace PlanMyWeb.Models
         public DateTime PostDate { get; set; }
         public List<BlogCategoryRelation> BlogCategoryRelations { get; set; }
         public MediaType MediaType { get; set; }
+        public IEnumerable<TopicGallery> topicGalleries { get; set; }   
     }
 }

@@ -54,6 +54,7 @@ namespace PlanMyWeb.Controllers.Admin
         {
             var blogcategories = _context.BlogCategories.AsEnumerable();
             ViewBag.Categories = new SelectList(blogcategories, "Id", "Title");
+            ViewBag.Gallery = _context.TopicGalleries.ToList();
             return View();
         }
 
@@ -102,7 +103,7 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 return NotFound();
             }
-
+            ViewBag.Gallery = _context.TopicGalleries.ToList();
             var row = _context.Blogs.Include(x => x.BlogCategoryRelations).Where(x => x.Id == id).FirstOrDefault();
             var blogcategories = _context.BlogCategories.AsEnumerable();
             var catslist = new SelectList(blogcategories, "Id", "Title");

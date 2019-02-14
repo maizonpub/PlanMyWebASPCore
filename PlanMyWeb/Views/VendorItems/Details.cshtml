@@ -2,10 +2,10 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewBag.Active = "Items";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>Details</h2>
 
 <div>
     <h4>VendorItem</h4>
@@ -60,6 +60,24 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Facebook)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Facebook)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Instagram)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Instagram)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.IsFeatured)
         </dt>
         <dd>
@@ -69,7 +87,7 @@
             @Html.DisplayNameFor(model => model.Thumb)
         </dt>
         <dd>
-            <img src="~/Media/@Model.Thumb" style="height:100px"/>
+            <img src="~/Media/@Model.Thumb" style="height:100px" />
         </dd>
     </dl>
 </div>

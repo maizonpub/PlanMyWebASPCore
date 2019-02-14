@@ -2,9 +2,11 @@
 
 @{
     ViewData["Title"] = "Edit";
+    ViewBag.Active = "Items";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signd_in=true&libraries=places&key=AIzaSyB90Ung-fTAeH6L8RbSDxBJbmWtiKTOYDU"></script>
 <h4>VendorItem</h4>
 <hr />
 <div class="row">
@@ -17,6 +19,9 @@
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div style="width:100%;height:300px" id="gmap"></div>
             </div>
             <div class="form-group">
                 <label asp-for="Latitude" class="control-label"></label>
@@ -149,6 +154,53 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script type="text/javascript">
+
+    function initialize() {
+        var myLatlng = new google.maps.LatLng(33.3659, 35.3265);
+        var myOptions = {
+            zoom: 7,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById("gmap"), myOptions);
+        // marker refers to a global variable
+        marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map
+        });
+        // if center changed then update lat and lon document objects
+        google.maps.event.addListener(map, 'center_changed', function () {
+            var location = map.getCenter();
+            document.getElementById("Latitude").value = location.lat();
+
+            document.getElementById("Longitude").value = location.lng();
+            // call function to reposition marker location
+            placeMarker(location);
+        });
+        // if zoom changed, then update document object with new info
+        google.maps.event.addListener(map, 'zoom_changed', function () {
+            zoomLevel = map.getZoom();
+            //document.getElementById("zoom_level").innerHTML = zoomLevel;
+        });
+        // double click on the marker changes zoom level
+        google.maps.event.addListener(marker, 'dblclick', function () {
+            zoomLevel = map.getZoom() + 1;
+            if (zoomLevel == 20) {
+                zoomLevel = 10;
+            }
+            //document.getElementById("zoom_level").innerHTML = zoomLevel;
+            map.setZoom(zoomLevel);
+        });
+
+        function placeMarker(location) {
+            var clickedLocation = new google.maps.LatLng(location);
+            marker.setPosition(location);
+        }
+    }
+    window.onload = function () { initialize() };
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewBag.Active = "Taxonomies";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
@@ -19,7 +20,7 @@
             @Html.DisplayNameFor(model => model.VendorCategory)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.VendorCategory)
+            @Html.DisplayFor(model => model.VendorCategory.Title)
         </dd>
     </dl>
 </div>

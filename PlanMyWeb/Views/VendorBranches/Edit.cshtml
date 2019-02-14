@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    ViewBag.Active = "Items";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
     var parms = new Dictionary<string, string>
 {
@@ -14,7 +15,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" asp-all-route-data="parms" enctype="multipart/form-data">
+        <form asp-action="Edit" asp-all-route-data="parms">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
