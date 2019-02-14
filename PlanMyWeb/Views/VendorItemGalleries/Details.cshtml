@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewBag.Active = "Items";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
     var parms = new Dictionary<string, string>
     {
@@ -18,7 +19,10 @@
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Image)
+        <dd>
+            <img src="~/Media/@Model.Image" style="height:100px" />
+        </dd>
+        @*@Html.DisplayFor(model => model.Image)*@
         </dd>
     </dl>
 </div>

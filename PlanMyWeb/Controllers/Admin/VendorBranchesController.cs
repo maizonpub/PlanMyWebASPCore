@@ -76,17 +76,8 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string userId = "";
-                if (!string.IsNullOrEmpty(Request.Form["User"]))
-                    userId = Request.Form["User"];
-                else
-                {
-                    userId = _userManager.GetUserId(User);
-                }
-                var user = _context.Users.Find(userId);
-                var item = _context.VendorItems.Find(itemId);
-                VendorBranches vendorbranches = new VendorBranches { Title = vendorBranches.Title, Address = vendorBranches.Address, PhoneNumber = vendorBranches.PhoneNumber, Latitude = vendorBranches.Latitude, Longitude = vendorBranches.Longitude, VendorItemId = item.Id };
-                _context.VendorBranches.Add(vendorbranches);
+                vendorBranches.VendorItemId = itemId;
+                _context.Add(vendorBranches);
                 await _context.SaveChangesAsync();
                 var parms = new Dictionary<string, string>
     {
@@ -100,14 +91,16 @@ namespace PlanMyWeb.Controllers.Admin
         }
         [Route("Admin/VendorBranches/Edit/{id?}")]
         // GET: VendorBranches/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var vendorBranches = await _context.VendorBranches.FindAsync(id);
+            //var vendorBranches = await _context.VendorBranches.FindAsync(id);
+            var vendorBranches = _context.VendorBranches.Include(x => x.VendorItem).Where(x => x.Id == id).FirstOrDefault();
+            
             if (vendorBranches == null)
             {
                 return NotFound();
@@ -130,16 +123,8 @@ namespace PlanMyWeb.Controllers.Admin
     {
         { "itemId", itemId.ToString() }
     };
-                string userId = "";
-                if (!string.IsNullOrEmpty(Request.Form["User"]))
-                    userId = Request.Form["User"];
-                else
-                {
-                    userId = _userManager.GetUserId(User);
-                }
-                var user = _context.Users.Find(userId);
-                var item = _context.VendorItems.Find(itemId);
-                var row = _context.VendorItemGalleries.Where(x => x.Id == id).FirstOrDefault();
+                vendorBranches.VendorItemId = itemId;
+                _context.Update(vendorBranches);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), parms);
             }

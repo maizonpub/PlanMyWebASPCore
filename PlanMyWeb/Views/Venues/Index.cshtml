@@ -111,7 +111,7 @@
                     <div id="item_results">
                         <div class="row">
                             <div class="col-md-12 vendor-listing">
-                                <h2 style="color:#000000;">Total @Model.VendorItems.Count() items in your search</h2>
+                                <h2 style="color:#000000;">Total @Model.VendorItems.TotalItemCount items in your search</h2>
                             </div>
                             @foreach (var row in Model.VendorItems)
                             {

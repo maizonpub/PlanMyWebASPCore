@@ -95,11 +95,19 @@ label .required {
 /*------------------------
 	Template Buttons 
 --------------------------*/
-.btn { font-family: 'proximanova,arial,helvetica', sans-serif; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; font-size: 12px; border-radius: 2px;padding:10px 20px ;}
+.btn {
+    font-family: 'Century Gothic', sans-serif;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 12px;
+    border-radius: 2px;
+    padding: 10px 20px;
+}
 .tp-btn-default { background-color: #04d7d8; color: #fff;}
 .tp-btn-default:hover {background-color: #04cccd; color: #fff; }
 .tp-btn-primary {
-    background-color: #00aeaf !important;
+    background-color: #5f5f9e !important;
     color: #fff;
 }
 .tp-btn-primary:hover {background-color: #ffa422;color: #fff;}
@@ -287,8 +295,8 @@ label .required {
 .venue-detail{padding: 0px; border: 1px solid #e9e6e0; border-radius: 0px; border-top: transparent; background-color: #fff;}
 .venue-detail .caption { padding: 30px;}
 .venue-detail .location{font-size: 14px; margin-bottom: 10px;}
-.venue-lable{position: absolute; bottom: 20px; left: 20px;}
-.venue-lable .label{display: inline; padding: 5px 10px; font-size: 12px; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 4px;}
+.venue-lable{position: absolute; bottom: 20px; left: 10px;}
+.venue-lable .label{display: inline; padding: 5px 7px; font-size: 9px; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 4px;}
 .venue-lable .label-default {background-color: #222; font-family: 'Montserrat', sans-serif; text-transform: uppercase;}
 .venue-info{ background-color: #fcfbf9; border-top: 1px solid #e9e6e0; height: 84px; font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 700;}
 /*-------Thumbnail Label------*/ 
@@ -307,7 +315,7 @@ label .required {
 /*.vendor-image { position: relative; overflow: hidden;}
 .vendor-image img { -webkit-transform: scale(1.2); transform: scale(1.2); -webkit-transition: all .5s ease; transition: all .5s ease; opacity: .9;}
 .vendor-image a:hover img { -webkit-transform: scale(1); transform: scale(1); opacity: 1;}*/
-.vendor-image{position: relative; opacity: 0.85; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s;}
+.vendor-image{position: relative; opacity: 0.85; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s;overflow:hidden;height:300px;}
 .vendor-image:hover{opacity: 1;}
 
 .vendor-price{background-color: #fcfbf9;padding: 9px 29px; border-top: 1px solid #e9e6e0;}

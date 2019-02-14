@@ -3,12 +3,13 @@
 @{
     ViewData["Title"] = "Edit";
     ViewData["Description"] = "Blog";
+    ViewBag.Active = "Topics";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -24,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="HtmlDescription" class="control-label"></label>
-                <input asp-for="HtmlDescription" class="form-control" />
+                <textarea asp-for="HtmlDescription" class="form-control"></textarea>
                 <span asp-validation-for="HtmlDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -54,6 +55,40 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
+    </div>
+    <div class="col-md-6">
+        <h1>Images</h1>
+        <div class="box">
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                Image
+                            </th>
+                            <th>
+                                Link
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.Gallery)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="~/Media/@item.Image" style="height:100px" />
+                                </td>
+
+                                <td>
+                                    /Media/@item.Image
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 

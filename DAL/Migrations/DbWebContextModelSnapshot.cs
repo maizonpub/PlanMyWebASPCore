@@ -532,6 +532,19 @@ namespace DAL.Migrations
                     b.ToTable("SocialMedias");
                 });
 
+            modelBuilder.Entity("DAL.TopicGallery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Image");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TopicGalleries");
+                });
+
             modelBuilder.Entity("DAL.UserPaymentToken", b =>
                 {
                     b.Property<int>("Id")
