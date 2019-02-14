@@ -29,9 +29,9 @@ namespace PlanMyWeb.Controllers.Api
         {
             q = q.ToLower();
             if (!string.IsNullOrEmpty(q))
-                return _context.Events.Include(x => x.User).Where(x => x.Title.ToLower().Contains(q) || x.Description.ToLower().Contains(q));
+                return _context.Events.Include(x => x.User).Where(x => x.Title.ToLower().Contains(q) || x.Description.ToLower().Contains(q) && x.IsPrivate !=true);
             else
-                return _context.Events.Include(x => x.User);
+                return _context.Events.Include(x => x.User).Where(x => x.IsPrivate != true);
         }
 
         // GET: api/Events/5
@@ -95,7 +95,40 @@ namespace PlanMyWeb.Controllers.Api
             return CreatedAtAction("GetEvents", new { id = row.Id }, row);
         }
 
-        
+        // PUT: api/Offers/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutEvents([FromRoute] int id, [FromBody] Events events)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != events.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(events).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EventsExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
 
         private bool EventsExists(int id)
         {
