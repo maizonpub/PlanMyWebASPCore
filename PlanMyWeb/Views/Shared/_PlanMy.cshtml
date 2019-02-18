@@ -76,7 +76,7 @@
 
         p {
             font-size: 16px;
-            font-family: proximanova, Arial, Helvetica, sans-serif ;
+            font-family: 'Century Gothic', sans-serif ;
             font-weight: 400;
             color: #706a68;
         }
@@ -256,7 +256,9 @@
                 <div class="col-md-6 top-links">
                     <div class="menu-topbar-container">
                         <ul id="menu-topbar" class="listnone">
+                            <li><a href="~/Identity/Account/Manage"><i class="fa fa-user db-icon"></i>My Profile</a></li>
                             <li id="menu-item-1518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1518"><a href="@Url.Action("Index","Contactus",new { area = "" })">Contact Us</a></li>
+
                             <partial name="_LoginPartial" />
 
                             <li><a role="button" data-toggle="collapse" href="#searcharea" aria-expanded="false" aria-controls="searcharea"> <i class="fa fa-search"></i> </a></li>
@@ -291,7 +293,7 @@
                                     <li> <a href="~/Dashboard/MyBudget">My Budget</a></li>
                                     <li> <a href="~/Dashboard/WishList">My Wishlist</a></li>
                                     <li> <a href="~/Dashboard/GuestList">Guest List</a></li>
-                                    @*<li> <a href="~/Dashboard/SeatingChart">Seating Chart</a></li>*@
+                                    <li> <a href="~/Dashboard/SeatingChart">Seating Chart</a></li>
                                 </ul>
                             </li>
                             <li id="menu-item-1220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1220"><a href="@Url.Action("Index","Venues",new { area = "" })">Venues</a></li>

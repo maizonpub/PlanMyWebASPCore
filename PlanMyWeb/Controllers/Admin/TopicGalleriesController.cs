@@ -55,8 +55,8 @@ namespace PlanMyWeb.Controllers.Admin
         // GET: TopicGalleries/Create
         public IActionResult Create()
         {
-            var gallery = _context.TopicGalleries.ToList();
-            ViewBag.Gallery = new SelectList(gallery, "Id", "Image");
+            var gallery = _context.Blogs.ToList();
+            ViewBag.gallery = new SelectList(gallery, "Id", "Image");
             return View();
         }
 
@@ -73,11 +73,6 @@ namespace PlanMyWeb.Controllers.Admin
                 string filename = "";
                 if (topicGallery.Image != null)
                 {
-                    filename = Guid.NewGuid().ToString().Substring(4) + topicGallery.Image.FileName ;
-                    UploadFile(topicGallery.Image, filename);
-                }
-                if (topicGallery.Image != null)
-                {
                     filename = Guid.NewGuid().ToString().Substring(4) + topicGallery.Image.FileName;
                     UploadFile(topicGallery.Image, filename);
                 }
@@ -86,8 +81,8 @@ namespace PlanMyWeb.Controllers.Admin
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            var gallery = _context.TopicGalleries.ToList();
-            ViewBag.Gallery = new SelectList(gallery, "Id", "Image");
+            var gallery = _context.Blogs.ToList();
+            ViewBag.gallery = new SelectList(gallery, "Id", "Image");
             return View(topicGallery);
             
         }
@@ -110,12 +105,13 @@ namespace PlanMyWeb.Controllers.Admin
             }
 
             var topicGallery = await _context.TopicGalleries.FindAsync(id);
+            TopicGalleryViewModel model = new TopicGalleryViewModel { Id = topicGallery.Id };
             if (topicGallery == null)
             {
                 return NotFound();
             }
-            var gallery = _context.TopicGalleries.ToList();
-            ViewBag.Gallery = new SelectList(gallery, "Id", "Image");
+            var gallery = _context.Blogs.ToList();
+            ViewBag.gallery = new SelectList(gallery, "Id", "Image");
             return View(topicGallery);
             
         }
@@ -140,18 +136,7 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 else
                     row.Image = row.Image;
-                if (topicGallery.Image != null)
-                {
-
-                    string filename = Guid.NewGuid().ToString().Substring(4) + topicGallery.Image.FileName;
-                    UploadFile(topicGallery.Image, filename);
-                    row.Image = filename;
-                }
-                else
-                    row.Image = row.Image;
-
-
-
+                
                 row.Id = topicGallery.Id;
                
                 await _context.SaveChangesAsync();

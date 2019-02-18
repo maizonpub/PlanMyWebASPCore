@@ -95,9 +95,9 @@ namespace PlanMyWeb.Controllers.Admin
                 return NotFound();
             }
 
-            var blogCategory = await _context.BlogCategories.FindAsync(id);
-            BlogCategoryViewModel model = new BlogCategoryViewModel { Id = blogCategory.Id, MediaType = blogCategory.MediaType, Title = blogCategory.Title };
-            if (blogCategory == null)
+                var blogCategory = await _context.BlogCategories.FindAsync(id);
+                BlogCategoryViewModel model = new BlogCategoryViewModel { Id = blogCategory.Id, MediaType = blogCategory.MediaType, Title = blogCategory.Title };
+                if (blogCategory == null)
             {
                 return NotFound();
             }

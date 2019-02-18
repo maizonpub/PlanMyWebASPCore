@@ -68,7 +68,7 @@ button.tp-btn-default{height: 48px;}
     border-top: 1px solid #e1ded5;
     border-bottom: 1px solid #e1ded5;
 }
-.title{color: #3c3634;}
+.title{color: #3c3634;margin-left:-15px;}
 /*------- Bullet Point CSS --------*/
 ol.listnone{margin: 0px; }
 ul.check-circle{ margin-bottom: 30px !important;}
@@ -157,7 +157,7 @@ label .required {
 .tp-nav .navbar-brand>img { display: block; margin-top: -36px;}
 .is-sticky .tp-nav{z-index:3;}
 /*------ Template Navigation -------*/
-.tp-nav .navbar-default { background-color: #00aeaf; border-color: #00aeaf; font-family: 'Montserrat', sans-serif; margin-bottom: 0px;}
+.tp-nav .navbar-default { background-color: #00aeaf; border-color: #00aeaf; font-family: 'Century Gothic', sans-serif; margin-bottom: 0px;}
 .tp-nav .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover{
 	background-color: transparent;
 	color: #fff;}
@@ -2332,7 +2332,7 @@ padding space
 }
 
 .vendor-name--51686 {
-    font-family: union-serif,Georgia,Times New Roman,Times,serif;
+    font-family: 'Century Gothic',sans-serif;
     font-weight: 500;
     color: black;
     text-align: left;
@@ -2346,6 +2346,6 @@ padding space
 }
 
 .vendor-name--51686 {
-    font-family: union-serif,Georgia,Times New Roman,Times,serif;
-        font-weight: 500;
+    font-family: 'Century Gothic',sans-serif;
+    font-weight: 500;
 }

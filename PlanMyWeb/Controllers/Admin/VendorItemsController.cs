@@ -190,7 +190,8 @@ namespace PlanMyWeb.Controllers.Admin
                 else
                     row.Thumb = row.Thumb;
                 row.Latitude = vendorItemViewModel.Latitude;
-                row.Longitude = vendorItemViewModel.Latitude;
+                row.Longitude = vendorItemViewModel.Longitude;
+                row.Location = vendorItemViewModel.Location;
                 row.PhoneNumber = vendorItemViewModel.PhoneNumber;
                 row.Title = vendorItemViewModel.Title;
                 row.HtmlDescription = vendorItemViewModel.HtmlDescription;
