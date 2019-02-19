@@ -38,7 +38,13 @@
              
             <div class="col-md-12">
                 <div id="post-263" class="post-263 post type-post status-publish format-image has-post-thumbnail hentry category-party-at-home tag-wedding post_format-post-format-image">
-                    <div class="post-image"><div class="effect-pic"><img alt="" class="img-responsive" src="~/Media/@Model.Blog.Image" /></div></div>        <span class="date-meta">ON <a href="#" rel="bookmark"><time class="entry-date published" datetime="@Model.Blog.PostDate">@Model.Blog.PostDate.Month @Model.Blog.PostDate.Day, @Model.Blog.PostDate.Year</time></a>/ </span><span class="tag-meta">IN <a href="#" rel="category tag">
+                    <div class="post-image">
+                        <div class="effect-pic">
+            <img alt="" class="img-responsive" src="~/Media/@Model.Blog.Image" />
+        </div>
+                    </div>        <span class="date-meta">ON <a href="#" rel="bookmark"><time class="entry-date published" datetime="@Model.Blog.PostDate">@Model.Blog.PostDate.Month @Model.Blog.PostDate.Day, @Model.Blog.PostDate.Year</time></a>/ </span>
+                    <span class="tag-meta">IN 
+                    <a href="#" rel="category tag">
     @if (Model.Blog.BlogCategoryRelations != null && Model.Blog.BlogCategoryRelations.FirstOrDefault() != null)
     {
         @Model.Blog.BlogCategoryRelations.FirstOrDefault().Category.Title;
@@ -47,14 +53,18 @@
     {
         <text></text>
     }
-</a></span>      
+                    </a>
+                    </span>      
                     <div class="entry-content">
                     <p>
                         @Model.Blog.HtmlDescription
                         </p>
                         </div><!-- .entry-content -->
                 </div>
-                <div class="related-post"> <h2 class="related-title"></h2> <div class="row"></div></div><div class="post-next-prev"><div class="row">
+                <div class="related-post"> <h2 class="related-title"></h2> 
+                <div class="row"></div></div>
+                <div class="post-next-prev">
+                    <div class="row">
     @if (Model.PreviousPage != null)
     {
         <div class="col-md-6 col-sm-6 prev-post">
@@ -76,10 +86,12 @@
         </div>
     }
     </div>
+                    </div>
 </div>
-</div>
-            </div>
         </div>
     </div>
+ </div>
+
+
 
 

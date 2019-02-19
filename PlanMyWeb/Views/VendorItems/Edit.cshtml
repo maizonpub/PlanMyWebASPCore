@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
-    ViewBag.Active = "Items";
+    ////ViewBag.Active = "Items";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
@@ -21,6 +21,11 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Location" id="lblResult" class="control-label"></label>
+                <input asp-for="Location" type="text" id="txtautocomplete" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <div style="width:100%;height:300px" id="gmap"></div>
             </div>
             <div class="form-group">
@@ -33,6 +38,7 @@
                 <input asp-for="Longitude" class="form-control" />
                 <span asp-validation-for="Longitude" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
@@ -102,7 +108,7 @@
             {
                 <div class="form-group">
                     <label asp-for="User" class="control-label"></label>
-                    <select id="User" name="User" class="form-control">
+                    <select id="User" name="User" class="form-control" required>
                         <option value="">Please select</option>
                         @foreach (var user in Model.User)
                         {
@@ -155,9 +161,12 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+
 <script type="text/javascript">
 
     function initialize() {
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtautocomplete'));
         var myLatlng = new google.maps.LatLng(33.3659, 35.3265);
         var myOptions = {
             zoom: 7,
@@ -165,6 +174,23 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
         map = new google.maps.Map(document.getElementById("gmap"), myOptions);
+        //map.controls[google.maps.ControlPosition.TOP_LEFT].push(document.getElementById('txtautocomplete'));
+        autocomplete.bindTo('bounds', map);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(13);  // Why 17? Because it looks good.
+            }
+
+            //var location = "<b>Address</b>:" + place.formatted_address + "<br/>";
+            //location += place.geometry.location + "<br/>";
+            //document.getElementById('lblResult').innerHTML = location
+        });
+
+
         // marker refers to a global variable
         marker = new google.maps.Marker({
             position: myLatlng,

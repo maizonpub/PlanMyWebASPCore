@@ -41,7 +41,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
                 return NotFound();
             }
             var relateditems = _context.VendorItems.Where(x => x.Categories.Where(y=>vendorItem.Categories.Where(z=>z.VendorCategory == y.VendorCategory).Count()>0 && y.VendorItem!=vendorItem).Count()>0).OrderBy(x=>Guid.NewGuid()).Take(3);
-            var relatedOffers = _context.Offers.Where(x => x.User.Id == vendorItem.User.Id);
+            var relatedOffers = _context.Offers.Where(x => x.User.Id == vendorItem.User.Id).AsEnumerable();
             var branches = _context.VendorBranches.Where(x => x.VendorItemId == vendorItem.Id).AsEnumerable();
             SingleVendorViewModel single = new SingleVendorViewModel { VendorItem = vendorItem, RelatedItems = relateditems, RelatedOffers = relatedOffers, Branches = branches };
             return View(single);

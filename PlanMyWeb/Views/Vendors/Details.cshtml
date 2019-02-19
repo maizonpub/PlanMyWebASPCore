@@ -114,14 +114,15 @@
                         <div class="col-md-12 title">
 
                             <h1 class="item_title">@Model.VendorItem.Title</h1>
-                            <p class="location">
-                                <i @*class="fa fa-map-marker"*@></i>  @Model.VendorItem.Address     @if (!string.IsNullOrEmpty(Model.VendorItem.PhoneNumber))
-                                {<br /><i @*class="fa fa-phone"*@></i>  <a style="color:black;" href="tel:@Model.VendorItem.PhoneNumber">@Model.VendorItem.PhoneNumber </a>}      @if (!string.IsNullOrEmpty(Model.VendorItem.Email))
-                                {<br /><i @*class="fa fa-envelope"*@><a  style="color:black;" href="mailto:@Model.VendorItem.Email">@Model.VendorItem.Email  </a></i>} @if (!string.IsNullOrEmpty(website))
+                            <p class="location" style="font-family:'Century Gothic',sans-serif;">
+                                <i @*class="fa fa-map-marker" *@></i>  @Model.VendorItem.Address     @if (!string.IsNullOrEmpty(Model.VendorItem.PhoneNumber))
+                                {<br /><i @*class="fa fa-phone" *@></i> <a style="color:black;" href="tel:@Model.VendorItem.PhoneNumber">@Model.VendorItem.PhoneNumber </a>}@foreach (var branch in Model.VendorItem.VendorBranches)
+                                {<br /><i @*class="fa fa-phone" *@></i> <a style="color:black;" href="tel:@branch.PhoneNumber">@branch.PhoneNumber </a>}      @if (!string.IsNullOrEmpty(Model.VendorItem.Email))
+                                {<br /><i @*class="fa fa-envelope" *@><a style="color:black;" href="mailto:@Model.VendorItem.Email">@Model.VendorItem.Email  </a></i>} @if (!string.IsNullOrEmpty(website))
                                 {<br /> <i class="fa fa-globe"><a style="color:black;" href="@website" target="_blank">@Model.VendorItem.Website</a></i>} <br /> @if (!string.IsNullOrEmpty(facebook))
-                                {<a style="color:black;" href="@facebook" target="_blank"> <i class="fa fa-facebook-official" @*style="font-size:25px !important"*@></i></a>} @if (!string.IsNullOrEmpty(instagram))
+                                {<a style="color:black;" href="@facebook" target="_blank"> <i class="fa fa-facebook-official" @*style="font-size:25px !important" *@></i></a>} @if (!string.IsNullOrEmpty(instagram))
                                 {
-                                    <a href="@instagram" target="_blank"><i class="fa fa-instagram" @*style="font-size:25px !important"*@> </i></a>} <br />
+                                    <a style="color:black;" href="@instagram" target="_blank"><i class="fa fa-instagram" @*style="font-size:25px !important" *@> </i></a>} <br />
                             </p>
                         </div>
 
@@ -130,7 +131,9 @@
                 </div>
                 <div class="venue-details">
                     <h2 style="color:black">About</h2>
+                    @if (!string.IsNullOrEmpty(Model.VendorItem.HtmlDescription)) { 
                     <p>@Html.Raw(Model.VendorItem.HtmlDescription)</p>
+                    }
 
                 </div>
                 <div class="row">
@@ -214,7 +217,7 @@
                                 <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="4" style="width:50px;height:50px;" />
                                 <img src="~/images/EmptyStar.png" class="StarRating" align="middle" id="5" style="width:50px;height:50px;" />
                             </p>
-                            <p class="comment-form-comment"><label for="comment">Your Review</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required" placeholder="Tell about your experience or leave a tip for others" class="form-control" data-gramm="true" data-txt_gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" data-gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" spellcheck="false" data-gramm_editor="true" style="z-index: auto;position: relative;line-height: 20px;font-size: 14px;transition: none 0s ease 0s;border-radius:2px;border:1px solid #e9e6e0;"></textarea></p>
+                            <p class="comment-form-comment" style="font-family:'Century Gothic', sans-serif;"><label for="comment">Your Review</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required" placeholder="Tell about your experience or leave a tip for others" class="form-control" data-gramm="true" data-txt_gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" data-gramm_id="9d8f2fbc-1376-9363-5d8c-ede9a0ebb4fd" spellcheck="false" data-gramm_editor="true" style="z-index: auto;position: relative;line-height: 20px;font-size: 14px;transition: none 0s ease 0s;border-radius:2px;border:1px solid #e9e6e0;"></textarea></p>
                             <div class="form-group"><div class="col-md-12"><label for="author" class="control-label">Name</label><input id="author" name="author" type="text" value="" aria-required="true" class="form-control" /></div></div>
                             <div class="form-group"><div class="col-md-12"><label for="email" class="control-label">Email</label><input class="form-control" id="email" name="email" type="text" value="" aria-required="true" /></div></div>
                             <div class="form-group"><div class="col-md-12"><label for="subject" class="control-label">Subject</label><input class="form-control" id="subject" name="subject" type="text" value="" aria-required="true" /></div></div>
@@ -353,7 +356,7 @@
         <div class="row">
             <div class="col-md-12 tp-title">
 
-                @if (Model.RelatedOffers.Count() > 0)
+                @if (Model.RelatedOffers!=null && Model.RelatedOffers.Count() > 0)
                 {
                     <h1 style="color:black;">Offers by&nbsp;@Model.VendorItem.Title</h1>
                     foreach (var offer in Model.RelatedOffers)

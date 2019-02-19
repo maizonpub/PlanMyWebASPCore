@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DAL.TopicGallery>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Media Gallery";
     ViewBag.Active = "Gallery";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
@@ -26,11 +26,9 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Image)
+                                <img src="~/Media/@item.Image" style="height:100px"/>
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>
                         </tr>

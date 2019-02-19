@@ -2,6 +2,10 @@
 
 @inject SignInManager<DAL.Users> SignInManager
 @inject UserManager<DAL.Users> UserManager
+@inject DAL.DbWebContext context
+@{
+    var pages = context.Pages;
+}
 
 @{
     var user = await SignInManager.UserManager.GetUserAsync(User);
@@ -267,6 +271,7 @@
                 <div class="col-md-6 top-links">
                     <div class="menu-topbar-container">
                         <ul id="menu-topbar" class="listnone">
+                            <li><a href="~/Identity/Account/Manage"><i class="fa fa-user db-icon"></i>My Profile</a></li>
                             <li id="menu-item-1518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1518"><a href="#">Contact Us</a></li>
                             <li id="menu-item-5576" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5576"><a href="#">Cart</a></li>
                             <li><a href="#">Logout</a></li>
@@ -307,7 +312,7 @@
                             <li id="menu-item-1220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1220"><a href="@Url.Action("Index","Venues",new { area = "" })">Venues</a></li>
                             <li id="menu-item-960" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-960"><a href="@Url.Action("Index","Vendors",new { area = "" })">Vendors</a></li>
                             <li id="menu-item-4802" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4802"><a href="@Url.Action("Index","Inspirations",new { area = "" })">Inspirations</a></li>
-                            <li id="menu-item-1201" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1201"><a href="#">Wedding List</a></li>
+                            @*<li id="menu-item-1201" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1201"><a href="#">Wedding List</a></li>*@
                             <li id="menu-item-4671" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4671"><a href="@Url.Action("Index","Offers",new { area = "" })">Offers</a></li>
                         </ul>
                     </div>      <!-- /.navbar-collapse -->
@@ -335,7 +340,7 @@
             <div class="row">
                 <div class="col-md-12 dashboard-nav">
                     <partial name="_DashboardMenuPartial" />
-                    
+
                 </div>
             </div>
         </div>
@@ -373,7 +378,13 @@
                     <div id="text-6" class="widget widget_text">
                         <h2>Plan my</h2>			<div class="textwidget">
                             <p style="font-size:16px;">
-                                From the smallest last minute forgotten detail, to creating your whole event, Plan my is your go to App
+                                We provide the largest network of local event vendors. We simplify the pricing, booking, availability and help you get answers you need from venues and vendors in every town.
+                            </p>
+                            <p style="font-size:16px;">
+                                We also provide free, easy-to-use event planning tools like customizable checklists to keep your tasks in order, a budget calculator and a guest list monitor.
+                            </p>
+                            <p style="font-size:16px;">
+                                Stay on top of all the details while on-the-go with Planmy app, which features a customized profile and a countdown to your big day.
                             </p>
                             <p><a class="btn tp-btn-default tp-btn-lg" href="#">Start browsing!</a></p>
                         </div>
@@ -383,11 +394,10 @@
                     <div id="text-7" class="widget widget_text">
                         <h2>Useful links</h2>			<div class="textwidget">
                             <ul class="listnone">
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Inspirations</a></li>
-                                <li><a href="#">Career</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms of Use</a></li>
+                                @foreach (var row in pages)
+                                {
+                                    <li><a href="/pages/@row.Title">@row.Title</a></li>
+                                }
                             </ul>
                         </div>
                     </div>
