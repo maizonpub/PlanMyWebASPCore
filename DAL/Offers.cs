@@ -28,7 +28,8 @@ namespace DAL
     public enum OffersType
     {
         HotDeals,
-        Bundles
+        Bundles,
+        EShop
     }
 
     public enum Validity
