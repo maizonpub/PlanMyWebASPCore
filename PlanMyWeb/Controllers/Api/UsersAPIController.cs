@@ -47,9 +47,14 @@ namespace PlanMyWeb.Controllers.Api
                     string PhoneNumber = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "";
                     UserType UserType = user.UserType;
                     var events = _context.Events.Where(x => x.UserId == user.Id).FirstOrDefault();
-                    if(events!=null)
-                        if(!string.IsNullOrEmpty(events.Image))
+                    if (events != null)
+                    {
+                        if (!string.IsNullOrEmpty(events.Image))
                             events.Image = "http://" + Request.Host + "/Media/" + events.Image;
+                    }
+                    else
+                        events = new Events { };
+
                     ApiUsersViewModel api = new ApiUsersViewModel { Address = Address, Age = Age, City = City, Country = Country, CreationDate = CreationDate, Email = user.Email, FirstName = user.FirstName, Gender = VGender, Id = Id, Image = Image, LastName = user.LastName, PhoneNumber = PhoneNumber, UserName = Username, UserType = user.UserType, Events = events };
                     return Ok(api);
                 }
@@ -92,6 +97,10 @@ namespace PlanMyWeb.Controllers.Api
             if(!string.IsNullOrEmpty(FBToken))
             {
                 user = _context.Users.Where(x => x.FBToken == FBToken).FirstOrDefault();
+                if(user==null)
+                {
+                    user = _context.Users.Where(x => x.Email == Email).FirstOrDefault();
+                }
             }
             if (user == null)
             {
@@ -120,7 +129,13 @@ namespace PlanMyWeb.Controllers.Api
                     string PhoneNumber = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "";
                     UserType UserType = user.UserType;
                     var events = _context.Events.Where(x => x.UserId == user.Id).FirstOrDefault();
-                    events.Image = "http://" + Request.Host + "/Media/" + events.Image;
+                    if (events != null)
+                    {
+                        if (!string.IsNullOrEmpty(events.Image))
+                            events.Image = "http://" + Request.Host + "/Media/" + events.Image;
+                    }
+                    else
+                        events = new Events { };
                     ApiUsersViewModel api = new ApiUsersViewModel { Address = Address, Age = Age, City = City, Country = Country, CreationDate = CreationDate, Email = Email, FirstName = FirstName, Gender = VGender, Id = Id, Image = Image, LastName = LastName, PhoneNumber = PhoneNumber, UserName = Username, UserType = user.UserType, Events = events };
                     return Ok(api);
                 }
@@ -149,7 +164,13 @@ namespace PlanMyWeb.Controllers.Api
                 string PhoneNumber = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "";
                 UserType UserType = user.UserType;
                 var events = _context.Events.Where(x => x.UserId == user.Id).FirstOrDefault();
-                events.Image = "http://" + Request.Host + "/Media/" + events.Image;
+                if (events != null)
+                {
+                    if (!string.IsNullOrEmpty(events.Image))
+                        events.Image = "http://" + Request.Host + "/Media/" + events.Image;
+                }
+                else
+                    events = new Events { };
                 ApiUsersViewModel api = new ApiUsersViewModel { Address = Address, Age = Age, City = City, Country = Country, CreationDate = CreationDate, Email = Email, FirstName = FirstName, Gender = VGender, Id = Id, Image = Image, LastName = LastName, PhoneNumber = PhoneNumber, UserName = Username, UserType = user.UserType, Events = events };
                 return Ok(api);
             }

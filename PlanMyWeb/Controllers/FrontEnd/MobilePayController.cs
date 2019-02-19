@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DAL;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +18,13 @@ namespace PlanMyWeb.Controllers.FrontEnd
         protected DbWebContext _context;
         private readonly UserManager<DAL.Users> _userManager;
         private readonly IEmailSender _emailSender;
-        public MobilePayController(DbWebContext context, UserManager<DAL.Users> userManager, IEmailSender emailSender)
+        IHostingEnvironment _hostingEnvironment;
+        public MobilePayController(DbWebContext context, UserManager<DAL.Users> userManager, IEmailSender emailSender, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _userManager = userManager;
             _emailSender = emailSender;
+            _hostingEnvironment = hostingEnvironment;
         }
         public IActionResult Index(int OrderId)
         {
@@ -60,6 +64,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
                 }
                 order.OrderStatus = OrderStatus.Completed;
                 ViewData["Response"] = "Your order was processed successfully, thank you.";
+                SendEmail(order);
             }
             else if (reason_code == "481")
             {
@@ -83,6 +88,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
                 }
                 order.OrderStatus = OrderStatus.Completed;
                 ViewData["Response"] = "Your order was processed successfully, thank you.";
+                SendEmail(order);
             }
             else
             {
@@ -178,10 +184,42 @@ namespace PlanMyWeb.Controllers.FrontEnd
                 }
                 ViewData["Response"] = responseMsg;
             }
-            var basketItems = _context.BasketItems.Where(x => x.Order == order).Include(x => x.Offers).OrderByDescending(x => x.Id);
-            await _emailSender.SendEmailAsync("", "", "");
+            var basketitems = _context.BasketItems.Where(x => x.Order.Id == order.Id).Include(x => x.Offers).Include(x => x.Offers.User).ToList();
             _context.SaveChanges();
-            return View(basketItems);
+            return View(basketitems);
+        }
+        async void SendEmail(Order order)
+        {
+            StreamReader sr = new StreamReader(_hostingEnvironment.WebRootPath + "/emailtemplate/OrderConfirmed.html");
+            string temp = sr.ReadToEnd();
+            var basketitems = _context.BasketItems.Where(x => x.Order.Id == order.Id).Include(x => x.Offers).Include(x => x.Offers.User).ToList();
+            string ordertable = "";
+            foreach (var item in basketitems)
+            {
+                ordertable += @"<tr class=""m_-5965336264313205829order_item"">
+                                                                                                        <td class=""m_-5965336264313205829td"" style=""color:#636363;border:1px solid #e5e5e5;vertical-align:middle;padding:12px;text-align:left;font-family:'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif;word-wrap:break-word"">
+                                                                                                            " + item.Offers.Title + @"<ul class=""m_-5965336264313205829wc-item-meta"" style=""font-size:small;margin:1em 0 0;padding:0;list-style:none"">
+                                                                                                                <li style=""margin:0.5em 0 0;padding:0"">
+                                                                                                                    <strong class=""m_-5965336264313205829wc-item-meta-label"" style=""float:left;margin-right:.25em;clear:both"">Sold By:</strong>" + (item.Offers.User != null ? item.Offers.User.UserName : "PLAN MY") + @"</p>
+                                                                                                                </li>
+                                                                                                            </ul>
+                                                                                                        </td>
+                                                                                                        <td class=""m_-5965336264313205829td"" style=""color:#636363;border:1px solid #e5e5e5;vertical-align:middle;padding:12px;text-align:left;font-family:'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif"">
+                                                                                                            " + item.Quantity + @"
+                                                                                                        </td>
+                                                                                                        <td class=""m_-5965336264313205829td"" style=""color:#636363;border:1px solid #e5e5e5;vertical-align:middle;padding:12px;text-align:left;font-family:'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif"">
+                                                                                                            <span class=""m_-5965336264313205829woocommerce-Price-amount m_-5965336264313205829amount""><span class=""m_-5965336264313205829woocommerce-Price-currencySymbol"">$</span>" + item.TotalPrice + @"</span>
+                                                                                                        </td>
+                                                                                                    </tr>";
+            }
+
+            var user = _context.Users.Where(x => x.Id == order.UsersId).FirstOrDefault();
+            temp = temp.Replace("$username$", (user != null ? user.UserName : "Customer")).Replace("$referencenumber$", order.ReferenceNumber).Replace("$date$", order.TransactionDate.ToString()).Replace("$order$", ordertable).Replace("$subtotal$", order.Total.ToString()).Replace("$total$", order.Total.ToString());
+            sr.Close();
+            await _emailSender.SendEmailAsync(
+                order.Users.Email,
+                "Order confirmed from planmy",
+                temp);
         }
     }
 }
