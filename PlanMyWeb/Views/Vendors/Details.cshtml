@@ -131,7 +131,9 @@
                 </div>
                 <div class="venue-details">
                     <h2 style="color:black">About</h2>
+                    @if (!string.IsNullOrEmpty(Model.VendorItem.HtmlDescription)) { 
                     <p>@Html.Raw(Model.VendorItem.HtmlDescription)</p>
+                    }
 
                 </div>
                 <div class="row">
@@ -354,7 +356,7 @@
         <div class="row">
             <div class="col-md-12 tp-title">
 
-                @if (Model.RelatedOffers.Count() > 0)
+                @if (Model.RelatedOffers!=null && Model.RelatedOffers.Count() > 0)
                 {
                     <h1 style="color:black;">Offers by&nbsp;@Model.VendorItem.Title</h1>
                     foreach (var offer in Model.RelatedOffers)

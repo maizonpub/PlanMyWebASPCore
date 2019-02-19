@@ -95,7 +95,7 @@ namespace PlanMyWeb.Controllers.Admin
                     userId = _userManager.GetUserId(User);
                 }
                 var user = _context.Users.Find(userId);
-                VendorItem row = new VendorItem { Thumb = filename, MediaType = vendorItemViewModel.MediaType, Address = vendorItemViewModel.Address, Country = vendorItemViewModel.Country, Email = vendorItemViewModel.Email, HtmlDescription = vendorItemViewModel.HtmlDescription, IsFeatured = vendorItemViewModel.IsFeatured, Latitude = vendorItemViewModel.Latitude, Longitude = vendorItemViewModel.Longitude, Location = vendorItemViewModel.Location, PhoneNumber = vendorItemViewModel.PhoneNumber, Title = vendorItemViewModel.Title, User = user, Website = vendorItemViewModel.Website, Facebook = vendorItemViewModel.Facebook, Instagram = vendorItemViewModel.Instagram };
+                VendorItem row = new VendorItem { Thumb = filename, MediaType = vendorItemViewModel.MediaType, Address = vendorItemViewModel.Address, Country = vendorItemViewModel.Country, Email = vendorItemViewModel.Email, HtmlDescription = vendorItemViewModel.HtmlDescription, IsFeatured = vendorItemViewModel.IsFeatured, Latitude = vendorItemViewModel.Latitude, Longitude = vendorItemViewModel.Longitude, Location = vendorItemViewModel.Location, PhoneNumber = vendorItemViewModel.PhoneNumber, Title = vendorItemViewModel.Title, UserId = user.Id, Website = vendorItemViewModel.Website, Facebook = vendorItemViewModel.Facebook, Instagram = vendorItemViewModel.Instagram };
                 string[] catIds = Request.Form["Categories"].ToString().Split(',');
                 
                     var dbcats = _context.VendorCategories.Where(x => catIds.Contains(x.Id.ToString())).ToList();
@@ -191,6 +191,7 @@ namespace PlanMyWeb.Controllers.Admin
                     row.Thumb = row.Thumb;
                 row.Latitude = vendorItemViewModel.Latitude;
                 row.Longitude = vendorItemViewModel.Longitude;
+                row.UserId = userId;
                 row.Location = vendorItemViewModel.Location;
                 row.PhoneNumber = vendorItemViewModel.PhoneNumber;
                 row.Title = vendorItemViewModel.Title;
