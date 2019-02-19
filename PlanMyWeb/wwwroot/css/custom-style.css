@@ -129,7 +129,12 @@ label .required {
 /*--------------------
 	Main Container 
 ----------------------*/
-.main-container{padding-top: 40px; padding-bottom: 40px;}
+.main-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-top: 1px solid #e9e6e0;
+    
+}
 
 /*--------------------
 	Content + Left Sidebar 
@@ -899,7 +904,7 @@ form.btn-default.active.focus,
 .filter-sidebar .form-group:last-child{border: none;margin: 0; padding-bottom: 0px;}
 .filter-sidebar .control-label{font-size: 12px; text-transform: uppercase;font-weight: 700;}
 /*---- White Box class------*/
-.well-box{background-color: #fff; padding: 28px; border: 1px solid #e9e6e0; margin-bottom: 30px;}
+.well-box{/*background-color: #fff; padding: 28px; border: 1px solid #e9e6e0; margin-bottom: 30px;*/}
 /*----- Feature ------*/
 .padding-feature{ padding: 30px;  background-color: #e5e5e5;}
 .outline-feature{ padding: 30px;  border:2px solid #e5e5e5;}

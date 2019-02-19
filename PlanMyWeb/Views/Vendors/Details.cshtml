@@ -115,13 +115,14 @@
 
                             <h1 class="item_title">@Model.VendorItem.Title</h1>
                             <p class="location" style="font-family:'Century Gothic',sans-serif;">
-                                <i @*class="fa fa-map-marker"*@></i>  @Model.VendorItem.Address     @if (!string.IsNullOrEmpty(Model.VendorItem.PhoneNumber))
-                                {<br /><i @*class="fa fa-phone"*@></i>  <a style="color:black;" href="tel:@Model.VendorItem.PhoneNumber">@Model.VendorItem.PhoneNumber </a>}      @if (!string.IsNullOrEmpty(Model.VendorItem.Email))
-                                {<br /><i @*class="fa fa-envelope"*@><a  style="color:black;" href="mailto:@Model.VendorItem.Email">@Model.VendorItem.Email  </a></i>} @if (!string.IsNullOrEmpty(website))
+                                <i @*class="fa fa-map-marker" *@></i>  @Model.VendorItem.Address     @if (!string.IsNullOrEmpty(Model.VendorItem.PhoneNumber))
+                                {<br /><i @*class="fa fa-phone" *@></i> <a style="color:black;" href="tel:@Model.VendorItem.PhoneNumber">@Model.VendorItem.PhoneNumber </a>}@foreach (var branch in Model.VendorItem.VendorBranches)
+                                {<br /><i @*class="fa fa-phone" *@></i> <a style="color:black;" href="tel:@branch.PhoneNumber">@branch.PhoneNumber </a>}      @if (!string.IsNullOrEmpty(Model.VendorItem.Email))
+                                {<br /><i @*class="fa fa-envelope" *@><a style="color:black;" href="mailto:@Model.VendorItem.Email">@Model.VendorItem.Email  </a></i>} @if (!string.IsNullOrEmpty(website))
                                 {<br /> <i class="fa fa-globe"><a style="color:black;" href="@website" target="_blank">@Model.VendorItem.Website</a></i>} <br /> @if (!string.IsNullOrEmpty(facebook))
-                                {<a style="color:black;" href="@facebook" target="_blank"> <i class="fa fa-facebook-official" @*style="font-size:25px !important"*@></i></a>} @if (!string.IsNullOrEmpty(instagram))
+                                {<a style="color:black;" href="@facebook" target="_blank"> <i class="fa fa-facebook-official" @*style="font-size:25px !important" *@></i></a>} @if (!string.IsNullOrEmpty(instagram))
                                 {
-                                    <a style="color:black;" href="@instagram" target="_blank"><i class="fa fa-instagram" @*style="font-size:25px !important"*@> </i></a>} <br />
+                                    <a style="color:black;" href="@instagram" target="_blank"><i class="fa fa-instagram" @*style="font-size:25px !important" *@> </i></a>} <br />
                             </p>
                         </div>
 
