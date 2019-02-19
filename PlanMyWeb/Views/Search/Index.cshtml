@@ -16,11 +16,11 @@
             <div class="col-md-12 content-left">
 
                 <header class="page-header">
-                    <h1 class="page-title">Search Results for: <span>@ViewData["Search"]</span></h1>
+                    <h1 class="page-title" style="color:black;">Search Results for: <span>@ViewData["Search"]</span></h1>
                 </header><!-- .page-header -->
                 @foreach (var item in Model)
                 {
-                <div class="well-box">
+                <div class="well-box col-md-3">
                     <div id="post-1709" class="post-1709 item type-item status-publish has-post-thumbnail hentry itemcategory-caterers itemlocation-beirut itemcateringservices-bars-alcohol-retail itemcity-lebanon">
                         <div class="post-image">
                             @if (item.SearchType == SearchType.Vendors)
@@ -43,9 +43,10 @@
                             }
 
                         </h1>
-                        <div class="entry-content">
+                        @*<div class="entry-content">
                             <p> @Html.Raw(item.Text)</p>
-                        </div><!-- .entry-content -->
+                        </div>*@
+                    <!-- .entry-content -->
                         @if (item.SearchType == SearchType.Vendors)
                         {
                             <a class="btn tp-btn-primary" href="/Vendors/Details/@item.Id">Read More</a>

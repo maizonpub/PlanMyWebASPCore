@@ -391,7 +391,7 @@
                     </span>*@
                             </a>
                         </li>
-                        <li class="@if (ViewBag.Active == "BlogCategories" || ViewBag.Active == "Topics" || ViewBag.Active == "Gallery")
+                        <li class="@if (ViewBag.Active == "BlogCategories" || ViewBag.Active == "Topics")
                         {<text>active</text>} treeview">
                             <a href="#">
                                 <i class="fa fa-folder-open"></i>
@@ -403,8 +403,8 @@
                             <ul class="treeview-menu">
                                 <li @if (ViewBag.Active == "BlogCategories") { <text> class="active" </text> }><a href="~/Admin/BlogCategories"><i class="fa fa-circle-o"></i> Categories</a></li>
                                 <li @if (ViewBag.Active == "Topics") { <text> class="active" </text> }><a href="~/Admin/Blogs"><i class="fa fa-circle-o"></i> Topics</a></li>
-                                <li @if (ViewBag.Active == "Gallery") { <text> class="active" </text>}><a href="~/Admin/TopicGalleries"><i class="fa fa-circle-o"></i>Gallery</a></li>
-                                
+                                @*<li @if (ViewBag.Active == "Gallery") { <text> class="active" </text> }><a href="~/Admin/TopicGalleries"><i class="fa fa-circle-o"></i>Gallery</a></li>*@
+
                             </ul>
                         </li>
                     }
@@ -460,6 +460,15 @@
                             <a href="~/Admin/UsefulLinks">
                                 <i class="fa fa-link"></i>
                                 <span>Useful Links</span>
+                                @*<span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>*@
+                            </a>
+                        </li>
+                        <li @if (ViewBag.Active == "Gallery") { <text> class="active" </text> }>
+                            <a href="~/Admin/TopicGalleries">
+                                <i class="fa fa-picture-o"></i>
+                                <span>Media Gallery</span>
                                 @*<span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>*@
