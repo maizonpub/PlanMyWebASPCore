@@ -17,14 +17,19 @@ namespace PlanMyWeb.Controllers.FrontEnd
         {
             _context = context;
         }
-        public IActionResult Index(int? categoryId, int page = 1)
+        public IActionResult Index(int? categoryId, OffersType? area, int page = 1)
         {
-            var offers = new List<Offers>().ToPagedList();
+            var offers = new List<Offers>();
             if (categoryId == null)
-                offers = _context.Offers.OrderByDescending(x => x.OffersType).ToPagedList(page, PageSize);
+                offers = _context.Offers.OrderByDescending(x => x.OffersType).ToList();
             else
-                offers = _context.Offers.Where(x => x.OffersCategories.Where(y => y.VendorCategory.Id == categoryId).Count() > 0).OrderByDescending(x => x.OffersType).ToPagedList(page, PageSize);
-            return View(offers);
+                offers = _context.Offers.Where(x => x.OffersCategories.Where(y => y.VendorCategory.Id == categoryId).Count() > 0).OrderByDescending(x => x.OffersType).ToList();
+            if(area!=null)
+            {
+                offers = offers.Where(x => x.OffersType == (OffersType)area).ToList();
+            }
+            
+            return View(offers.ToPagedList(page, PageSize));
         }
         public IActionResult Details(int id)
         {

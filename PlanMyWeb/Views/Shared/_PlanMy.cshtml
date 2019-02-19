@@ -299,7 +299,13 @@
                             <li id="menu-item-1220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1220"><a href="@Url.Action("Index","Venues",new { area = "" })">Venues</a></li>
                             <li id="menu-item-960" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-960"><a href="@Url.Action("Index","Vendors",new { area = "" })">Vendors</a></li>
                             <li id="menu-item-4802" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4802"><a href="@Url.Action("Index","Inspirations",new { area = "" })">Inspirations</a></li>
-                            <li id="menu-item-4671" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4671"><a href="@Url.Action("Index","Offers",new { area = "" })">Offers</a></li>
+                            <li id="menu-item-4671" class="dropdown-togglemenu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4671 has-sub"><a href="@Url.Action("Index","Offers",new { area = "" })">Offers<span class="fa fa-angle-down"></span></a>
+                                <ul>
+                                    <li> <a href="@Url.Action("Index","Offers",new { area = DAL.OffersType.EShop })">E-Shop</a></li>
+                                    <li> <a href="@Url.Action("Index","Offers",new { area = DAL.OffersType.HotDeals })">Hot Deals</a></li>
+                                    <li> <a href="@Url.Action("Index","Offers",new { area = DAL.OffersType.Bundles })">Bundles</a></li>
+                                </ul>
+                            </li>
                         </ul>
 
                     </div>      <!-- /.navbar-collapse -->
