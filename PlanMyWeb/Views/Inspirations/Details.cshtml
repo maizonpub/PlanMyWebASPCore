@@ -54,10 +54,12 @@
         <text></text>
     }
                     </a>
-                    </span>      
+                    </span>
+                    
                     <div class="entry-content">
                     <p>
                         @Model.Blog.HtmlDescription
+                        
                         </p>
                         </div><!-- .entry-content -->
                 </div>
@@ -69,8 +71,8 @@
     {
         <div class="col-md-6 col-sm-6 prev-post">
             <span>
-                <a href="Inspirations/Details/@Model.PreviousPage.Id" class="link-prev-next"><i class="fa fa-angle-double-left"></i>Previous </a>
-                <h3><a href="Inspirations/Details/@Model.PreviousPage.Id" title="@Model.PreviousPage.Title" class="link">@Model.PreviousPage.Title</a></h3>
+                <a href="@Model.PreviousPage.Id" class="link-prev-next"><i class="fa fa-angle-double-left"></i>Previous </a>
+                <h3><a href="@Model.PreviousPage.Id" title="@Model.PreviousPage.Title" class="link">@Model.PreviousPage.Title</a></h3>
             </span>
         </div>
     }
@@ -79,8 +81,8 @@
     {
         <div class="col-md-6 col-sm-6 next-post">
             <span>
-                <a href="Inspirations/Details/@Model.NextPage.Id" class="link-prev-next">Next <i class="fa fa fa-angle-double-right"></i></a>
-                <h3><a href="Inspirations/Details/@Model.NextPage.Id" title="@Model.NextPage.Title" class="link">@Model.NextPage.Title</a></h3>
+                <a href="@Model.NextPage.Id" class="link-prev-next">Next <i class="fa fa fa-angle-double-right"></i></a>
+                <h3><a href="@Model.NextPage.Id" title="@Model.NextPage.Title" class="link">@Model.NextPage.Title</a></h3>
                 
                 </span>
         </div>

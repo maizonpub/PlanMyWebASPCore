@@ -16,5 +16,6 @@ namespace PlanMyWeb.Models
     {
         public IEnumerable<BlogCategory> Categories { get; set; }
         public IEnumerable<Blog> Blogs { get; set; }
+
     }
 }
