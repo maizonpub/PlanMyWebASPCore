@@ -12,4 +12,9 @@ namespace PlanMyWeb.Models
         public Blog NextPage { get; set; }
         public Blog PreviousPage { get; set; }
     }
+    public class InspirationsListViewModel
+    {
+        public IEnumerable<BlogCategory> Categories { get; set; }
+        public IEnumerable<Blog> Blogs { get; set; }
+    }
 }

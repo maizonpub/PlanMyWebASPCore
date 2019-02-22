@@ -4,6 +4,7 @@
 @inject UserManager<DAL.Users> UserManager
 @{
     ViewData["Title"] = "Index";
+    ViewBag.Active = "WishList";
     Layout = "~/Views/Shared/PlannerDashboard.cshtml";
     var user = await UserManager.GetUserAsync(User);
 }

@@ -132,7 +132,7 @@ label .required {
 .main-container {
     padding-top: 40px;
     padding-bottom: 40px;
-    border-top: 1px solid #e9e6e0;
+    /*border-top: 1px solid #e9e6e0;*/
     
 }
 
@@ -314,13 +314,13 @@ label .required {
 .vendor-box .rating {}
 .vendor-box .capacity{font-size: 14px;font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 700;}
 .vendor-detail{padding: 0px; border: 1px solid #e9e6e0; border-radius: 0px;border-top: transparent; background-color: #fff;}
-.vendor-detail .caption { padding: 20px; min-height:115px;}
+.vendor-detail .caption { padding: 20px; /*min-height:115px;*/}
 .vendor-detail .caption h2{ margin-bottom: 10px;}
 .vendor-detail .location{font-size: 14px; margin-bottom: 0px;}
 /*.vendor-image { position: relative; overflow: hidden;}
 .vendor-image img { -webkit-transform: scale(1.2); transform: scale(1.2); -webkit-transition: all .5s ease; transition: all .5s ease; opacity: .9;}
 .vendor-image a:hover img { -webkit-transform: scale(1); transform: scale(1); opacity: 1;}*/
-.vendor-image{position: relative; opacity: 0.85; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s;overflow:hidden;height:300px;}
+.vendor-image{position: relative; opacity: 0.85; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s;overflow:hidden;height:307px;}
 .vendor-image:hover{opacity: 1;}
 
 .vendor-price{background-color: #fcfbf9;padding: 9px 29px; border-top: 1px solid #e9e6e0;}
@@ -2333,7 +2333,8 @@ padding space
     /*display: inline-block;*/
     position: relative;
     width: 100%;
-    height:300px;
+    height:330px;
+    overflow: hidden;
 }
 
 .vendor-name--51686 {

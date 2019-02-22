@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.Blog>
+﻿@model InspirationsListViewModel
 @{
     ViewData["Title"] = "Inspirations";
 }
@@ -9,45 +9,94 @@
         font-family: Istok Web !important;
         font-weight: 400,400italic,700,700italic;
     }
+    .tp-nav {
+        border-bottom: 1px solid #e9e6e0;
+    }
 </style>
 
 <div class="main-container">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="left-sidebar">
+                    <div class="filter-box collapse in" id="searchform">
+                        <div class="row filter-form">
+                            <div class="col-md-12">
+                                <h2 style="color:black">Refine Your Search</h2>
+                            </div>
+                            <form method="get">
+
+                                <input type="hidden" id="list_style" value="oscar" />
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label" for="category_type">Category</label>
+                                        <select name="category_type" id="category_type" class="form-control input-md" onchange="window.location.href='/Inspirations?CategoryId='+this.value">
+                                            <option value="">Select Category</option>
+                                            @foreach (var row in Model.Categories)
+                                            {
+                                                if (row.Id.ToString() == Context.Request.Query["CategoryId"])
+                                                {
+                                                    <option value="@row.Id" selected>@row.Title</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@row.Id">@row.Title</option>
+                                                }
+                                            }
+                                        </select>
+                                     </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button type="button" id="leftsidebar-search" class="btn tp-btn-default tp-btn-lg btn-block">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
                 <!-- col-md-8 -->
-                @foreach (var row in Model)
+                @foreach (var row in Model.Blogs)
                 {
                     <div class="col-md-4">
                         <div id="post-263" class="post-263 post type-post status-publish format-image has-post-thumbnail sticky hentry category-party-at-home tag-wedding post_format-post-format-image">
-                            <div class="post-image"><a href="Inspirations/Details/@row.Id"><img alt="" class="img-responsive img-radius" src="~/Media/@row.Image" /></a></div><h3 class="post-title"><a href="./Details/@row.Id" rel="bookmark">@row.Title</a></h3>		
-                        <div class="entry-meta">
-                                <span class="date-meta">ON <a href="./Details/@row.Id" rel="bookmark"><time class="entry-date published" datetime="@row.PostDate">@row.PostDate.Month @row.PostDate.Day, @row.PostDate.Year</time></a>/ </span><span class="tag-meta">IN <a href="#" rel="category tag"> 
-                            @if (row.BlogCategoryRelations!=null && row.BlogCategoryRelations.FirstOrDefault() != null)
-                            {
-                                    @row.BlogCategoryRelations.FirstOrDefault().Category.Title;
-                                }
-                                else {
-                                    <text></text>
-                                } </a></span>
+                            <div class="post-image"><a href="Inspirations/Details/@row.Id"><img alt="" class="img-responsive img-radius" src="~/Media/@row.Image" /></a></div><h3 class="post-title"><a href="./Details/@row.Id" rel="bookmark">@row.Title</a></h3>
+                            <div class="entry-meta">
+                                <span class="date-meta">
+                                    ON <a href="./Details/@row.Id" rel="bookmark">
+                                        <time class="entry-date published" datetime="@row.PostDate">@row.PostDate.Month @row.PostDate.Day, @row.PostDate.Year</time>
+                                    </a>/
+                                </span>
+                                <span class="tag-meta">
+                                    IN <a href="#" rel="category tag">
+                                        @if (row.BlogCategoryRelations != null && row.BlogCategoryRelations.FirstOrDefault() != null)
+                                        {
+                                            @row.BlogCategoryRelations.FirstOrDefault().Category.Title;
+                                        }
+                                        else
+                                        {
+                                            <text></text>
+                                        }
+                                    </a>
+                                </span>
                             </div><!-- .entry-meta -->
-
                             @*<div class="entry-content">
-                                <p>
-                                    @if (row.HtmlDescription!=null && row.HtmlDescription.Length > 200)
-                                    {
-                                        @row.HtmlDescription.Substring(0, 200)<text>[&hellip;]</text>
-                                    }
-                                    else if(row.HtmlDescription!=null)
-                                    {
-                                        @row.HtmlDescription
-                                    }
-                                </p>
-                            </div>*@<!-- .entry-content -->
+                            <p>
+                                @if (row.HtmlDescription!=null && row.HtmlDescription.Length > 200)
+                                {
+                                    @row.HtmlDescription.Substring(0, 200)<text>[&hellip;]</text>
+                                }
+                                else if(row.HtmlDescription!=null)
+                                {
+                                    @row.HtmlDescription
+                                }
+                            </p>
+                        </div>*@<!-- .entry-content -->
                             @*<a class="btn tp-btn-primary" href="Inspirations/Details/@row.Id">Read More</a>*@
                         </div><!-- #post-## -->
                     </div>
-                }                                               
+                }
             </div>
             <!-- /.content left -->
 

@@ -33,7 +33,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
         }
         public IActionResult Details(int id)
         {
-            PlanMyWeb.Models.OffersViewModel model = new PlanMyWeb.Models.OffersViewModel();
+            OffersViewModel model = new OffersViewModel();
             var offer = _context.Offers.Where(x => x.Id == id).SingleOrDefault();
             model.Offers = offer;
             return View(model);

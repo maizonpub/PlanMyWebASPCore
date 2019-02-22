@@ -4,6 +4,7 @@
 @inject SignInManager<DAL.Users> SignInManager
 @{
     ViewData["Title"] = "Index";
+    ViewBag.Active = "Dashboard";
     Layout = "~/Views/Shared/PlannerDashboard.cshtml";
     var user = await SignInManager.UserManager.GetUserAsync(User);
 }

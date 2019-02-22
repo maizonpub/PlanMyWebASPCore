@@ -16,9 +16,15 @@ namespace PlanMyWeb.Controllers.FrontEnd
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int? CategoryId)
         {
-            return View(_context.Blogs.OrderByDescending(x=>x.PostDate));
+            var blogs = _context.Blogs.OrderByDescending(x => x.PostDate).AsEnumerable();
+            var categories = _context.BlogCategories.ToList();
+            if (CategoryId != null)
+                //blogs = blogs.Where(x => x.BlogCategoryRelations == (BlogCategoryRelation)CategoryId).AsEnumerable();
+            blogs = blogs.Where(x => x.BlogCategoryRelations!= null && x.BlogCategoryRelations.Where(y => y.Category.Id == (int)CategoryId).Count() > 0).AsEnumerable();
+            InspirationsListViewModel model = new InspirationsListViewModel { Blogs = blogs, Categories = categories };
+            return View(model);
         }
     public async Task<IActionResult> Details(int? id)
     {

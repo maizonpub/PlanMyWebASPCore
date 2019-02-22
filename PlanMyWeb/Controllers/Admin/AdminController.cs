@@ -14,11 +14,15 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if(User.Identity.IsAuthenticated)
             {
-                return Redirect("/Admin/WebContents");
+
+                if (User.IsInRole("Admin"))
+                    return Redirect("/Admin/WebContents");
+                else
+                    return Redirect("/");
             }
             else
             {
-                return Redirect("/Identity/Account/Login");
+                return Redirect("/Identity/Account/Login?returnUrl=/Admin/WebContents");
             }
         }
         [Route("Error")]

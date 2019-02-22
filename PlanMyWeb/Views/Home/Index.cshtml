@@ -90,7 +90,7 @@
         <div class="row">
     @foreach (var row in Model.FeaturedItems)
     {
-        <div class="col-md-4 vendor-box">
+        <div class="col-md-3 vendor-box">
             <div class="vendor-image">
                 <a href="~/Vendors/Details/@row.Id"><img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" /></a>
                 @*<div class="feature-label"></div>*@
@@ -99,7 +99,7 @@
             <div class="vendor-detail">
                 <div class="caption">
                     <h2><a class="title" href="#">@row.Title</a></h2>
-                    <p class="location"><i class="fa fa-map-marker"></i> @row.Address</p>
+                    @*<p class="location"><i class="fa fa-map-marker"></i> @row.Address</p>*@
                 </div>
 
             </div>
@@ -110,29 +110,12 @@
     </div>
 </div>
 
-<div class="spacer feature-section">
-    <div class="container">
-        <div class="row"><div class="col-md-12 tp-title-center"><h1>@Model.Webcontent.BlogTitle</h1></div></div>
-        <div class="row">
-            @foreach (var row in Model.LatestInspirations)
-            {
-                <div class="col-md-4">
-                    <div class="mb30"><div class="vendor-image"><a href="#"><img class="img-responsive" alt="" src="~/Media/@row.Image"></a> <a class="venue-lable" href="#"><span class="label label-default">@row.Title</span></a></div></div>
-                </div>
-            }
-            
-        </div>
-        
-            
-    </div>
-</div>
-
 <div class="spacer tp-section" style="background-image:url(/images/for-homepage-try-2.jpg);background-attachment:fixed;background-size:cover;background-color:none;border:0px">
     <div class="container">
         <div class="row">
-        <div class="col-md-6 tp-title-center" style="margin-left:-100px;">
-            <h1 style="color:#ffffff;">Why Planmy</h1>
-        </div>
+            <div class="col-md-6 tp-title-center" style="margin-left:-100px;">
+                <h1 style="color:#ffffff;">Why Planmy</h1>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-6" style="margin-left:500px;margin-top:-100px;color:#ffffff">
@@ -147,8 +130,27 @@
                 </p>
             </div>
         </div>
-        </div>
+    </div>
 </div>
+
+<div class="spacer feature-section">
+    <div class="container">
+        <div class="row"><div class="col-md-12 tp-title-center"><h1>@Model.Webcontent.BlogTitle</h1></div></div>
+        <div class="row">
+            @foreach (var row in Model.LatestInspirations)
+            {
+                <div class="col-md-4">
+                    <div class="mb30"><div class="vendor-image"><a href="~/Inspirations/Details/@row.Id"><img class="img-responsive" alt="" src="~/Media/@row.Image"></a> <a class="venue-lable" href="#"><span class="label label-default">@row.Title</span></a></div></div>
+                </div>
+            }
+            
+        </div>
+        
+            
+    </div>
+</div>
+
+
 
 
 
