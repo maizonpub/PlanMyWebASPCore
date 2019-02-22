@@ -10,5 +10,14 @@ namespace DAL
         public string Title { get; set; }
         public Users User { get; set; }
         public string UserId { get; set; }
+        public string TableName { get; set; }
+        public TableType TableType { get; set; }
+        public string SeatsNumber { get; set; }
+    }
+
+    public enum TableType
+    {
+        Circle,
+        Rectangle
     }
 }

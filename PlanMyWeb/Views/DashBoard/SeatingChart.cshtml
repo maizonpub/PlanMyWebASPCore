@@ -1,4 +1,4 @@
-﻿@model DAL.Users
+﻿@model DashBoardViewModel
 @{
     ViewData["Title"] = "Index";
     ViewBag.Active = "SeatingChart";
@@ -21,9 +21,14 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="page-title">
-                                <h1 style="color:black;">Seating Chart&nbsp;&nbsp;&nbsp;<small>Manage your wedding Seating chart.</small></h1>
+                                <h1 style="color:black;">Seating Chart&nbsp;&nbsp;&nbsp;<small>Manage your event Seating chart.</small></h1>
                             </div>
                         </div>
+                        @*<div class="col-md-4">
+                            <div class="action-block">
+                                <a onclick="$('#addTable')" class="btn tp-btn-default" id="show">Add Table</a>
+                            </div>
+                        </div>*@
                     </div>
                 </div>
             </div>
@@ -31,7 +36,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="couple-board">
-                    <form method="post" action="/seating-chart">
+                    <form method="post" action="/Dashboard/SeatingChart">
                         <input type="hidden" name="action" value="addTable" />
                         <div class="row">
                             <div class="col-md-3">

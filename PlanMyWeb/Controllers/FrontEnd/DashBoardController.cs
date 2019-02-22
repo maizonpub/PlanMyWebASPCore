@@ -21,6 +21,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
         protected IEnumerable<WishList> wishlist;
         protected IEnumerable<CheckList> checklist;
         protected IEnumerable<GuestList> guestLists;
+        protected IEnumerable<GuestListTables> guestListTables;
         protected IEnumerable<BudgetCategory> budgets;
         protected Events Event;
         public DashBoardController(DbWebContext context, UserManager<DAL.Users> userManager)
@@ -222,9 +223,53 @@ namespace PlanMyWeb.Controllers.FrontEnd
             model.BudgetCategories = budgets;
             return View(model);
         }
-        public IActionResult SeatingChart()
+        public async Task<IActionResult>SeatingChart(int? edit, string action, string tableName, TableType type, string seatsNumber, int? seatId)
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            DashBoardViewModel model = new DashBoardViewModel();
+
+            if (edit != null)
+            {
+                var seat = _context.GuestListTables.Where(x => x.Id == edit).SingleOrDefault();
+                model.TableId = edit;
+                //model.GuestListTables = seat;
+            }
+            if (action == "addTable")
+            {
+                _context.GuestListTables.Add(new DAL.GuestListTables { TableName = tableName, TableType = type, SeatsNumber = seatsNumber,  User = user});
+                _context.SaveChanges();
+            }
+            else if (action == "editTable")
+            {
+                var seat = _context.GuestListTables.Where(x => x.Id == seatId).SingleOrDefault();
+                if (seat == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    seat.TableName = tableName;
+                    seat.TableType = type;
+                    seat.SeatsNumber = seatsNumber;
+                    _context.SaveChanges();
+                }
+            }
+            else if (action == "deleteTable")
+            {
+                var seat = _context.GuestListTables.Where(x => x.Id == seatId).SingleOrDefault();
+                if (seat == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    _context.GuestListTables.Remove(seat);
+                    _context.SaveChanges();
+                }
+            }
+            guestListTables = _context.GuestListTables.Where(x => x.User.Id == user.Id).OrderByDescending(x => x.Id);
+            model.GuestListTables = guestListTables;
+            return View(model);
         }
         public IActionResult WishList()
         {

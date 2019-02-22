@@ -15,7 +15,7 @@ namespace PlanMyWeb.Controllers.Api
     public class VendorItemsController : ControllerBase
     {
         private readonly DbWebContext _context;
-        protected int PageSize = 20;
+        protected int PageSize = 10;
         public VendorItemsController(DbWebContext context)
         {
             _context = context;

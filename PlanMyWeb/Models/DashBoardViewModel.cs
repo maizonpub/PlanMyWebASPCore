@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL;
 
 namespace PlanMyWeb.Models
 {
@@ -19,8 +20,11 @@ namespace PlanMyWeb.Models
         public int? CategoryId { get; set; }
         public string CategoryName { get; set; }
         public DAL.Side Side { get; set; }
+        public IEnumerable<GuestListTables> GuestListTables { get; set; }
         public DAL.GuestStatus RSVP { get; set; }
+        public DAL.TableType TableType { get; set; }
         public int? GuestId { get; set; }
+        public int? TableId { get; set; }
         public DAL.GuestList Guest { get; set; }
     }
 }
