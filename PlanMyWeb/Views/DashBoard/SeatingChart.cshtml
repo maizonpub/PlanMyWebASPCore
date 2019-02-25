@@ -52,8 +52,8 @@
                                     <label class="control-label" for="type">Table Type</label>
                                     <div class="">
                                         <select id="type" name="type" class="form-control input-md">
-                                            <option>Circle</option>
-                                            <option>Rectangle</option>
+                                            <option value="1">Circle</option>
+                                            <option value="2">Rectangle</option>
                                         </select>
                                     </div>
                                 </div>
@@ -384,7 +384,7 @@
           if (isPerson(n))
             {
                  unassignSeat(n.data);
-                 jQuery.post("/seating-chart",{action:"assignPerson", key:n.data.id, table:n.data.table, seat: n.data.seat, loc:n.data.loc});
+                 jQuery.post("/DashBoard/SeatingChart",{action:"assignPerson", key:n.data.id, table:n.data.table, seat: n.data.seat, loc:n.data.loc});
 
             }
           else
