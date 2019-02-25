@@ -5,6 +5,10 @@
 @{
     ViewData["Title"] = "Vendors";
 }
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<DAL.Users> SignInManager
+@inject UserManager<DAL.Users> UserManager
 <style>
     html body {
         background-color: #ffffff;
@@ -114,33 +118,34 @@
                             </div>
                             @foreach (var row in Model.VendorItems)
                             {
-                            <div class="col-md-3 vendor-box">
-                                <div class="grid" style="width:100%;">
-                                    <a href="~/Vendors/Details/@row.Id">
-                                        <div class="container--6baf4">
-                                            <figure class="effect-oscar" style="width:100%;border-top-left-radius: 4px;border-top-right-radius: 4px;">
-                                               
-                                                <img src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" style="width:100%;height:auto" />
-                                                <div class="info-container--767e9" style="padding:10px 0 10px 0;position:relative;z-index:999999;background-color:white">
-                                                    <div class="vendor-name--51686 serif-med--4d231 lh-header--7eeba">
-                                                        @row.Title
+                                <div class="col-md-3 vendor-box">
+                                    <div class="grid" style="width:100%;">
+                                        <a href="~/Vendors/Details/@row.Id">
+                                            <div class="container--6baf4" style="position:relative;">
+                                                <figure class="effect-oscar" style="width:100%;border-top-left-radius: 4px;border-top-right-radius: 4px;">
+                                                    @*@if ()*@
+                                                    @*<i class="fa fa-heart-o" style="position:absolute;font-size:20px;background-color:#00aeaf;z-index:1;margin-left:50px;color:white;width:45px;height:35px;padding-top:10px;"></i>*@
+                                                    <img src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" style="width:100%;height:auto" />
+                                                    <div class="info-container--767e9" style="padding:10px 0 10px 0;position:relative;z-index:999999;background-color:white">
+                                                        <div class="vendor-name--51686 serif-med--4d231 lh-header--7eeba">
+                                                            @row.Title
+                                                        </div>
+                                                        <br />
+                                                        <div class="secondary-info--d1097">@row.Address </div>
                                                     </div>
-                                                    <br/>
-                                                    <div class="secondary-info--d1097">@row.Address </div>
-                                                </div>
 
-                                                @*<figcaption>
-                            <h2><a href="~/Vendors/Details/@row.Id">@row.Title</a></h2>
-                            <p></p>
-                            <a href="~/Vendors/Details/@row.Id">View more</a>
-                        </figcaption>*@
+                                                    @*<figcaption>
+                                                            <h2><a href="~/Vendors/Details/@row.Id">@row.Title</a></h2>
+                                                            <p></p>
+                                                            <a href="~/Vendors/Details/@row.Id">View more</a>
+                                                        </figcaption>*@
 
-                                            </figure>
+                                                </figure>
 
-                                        </div>
-                                    </a>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
                             }
                         </div>
                     </div>
