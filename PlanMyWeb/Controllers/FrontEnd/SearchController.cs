@@ -24,7 +24,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
             var items = _context.VendorItems.Include(x=>x.Gallery).Where(x => x.HtmlDescription.ToLower().Contains(lower) || x.Title.ToLower().Contains(lower)|| x.Address.ToLower().Contains(lower) || x.Categories.Where(y=>y.VendorCategory.Title.ToLower().Contains(lower)).Count()>0 || x.Country.Name.ToLower().Contains(lower) || x.Country.Code.ToLower().Contains(lower));
             foreach(var item in items)
             {
-                string thumb = item.Gallery.FirstOrDefault() != null ? item.Gallery.FirstOrDefault().Image : item.Thumb;
+                string thumb = item.Thumb;
                 sv.Add(new SearchViewModel { Id = item.Id, SearchType = SearchType.Vendors, Text = item.HtmlDescription, Title = item.Title, Thumb = thumb });
             }
             var blogs = _context.Blogs.Where(x => x.Title.ToLower().Contains(lower) || x.HtmlDescription.ToLower().Contains(lower) || x.BlogCategoryRelations.Where(y => y.Category.Title.ToLower().Contains(lower)).Count() > 0);
