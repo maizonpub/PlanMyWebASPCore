@@ -313,7 +313,7 @@ label .required {
 .vendor-box{ margin-bottom: 30px;overflow: hidden; position: relative;}
 .vendor-box .rating {}
 .vendor-box .capacity{font-size: 14px;font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 700;}
-.vendor-detail{padding: 0px; border: 1px solid #e9e6e0; border-radius: 0px;border-top: transparent; background-color: #fff;}
+.vendor-detail{padding: 0px; border: 1px solid #e9e6e0; border-radius: 0px;border-top: transparent; background-color: #fff;margin-top:-113px;}
 .vendor-detail .caption { padding: 20px; /*min-height:115px;*/}
 .vendor-detail .caption h2{ margin-bottom: 10px;}
 .vendor-detail .location{font-size: 14px; margin-bottom: 0px;}

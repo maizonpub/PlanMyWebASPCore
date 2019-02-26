@@ -9,6 +9,9 @@
 
 @inject SignInManager<DAL.Users> SignInManager
 @inject UserManager<DAL.Users> UserManager
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <style>
     html body {
         background-color: #ffffff;
@@ -123,9 +126,11 @@
                                         <a href="~/Vendors/Details/@row.Id">
                                             <div class="container--6baf4" style="position:relative;">
                                                 <figure class="effect-oscar" style="width:100%;border-top-left-radius: 4px;border-top-right-radius: 4px;">
-                                                    @*@if ()*@
-                                                    @*<i class="fa fa-heart-o" style="position:absolute;font-size:20px;background-color:#00aeaf;z-index:1;margin-left:50px;color:white;width:45px;height:35px;padding-top:10px;"></i>*@
-                                                    <img src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" style="width:100%;height:auto" />
+                                                    @if (SignInManager.IsSignedIn(User))
+                                                    {
+                                                        <i onclick="function(this)" class="fa fa-heart-o" id="heart" style="position:absolute;font-size:20px;background-color:#00aeaf;z-index:1;margin-left:50px;color:white;width:45px;height:35px;padding-top:10px;display:inline-block;"></i>
+                                                    }
+                                                        <img src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" style="width:100%;height:auto" />
                                                     <div class="info-container--767e9" style="padding:10px 0 10px 0;position:relative;z-index:999999;background-color:white">
                                                         <div class="vendor-name--51686 serif-med--4d231 lh-header--7eeba">
                                                             @row.Title
@@ -210,3 +215,10 @@
         </div>
     </div>
 </div>
+<script>
+    $("#heart").click(function () {
+            $(this).toggleClass('fa fa-heart-o');
+            $(this).toggleClass('fa fa-heart');
+        });
+
+</script>

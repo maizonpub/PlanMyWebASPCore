@@ -14,6 +14,9 @@ namespace DAL
         public DateTime PostDate { get; set; }
         public List<BlogCategoryRelation> BlogCategoryRelations { get; set; }
         public MediaType MediaType { get; set; }
+        public List<BlogGallery> Gallery { get; set; }
+
+       
     }
    public class BlogViewModel
     {

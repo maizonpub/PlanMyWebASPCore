@@ -93,8 +93,8 @@ namespace PlanMyWeb.Controllers.Admin
                 }
                 var user = _context.Users.Find(userId);
                 var item = _context.VendorItems.Find(itemId);
-                VendorItemGallery homeSlider = new VendorItemGallery { Image = filename, MediaType = vendorItemGalleryViewModel.MediaType, Item = item };
-                _context.Add(homeSlider);
+                VendorItemGallery vendorItemGallery = new VendorItemGallery { Image = filename, MediaType = vendorItemGalleryViewModel.MediaType, Item = item };
+                _context.Add(vendorItemGallery);
                 await _context.SaveChangesAsync();
                 var parms = new Dictionary<string, string>
     {

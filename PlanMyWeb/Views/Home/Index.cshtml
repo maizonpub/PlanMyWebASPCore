@@ -84,29 +84,30 @@
     </div>
 </div>
 
+
 <div class="spacer tp-section">
     <div class="container">
         <div class="row"><div class="col-md-12 tp-title-center"><h1 style="color:#000000;">@Model.Webcontent.FeaturedVendorsTitle</h1></div></div>
         <div class="row">
-    @foreach (var row in Model.FeaturedItems)
-    {
-        <div class="col-md-3 vendor-box">
-            <div class="vendor-image">
-                <a href="~/Vendors/Details/@row.Id"><img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" /></a>
-                @*<div class="feature-label"></div>*@
-            </div>
+            @foreach (var row in Model.FeaturedItems)
+            {
+                <div class="col-md-2 vendor-box">
+                    <div class="vendor-image">
+                        <a href="~/Vendors/Details/@row.Id"><img width="440" height="290" src="~/Media/@row.Thumb" class="img-responsive wp-post-image" alt="" /></a>
+                        @*<div class="feature-label"></div>*@
+                    </div>
 
-            <div class="vendor-detail">
-                <div class="caption">
-                    <h2><a class="title" href="#">@row.Title</a></h2>
-                    @*<p class="location"><i class="fa fa-map-marker"></i> @row.Address</p>*@
+                    <div class="vendor-detail">
+                        <div class="caption">
+                            <h4><a class="title" href="#">@row.Title</a></h4>
+                            @*<p class="location"><i class="fa fa-map-marker"></i> @row.Address</p>*@
+                        </div>
+
+                    </div>
                 </div>
+            }
 
-            </div>
         </div>
-    }
-
-</div>
     </div>
 </div>
 
@@ -139,7 +140,7 @@
         <div class="row">
             @foreach (var row in Model.LatestInspirations)
             {
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="mb30"><div class="vendor-image"><a href="~/Inspirations/Details/@row.Id"><img class="img-responsive" alt="" src="~/Media/@row.Image"></a> <a class="venue-lable" href="#"><span class="label label-default">@row.Title</span></a></div></div>
                 </div>
             }

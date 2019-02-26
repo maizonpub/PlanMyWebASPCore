@@ -20,5 +20,6 @@ namespace PlanMyWeb.Models
         public List<BlogCategoryRelation> BlogCategoryRelations { get; set; }
         public MediaType MediaType { get; set; }
         public IEnumerable<TopicGallery> topicGalleries { get; set; }   
+        public List<BlogGallery> Gallery { get; set; }
     }
 }

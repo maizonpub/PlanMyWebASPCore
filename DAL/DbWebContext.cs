@@ -27,6 +27,8 @@ namespace DAL
 
         public DbSet<DAL.BlogCategory> BlogCategories { get; set; }
 
+        public DbSet<DAL.BlogGallery> BlogGalleries { get; set; }
+
         public DbSet<DAL.BlogCategoryRelation> BlogCategoryRelations { get; set; }
 
         public DbSet<DAL.VendorCategory> VendorCategories { get; set; }

@@ -70,15 +70,20 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = "";
-                if (topicGallery.Image != null)
+                
+                foreach(var img in topicGallery.Image)
                 {
-                    filename = Guid.NewGuid().ToString().Substring(4) + topicGallery.Image.FileName;
-                    UploadFile(topicGallery.Image, filename);
+                    string filename = "";
+                    if (img != null)
+                    {
+                        filename = Guid.NewGuid().ToString().Substring(4) + img.FileName;
+                        UploadFile(img, filename);
+                    }
+                    TopicGallery TopicGallery = new TopicGallery { Id = topicGallery.Id, Image = filename };
+                    _context.TopicGalleries.Add(TopicGallery);
+                    await _context.SaveChangesAsync();
                 }
-                TopicGallery TopicGallery = new TopicGallery { Id = topicGallery.Id, Image = filename};
-                _context.TopicGalleries.Add(TopicGallery);
-                await _context.SaveChangesAsync();
+                
                 return RedirectToAction(nameof(Index));
             }
             var gallery = _context.Blogs.ToList();
@@ -86,6 +91,8 @@ namespace PlanMyWeb.Controllers.Admin
             return View(topicGallery);
             
         }
+
+        
         private async void UploadFile(IFormFile media, string FileName)
         {
             string filePath = _hostingEnvironment.WebRootPath + "/Media/" + FileName;
@@ -127,11 +134,13 @@ namespace PlanMyWeb.Controllers.Admin
             if (ModelState.IsValid)
             {
                 var row = _context.TopicGalleries.Where(x => x.Id == id).FirstOrDefault();
-                if (topicGallery.Image != null)
+
+                foreach (var img in topicGallery.Image)
+                    if (img != null)
                 {
 
-                    string filename = Guid.NewGuid().ToString().Substring(4) + topicGallery.Image.FileName;
-                    UploadFile(topicGallery.Image, filename);
+                    string filename = Guid.NewGuid().ToString().Substring(4) + img.FileName;
+                    UploadFile(img, filename);
                     row.Image = filename;
                 }
                 else

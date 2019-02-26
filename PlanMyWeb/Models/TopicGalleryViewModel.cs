@@ -11,6 +11,6 @@ namespace PlanMyWeb.Models
     {
         public int Id { get; set; }
         public Blog Blog { get; set; }
-        public IFormFile Image { get; set; }
+        public IFormFileCollection Image { get; set; }
     }
 }

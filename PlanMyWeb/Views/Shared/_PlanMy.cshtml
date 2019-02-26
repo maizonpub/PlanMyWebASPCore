@@ -1,7 +1,13 @@
 ﻿@inject DAL.DbWebContext context
-@{ 
+@{
     var pages = context.Pages;
 }
+
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<DAL.Users> SignInManager
+@inject UserManager<DAL.Users> UserManager
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +53,7 @@
         }
 
         h1, h2, h3, h4, h5, h6 {
-            font-family:'Century Gothic', sans-serif;
+            font-family: 'Century Gothic', sans-serif;
         }
 
         h1 {
@@ -76,7 +82,7 @@
 
         p {
             font-size: 16px;
-            font-family: 'Century Gothic', sans-serif ;
+            font-family: 'Century Gothic', sans-serif;
             font-weight: 400;
             color: #706a68;
         }
@@ -105,7 +111,7 @@
         }
 
         .top-links li a {
-            color:#fff;
+            color: #fff;
         }
 
             .top-links li a:hover {
@@ -114,7 +120,7 @@
 
         .tp-nav .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover, #cssmenu > ul > li > a {
             background-color: transparent;
-            color:darkgray;
+            color: darkgray;
         }
 
         #cssmenu ul ul li a {
@@ -256,7 +262,10 @@
                 <div class="col-md-6 top-links">
                     <div class="menu-topbar-container">
                         <ul id="menu-topbar" class="listnone">
-                            <li><a href="~/Identity/Account/Manage"><i class="fa fa-user db-icon"></i>My Profile</a></li>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li><a href="~/Identity/Account/Manage"><i class="fa fa-user db-icon"></i>My Profile</a></li>
+                            }
                             <li id="menu-item-1518" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1518"><a href="@Url.Action("Index","Contactus",new { area = "" })">Contact Us</a></li>
 
                             <partial name="_LoginPartial" />
@@ -299,7 +308,8 @@
                             <li id="menu-item-1220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1220"><a href="@Url.Action("Index","Venues",new { area = "" })">Venues</a></li>
                             <li id="menu-item-960" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-960"><a href="@Url.Action("Index","Vendors",new { area = "" })">Vendors</a></li>
                             <li id="menu-item-4802" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4802"><a href="@Url.Action("Index","Inspirations",new { area = "" })">Inspirations</a></li>
-                            <li id="menu-item-4671" class="dropdown-togglemenu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4671 has-sub"><a href="@Url.Action("Index","Offers",new { area = "" })">Offers<span class="fa fa-angle-down"></span></a>
+                            <li id="menu-item-4671" class="dropdown-togglemenu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4671 has-sub">
+                                <a href="@Url.Action("Index","Offers",new { area = "" })">Offers<span class="fa fa-angle-down"></span></a>
                                 <ul>
                                     <li> <a href="@Url.Action("Index","Offers",new { area = DAL.OffersType.EShop })">E-Shop</a></li>
                                     <li> <a href="@Url.Action("Index","Offers",new { area = DAL.OffersType.HotDeals })">Hot Deals</a></li>
@@ -319,7 +329,7 @@
 
     @RenderBody()
 
-    
+
 
     @RenderSection("Scripts", required: false)
     <div class="footer">
@@ -327,21 +337,21 @@
         <div class="container">
             <div class="row">
                 @*<div class="col-md-5 ft-aboutus">
-        <div id="text-6" class="widget widget_text">
-            <h2>Plan my</h2>			<div class="textwidget">
-                <p style="font-size:16px;">
-                    We provide the largest network of local event vendors. We simplify the pricing, booking, availability and help you get answers you need from venues and vendors in every town.
-                    </p>
-            <p style="font-size:16px;">
-                We also provide free, easy-to-use event planning tools like customizable checklists to keep your tasks in order, a budget calculator and a guest list monitor.
-            </p>
-            <p style="font-size:16px;">
-                Stay on top of all the details while on-the-go with Planmy app, which features a customized profile and a countdown to your big day.
-            </p>
-                <p><a class="btn tp-btn-default tp-btn-lg" href="#">Start browsing!</a></p>
-            </div>
-        </div>
-            </div>*@
+                    <div id="text-6" class="widget widget_text">
+                        <h2>Plan my</h2>			<div class="textwidget">
+                            <p style="font-size:16px;">
+                                We provide the largest network of local event vendors. We simplify the pricing, booking, availability and help you get answers you need from venues and vendors in every town.
+                                </p>
+                        <p style="font-size:16px;">
+                            We also provide free, easy-to-use event planning tools like customizable checklists to keep your tasks in order, a budget calculator and a guest list monitor.
+                        </p>
+                        <p style="font-size:16px;">
+                            Stay on top of all the details while on-the-go with Planmy app, which features a customized profile and a countdown to your big day.
+                        </p>
+                            <p><a class="btn tp-btn-default tp-btn-lg" href="#">Start browsing!</a></p>
+                        </div>
+                    </div>
+                        </div>*@
                 <div class="col-md-3 ft-link">
                     <div id="text-7" class="widget widget_text">
                         <h2>Useful links</h2>
@@ -419,26 +429,26 @@
         if ($('.owl-theme').hasClass('main-slider')) {
             $(document).ready(function () {
                 $('.main-slider').owlCarousel({
-                                rtl: false,
+                    rtl: false,
                     loop: true,
                     dots: true,
                     autoplayTimeout: '7000',
                     responsive: {
-                                        0: {
-                                        items: 1
-                                        },
+                        0: {
+                            items: 1
+                        },
                         600: {
-                                        items: 1
+                            items: 1
                         },
                         1000: {
-                                        items: 1
+                            items: 1
                         }
-                                    },
+                    },
                     addClassActive: true,
                     autoplay: true,
                     animateIn: 'fadeIn', animateOut: 'fadeOut',
                 });
-                            });
+            });
         }
     </script>
     <!--[if lte IE 8]>
@@ -451,11 +461,11 @@
         (function () {
             var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?' + cs + '(\\s+|$)');
 
-                            request = true;
+            request = true;
 
             b[c] = b[c].replace(rcs, ' ');
-                            // The customizer requires postMessage and CORS (if the site is cross domain)
-                            b[c] += (window.postMessage && request ? ' ' : ' no-') + cs;
+            // The customizer requires postMessage and CORS (if the site is cross domain)
+            b[c] += (window.postMessage && request ? ' ' : ' no-') + cs;
         }());
     </script>
     <!--<![endif]-->

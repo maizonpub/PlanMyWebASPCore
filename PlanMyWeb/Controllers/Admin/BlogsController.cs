@@ -74,7 +74,7 @@ namespace PlanMyWeb.Controllers.Admin
                     filename = Guid.NewGuid().ToString().Substring(4) + blogsViewModel.Image.FileName;
                     UploadFile(blogsViewModel.Image, filename);
                 }
-                Blog row = new Blog { Image = filename, MediaType = blogsViewModel.MediaType, Title = blogsViewModel.Title, HtmlDescription = blogsViewModel.HtmlDescription, PostDate = blogsViewModel.PostDate };
+                Blog row = new Blog { Image = filename, MediaType = blogsViewModel.MediaType, Title = blogsViewModel.Title, HtmlDescription = blogsViewModel.HtmlDescription, PostDate = blogsViewModel.PostDate , Gallery = blogsViewModel.Gallery};
                 string[] catIds = Request.Form["Categories"].ToString().Split(',');
 
                 var dbcats = _context.BlogCategories.Where(x => catIds.Contains(x.Id.ToString())).ToList();
@@ -113,7 +113,7 @@ namespace PlanMyWeb.Controllers.Admin
                 item.Selected = row.BlogCategoryRelations.Where(x => x.Category.Id == itemValue).Count() > 0;
             }
             //ViewBag.Categories = selectfield;
-            BlogsViewModel model = new BlogsViewModel { Id = row.Id, MediaType = row.MediaType, HtmlDescription = row.HtmlDescription, PostDate = row.PostDate, Title = row.Title, Categories = catslist };
+            BlogsViewModel model = new BlogsViewModel { Id = row.Id, MediaType = row.MediaType, HtmlDescription = row.HtmlDescription, PostDate = row.PostDate, Title = row.Title, Categories = catslist, Gallery = row.Gallery};
             if (row == null)
             {
                 return NotFound();

@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(DbWebContext))]
-    partial class DbWebContextModelSnapshot : ModelSnapshot
+    [Migration("20190226130347_bloggallery")]
+    partial class bloggallery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,15 +109,9 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BlogId");
-
                     b.Property<string>("Image");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("BlogId");
 
                     b.ToTable("BlogGalleries");
                 });
@@ -1090,13 +1086,6 @@ namespace DAL.Migrations
                     b.HasOne("DAL.BlogCategory", "Category")
                         .WithMany("Categories")
                         .HasForeignKey("CategoryId");
-                });
-
-            modelBuilder.Entity("DAL.BlogGallery", b =>
-                {
-                    b.HasOne("DAL.Blog", "Blog")
-                        .WithMany("Gallery")
-                        .HasForeignKey("BlogId");
                 });
 
             modelBuilder.Entity("DAL.Budget", b =>
