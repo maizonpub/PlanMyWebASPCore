@@ -78,24 +78,28 @@ namespace PlanMyWeb.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
-                string filename = "";
-                if (vendorItemGalleryViewModel.Image != null && vendorItemGalleryViewModel.Image.Length > 0)
+                foreach (var img in vendorItemGalleryViewModel.Image)
                 {
-                    filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
-                    UploadFile(vendorItemGalleryViewModel.Image, filename);
+                    string filename = "";
+                    if (img != null)
+                    {
+                        filename = Guid.NewGuid().ToString().Substring(4) + img.FileName;
+                        UploadFile(img, filename);
+                    }
+
+                    string userId = "";
+                    if (!string.IsNullOrEmpty(Request.Form["User"]))
+                        userId = Request.Form["User"];
+                    else
+                    {
+                        userId = _userManager.GetUserId(User);
+                    }
+                    var user = _context.Users.Find(userId);
+                    var item = _context.VendorItems.Find(itemId);
+                    VendorItemGallery vendorItemGallery = new VendorItemGallery { Image = filename, MediaType = vendorItemGalleryViewModel.MediaType, Item = item };
+                    _context.Add(vendorItemGallery);
+                    await _context.SaveChangesAsync();
                 }
-                string userId = "";
-                if (!string.IsNullOrEmpty(Request.Form["User"]))
-                    userId = Request.Form["User"];
-                else
-                {
-                    userId = _userManager.GetUserId(User);
-                }
-                var user = _context.Users.Find(userId);
-                var item = _context.VendorItems.Find(itemId);
-                VendorItemGallery vendorItemGallery = new VendorItemGallery { Image = filename, MediaType = vendorItemGalleryViewModel.MediaType, Item = item };
-                _context.Add(vendorItemGallery);
-                await _context.SaveChangesAsync();
                 var parms = new Dictionary<string, string>
     {
         { "itemId", itemId.ToString() }
@@ -158,18 +162,21 @@ namespace PlanMyWeb.Controllers.Admin
                 var user = _context.Users.Find(userId);
                 var item = _context.VendorItems.Find(itemId);
                 var row = _context.VendorItemGalleries.Where(x => x.Id == id).FirstOrDefault();
-                if (vendorItemGalleryViewModel.Image != null)
+                foreach (var img in vendorItemGalleryViewModel.Image)
                 {
-                    string filename = Guid.NewGuid().ToString().Substring(4) + vendorItemGalleryViewModel.Image.FileName;
-                    UploadFile(vendorItemGalleryViewModel.Image, filename);
+                    if (img != null)
+                    {
+                        string filename = Guid.NewGuid().ToString().Substring(4) + img.FileName;
+                        UploadFile(img, filename);
+                        row.MediaType = vendorItemGalleryViewModel.MediaType;
+                        row.Image = filename;
+                    }
+                    else
+                        row.Image = row.Image;
+                    row.Item = item;
                     row.MediaType = vendorItemGalleryViewModel.MediaType;
-                    row.Image = filename;
+                    await _context.SaveChangesAsync();
                 }
-                else
-                    row.Image = row.Image;
-                row.Item = item;
-                row.MediaType = vendorItemGalleryViewModel.MediaType;
-                await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index), parms);
             }
             return View(vendorItemGalleryViewModel);

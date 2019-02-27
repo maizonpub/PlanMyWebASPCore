@@ -17,7 +17,7 @@ namespace DAL
     {
         public int Id { get; set; }
         public VendorItem Item { get; set; }
-        public IFormFile Image { get; set; }
+        public IFormFileCollection Image { get; set; }
         public MediaType MediaType { get; set; }
     }
 
