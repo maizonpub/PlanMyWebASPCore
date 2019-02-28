@@ -42,7 +42,8 @@
                                 <h2 class="form-title">Create New Category</h2>
                                 <form id="form-budget" method="post">
                                     <div class="status"></div>
-                                    <input type="hidden" id="action" name="action" value="addcategory" /><input type="hidden" name="_wp_http_referer" value="/my-budget/" />                 
+                                    <input type="hidden" id="action" name="action" value="addcategory" />
+                                    <input type="hidden" name="_wp_http_referer" value="/my-budget/" />                 
                                     <div class="close-sign"><a onclick="$('#NewCategory').slideUp()" style="cursor:pointer" id="hide"><i class="fa fa-close"></i></a></div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -53,6 +54,7 @@
                                                     <input id="budget_category" name="budget_category" type="text" placeholder="Category Name" class="form-control input-md" required="">
                                                 </div>
                                             </div>
+                                            
                                             <div class="form-group">
                                                 <div class="text-right">
                                                     <button id="btn-budget-list" type="submit" name="btn-budget-list" class="btn tp-btn-primary"> Add Category </button>
@@ -72,7 +74,8 @@
                                 <h2 class="form-title">Edit Category</h2>
                                 <form id="form-edit-budget" method="post" action="/Dashboard/MyBudget">
                                     <div class="status"></div>
-                                    <input type="hidden" id="action" name="action" value="editcategory" /><input type="hidden" name="item_category" value="@Model.CategoryId" />               
+                                    <input type="hidden" id="action" name="action" value="editcategory" />
+                                    <input type="hidden" name="item_category" value="@Model.CategoryId" />               
                                     <div class="row">
                                         <div class="col-md-6">
                                             <!-- Text input-->
@@ -82,6 +85,7 @@
                                                     <input id="budget_category" name="budget_category" type="text" placeholder="Category Name" class="form-control input-md" value="@Model.CategoryName" required="">
                                                 </div>
                                             </div>
+                                            
                                             <div class="form-group">
                                                 <div class="text-right">
                                                     <button id="edit-budget-list" type="submit" name="edit-budget-list" class="btn tp-btn-primary">Edit Category</button>
@@ -126,13 +130,13 @@
                             var collaspan = row.Id + "_collaspan";
                         <div class="list-group-item">
                             <div class="row">
-                                <div class="col-md-4"><a data-toggle="collapse" href="#" aria-expanded="false" onclick="$('@collaspan').slideToggle()">@row.Title</a> </div>
+                                <div class="col-md-4"><a data-toggle="collapse" href="#" aria-expanded="false" onclick="$('#@collaspan').slideToggle()">@row.Title</a> </div>
                                 <div class="col-md-2">@estimatedcost</div>
                                 <div class="col-md-2">@actualcost</div>
                                 <div class="col-md-1">@paidcost</div>
                                 <div class="col-md-1">@duecost</div>
                                 <div class="col-md-2"><a href="/Dashboard/MyBudget?edit=@row.Id" class="btn-edit"><i class="fa fa-edit"></i></a><a href="#" class="btn-delete" onclick="delete_budget(@row.Id)"><i class="fa fa-trash"></i></a></div>
-                                <div class="collapse col-md-12 item-title" id="40_collaspan">
+                                <div class="collapse col-md-12 item-title" id="@collaspan">
                                     <div class="row">
                                         <div class="table-responsive">
                                             <table class="table @collaspan">

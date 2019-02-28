@@ -43,7 +43,8 @@
                                 <h2 class="form-title">Create New Task</h2>
                                 <form id="form-todolist" method="post">
                                     <div class="status"></div>
-                                    <input type="hidden" id="action" name="action" value="add" /><input type="hidden" name="_wp_http_referer" value="/checklist/" />
+                                    <input type="hidden" id="action" name="action" value="add" />
+                                    <input type="hidden" name="_wp_http_referer" value="/checklist/" />
                                     <div class="close-sign"><a onclick="$('#AddToDo').slideUp()" style="cursor:pointer" id="hide"><i class="fa fa-close"></i></a></div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -85,7 +86,8 @@
                                 <h2 class="form-title">Edit Task</h2>
                                 <form id="form-todolist" method="post" action="/Dashboard/CheckList">
                                     <div class="status"></div>
-                                    <input type="hidden" id="action" name="action" value="edittask" /><input type="hidden" name="todoId" value="@Model.TaskId" />
+                                    <input type="hidden" id="action" name="action" value="edittask" />
+                                    <input type="hidden" name="todoId" value="@Model.TaskId" />
                                     <div class="close-sign"></div>
                                     <div class="row">
                                         <div class="col-md-6">

@@ -169,7 +169,7 @@ namespace PlanMyWeb.Controllers.FrontEnd
             if (action == "addcategory")
             {
 
-                _context.BudgetCategories.Add(new BudgetCategory { Title = budget_category, User = user });
+                _context.BudgetCategories.Add(new BudgetCategory { Title = budget_category, User = user  });
                 _context.SaveChanges();
             }
             else if (action == "addbudgetitem")
