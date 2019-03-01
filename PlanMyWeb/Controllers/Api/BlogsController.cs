@@ -22,21 +22,32 @@ namespace PlanMyWeb.Controllers.Api
 
         // GET: api/Blogs
         [HttpGet]
-        public IEnumerable<Blog> GetBlogs()
+        public IActionResult GetBlogs(int? CategoryId)
         {
-            return _context.Blogs;
+            var blogs = new List<Blog>().AsEnumerable();
+            try
+            {
+                blogs = _context.Blogs.Include(x => x.Gallery).AsEnumerable();
+                if (CategoryId != null)
+                    blogs = blogs.Where(x => x.BlogCategoryRelations!=null && x.BlogCategoryRelations.Where(y => y.Category!=null && y.Category.Id == CategoryId).Count() > 0).AsEnumerable();
+            }
+            catch
+            {
+
+            }
+            return Ok(blogs);
         }
 
         // GET: api/Blogs/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBlog([FromRoute] int id)
+        public IActionResult GetBlog([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var blog = await _context.Blogs.FindAsync(id);
+            var blog = _context.Blogs.Include(x=>x.Gallery).Where(x=>x.Id == id).SingleOrDefault();
 
             if (blog == null)
             {
