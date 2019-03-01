@@ -2,11 +2,39 @@
 @model ConfirmEmailModel
 @{
     ViewData["Title"] = "Confirm email";
+    Layout = "~/Views/Shared/_PlanMy.cshtml";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div>
-    <p>
-        Thank you for confirming your email.
-    </p>
+<style>
+    html body {
+        background-color: #faf9f5;
+        font-family: Istok Web !important;
+        font-weight: 400,400italic,700,700italic;
+    }
+</style>
+<div class="tp-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ol class="breadcrumb listnone">
+                    <li>
+                        <!-- Breadcrumb NavXT 6.2.1 -->
+                        <span property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" title="Go to Plan My." href="~/" class="home"><span property="name">Plan My</span></a><meta property="position" content="1"></span> &gt; <span class="post post-page current-item">@ViewData["Title"]</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 error-block">
+                <h1 style="font-size:90px;margin-bottom:142px">THANK YOU</h1>
+                <h2 style="color:black"><i class="fa fa-check" style="color:#00aeaf"></i>Thank you for confirming your email.</h2>
+                <p>
+                    Please use navigation above to browse planning topics, or go back to
+                    <a href="~/">Plan My</a>
+                </p>
+            </div>
+            </div></div></div>

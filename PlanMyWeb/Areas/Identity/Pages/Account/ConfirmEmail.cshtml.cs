@@ -32,7 +32,7 @@ namespace PlanMyWeb.Areas.Identity.Pages.Account
             {
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
-
+            
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {

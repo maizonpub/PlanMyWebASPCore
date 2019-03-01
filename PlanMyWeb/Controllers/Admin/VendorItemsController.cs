@@ -62,7 +62,7 @@ namespace PlanMyWeb.Controllers.Admin
         public IActionResult Create()
         {
             var vendorcategories = _context.VendorCategories.AsEnumerable();
-            var users = _context.Users.AsEnumerable();
+            var users = _context.Users.OrderBy(x => x.FirstName).AsEnumerable();
             var userselect = new SelectList(users, "Id", "FirstName");
             ViewBag.Users = userselect;
             ViewBag.Categories = new SelectList(vendorcategories, "Id", "Title");
@@ -133,7 +133,7 @@ namespace PlanMyWeb.Controllers.Admin
             {
                 return NotFound();
             }
-            var users = _context.Users.AsEnumerable();
+            var users = _context.Users.OrderBy(x=>x.FirstName).AsEnumerable();
             var userselect = new SelectList(users, "Id", "FirstName");
             var vendorItem = _context.VendorItems.Include(x=>x.Categories).Include(x=>x.VendorItemTypeValues).Where(x=>x.Id == id).FirstOrDefault();
             var vendorcategories = _context.VendorCategories.AsEnumerable();
@@ -146,6 +146,13 @@ namespace PlanMyWeb.Controllers.Admin
                     {
                         item.Selected = true;
                     }
+                }
+            }
+            foreach (var item in userselect)
+            {
+                if (item.Value == vendorItem.UserId)
+                {
+                    item.Selected = true;
                 }
             }
             var taxonomies = _context.VendorTypes.Include(x => x.VendorTypeValues);

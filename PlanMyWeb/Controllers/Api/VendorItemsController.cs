@@ -25,12 +25,12 @@ namespace PlanMyWeb.Controllers.Api
         [HttpGet]
         public IPagedList<VendorItem> GetVendorItems(int page = 1)
         {
-            return _context.VendorItems.Include(x=>x.VendorItemReviews).Include(x => x.Gallery).ToPagedList(page, PageSize);
+            return _context.VendorItems.Include(x=>x.VendorItemReviews).Include(x => x.Gallery).OrderBy(x=>x.Title).ToPagedList(page, PageSize);
         }
         [HttpGet("{CategoryId}")]
         public IPagedList<VendorItem> GetVendorItems([FromRoute] int CategoryId, int page = 1)
         {
-            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x=> x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0).Include(x=>x.VendorBranches).ToPagedList(page, PageSize);
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x=> x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0).Include(x=>x.VendorBranches).OrderBy(x => x.Title).ToPagedList(page, PageSize);
         }
         [HttpGet("Random/{CategoryId}")]
         public IEnumerable<VendorItem> GetRandomVendorItems([FromRoute] int CategoryId)
@@ -40,17 +40,17 @@ namespace PlanMyWeb.Controllers.Api
         [HttpGet("Featured/{CategoryId}")]
         public IEnumerable<VendorItem> GetFeaturedVendorItems([FromRoute] int CategoryId)
         {
-            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Include(x => x.VendorBranches).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0 && x.IsFeatured == true);
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Include(x => x.VendorBranches).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0 && x.IsFeatured == true).OrderBy(x => x.Title);
         }
         [HttpGet("Featured")]
         public IEnumerable<VendorItem> GetFeaturedVendorItems()
         {
-            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Include(x => x.VendorBranches).Where(x => x.IsFeatured == true);
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Include(x => x.VendorBranches).Where(x => x.IsFeatured == true).OrderBy(x => x.Title);
         }
         [HttpGet("Favorites/{UserId}")]
         public IEnumerable<VendorItem> GetFavoritesVendorItems([FromRoute] string UserId)
         {
-            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x=>x.Gallery).Include(x => x.VendorBranches).Where(x => x.WishLists!=null && x.WishLists.Where(y=>y.UserId == UserId).Count()>0);
+            return _context.VendorItems.Include(x => x.VendorItemReviews).Include(x=>x.Gallery).Include(x => x.VendorBranches).Where(x => x.WishLists!=null && x.WishLists.Where(y=>y.UserId == UserId).Count()>0).OrderBy(x => x.Title);
         }
         [Route("Search")]
         [HttpPost]
@@ -59,9 +59,9 @@ namespace PlanMyWeb.Controllers.Api
             IPagedList<VendorItem> vendors = new List<VendorItem>().ToPagedList();
             var values = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VendorTypeValue>>(Request.Form["Values"].ToString());
             if(values.Count>0)
-                vendors =  _context.VendorItems.Include(x => x.VendorItemReviews).Include(x=>x.Gallery).Where(x=>x.Categories.Where(y=>y.VendorCategory.Id == CategoryId).Count()>0 && x.VendorItemTypeValues.Where(y=> values.Contains(y.VendorTypeValue)).Count()>0).ToPagedList(page, PageSize);
+                vendors =  _context.VendorItems.Include(x => x.VendorItemReviews).Include(x=>x.Gallery).Where(x=>x.Categories.Where(y=>y.VendorCategory.Id == CategoryId).Count()>0 && x.VendorItemTypeValues.Where(y=> values.Contains(y.VendorTypeValue)).Count()>0).OrderBy(x => x.Title).ToPagedList(page, PageSize);
             else
-                vendors = _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0).ToPagedList(page, PageSize);
+                vendors = _context.VendorItems.Include(x => x.VendorItemReviews).Include(x => x.Gallery).Where(x => x.Categories.Where(y => y.VendorCategory.Id == CategoryId).Count() > 0).OrderBy(x => x.Title).ToPagedList(page, PageSize);
             return vendors;
         }
         // GET: api/VendorItems/5
