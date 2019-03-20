@@ -24,7 +24,12 @@ namespace PlanMyWeb.Controllers.Api
         [HttpGet]
         public IEnumerable<VendorCategory> GetVendorCategories()
         {
-            return _context.VendorCategories;
+            var cats = _context.VendorCategories;
+            foreach(var row in cats)
+            {
+                row.Image = "https://planmy.me/Media/" + row.Image;
+            }
+            return cats;
         }
 
         // GET: api/Categories/5

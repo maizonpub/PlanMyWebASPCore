@@ -63,25 +63,7 @@
                         <div id="post-263" class="post-263 post type-post status-publish format-image has-post-thumbnail sticky hentry category-party-at-home tag-wedding post_format-post-format-image">
                             <div class="post-image"><a href="Inspirations/Details/@row.Id"><img alt="" class="img-responsive img-radius" src="~/Media/@row.Image" /></a></div>
                         <h3 class="post-title"><a href="Inspirations/Details/@row.Id" rel="bookmark">@row.Title</a></h3>
-                            <div class="entry-meta">
-                                <span class="date-meta">
-                                    ON <a href="./Details/@row.Id" rel="bookmark">
-                                        <time class="entry-date published" datetime="@row.PostDate">@row.PostDate.Month @row.PostDate.Day, @row.PostDate.Year</time>
-                                    </a>/
-                                </span>
-                                <span class="tag-meta">
-                                    IN <a href="#" rel="category tag">
-                                        @if (row.BlogCategoryRelations != null && row.BlogCategoryRelations.FirstOrDefault() != null)
-                                        {
-                                            @row.BlogCategoryRelations.FirstOrDefault().Category.Title;
-                                        }
-                                        else
-                                        {
-                                            <text></text>
-                                        }
-                                    </a>
-                                </span>
-                            </div><!-- .entry-meta -->
+                            
                             @*<div class="entry-content">
                             <p>
                                 @if (row.HtmlDescription!=null && row.HtmlDescription.Length > 200)

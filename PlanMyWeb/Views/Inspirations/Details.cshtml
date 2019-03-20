@@ -52,7 +52,7 @@
 
                                 }
                             </ol>
-                            <div class="carousel-inner" role="listbox" style="height:540px;">
+                            <div class="carousel-inner" role="listbox" style="height:600px;">
                                 @for (int i = 0; i < Model.Blog.Gallery.Count(); i++)
                                 {
                                     string isactive = i == 0 ? "active" : "";
@@ -77,19 +77,7 @@
                         @*<div class="effect-pic">
             <img alt="" class="img-responsive" src="~/Media/@Model.Blog.Image" />
         </div>*@
-                    </div>        <span class="date-meta">ON <a href="#" rel="bookmark"><time class="entry-date published" datetime="@Model.Blog.PostDate">@Model.Blog.PostDate.Month @Model.Blog.PostDate.Day, @Model.Blog.PostDate.Year</time></a>/ </span>
-                    <span class="tag-meta">IN 
-                    <a href="#" rel="category tag">
-    @if (Model.Blog.BlogCategoryRelations != null && Model.Blog.BlogCategoryRelations.FirstOrDefault() != null)
-    {
-        @Model.Blog.BlogCategoryRelations.FirstOrDefault().Category.Title;
-    }
-    else
-    {
-        <text></text>
-    }
-                    </a>
-                    </span>
+                    </div>        
                     
                     <div class="entry-content">
                     <p>

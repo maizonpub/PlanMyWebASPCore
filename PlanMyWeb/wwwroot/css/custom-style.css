@@ -43,7 +43,7 @@ h5 {font-size: 12px;}
 h6 {font-size: 10px;}
 p{ margin-bottom: 30px;}
 ul{}
-a { color: #00aeaf;	text-decoration: none; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s; font-family: 'proximanova,helvetica,arial', sans-serif;}
+a { color: #00aeaf;	text-decoration: none; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; transition: all 0.3s; }
 a:focus, a:hover { color: #f9a630; text-decoration: none;}
 hr { margin-top: 20px; margin-bottom: 20px; border: 0;border-top: 1px solid #e9e6e0;}
 /*--------------------
